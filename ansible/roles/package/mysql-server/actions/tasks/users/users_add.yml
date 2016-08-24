@@ -1,0 +1,30 @@
+###
+# ../../../../../package/mysql-server/actions/tasks/users/users_add.yml
+###
+#
+# Add MySQL users
+#
+###
+#
+# package__mysql_server__users__users_add:
+#   title <string> ["Adding MySQL users"] - Title of the operation
+#   users:
+#    - username <string>             - Username
+#      password <string|omit> [omit] - Password of user (will use username if not specified)
+#      host <string|omit> ["%"]      - Host part of mysql username
+#      priv <stirng|omit> [omit]     - Privilages. Will grant all on "username" and "username_%" databases if not specified
+#
+###
+- include: users_manage.yml
+  vars:
+    package__mysql_server__users__users_manage:
+      title: "{{ package__mysql_server__users__users_add.title | default('Adding MySQL users') }} (Adding MySQL Users - Removing for compatibility reason)"
+      state: "absent"
+      users: "{{ package__mysql_server__users__users_add.users | default([]) }}"
+
+- include: users_manage.yml
+  vars:
+    package__mysql_server__users__users_manage:
+      title: "{{ package__mysql_server__users__users_add.title | default('Adding MySQL users') }} (Adding MySQL Users - Adding user)"
+      state: "present"
+      users: "{{ package__mysql_server__users__users_add.users | default([]) }}"

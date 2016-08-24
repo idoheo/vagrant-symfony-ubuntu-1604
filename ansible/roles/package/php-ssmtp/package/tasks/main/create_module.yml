@@ -1,0 +1,16 @@
+---
+- name: Checking sSMTP location
+  shell: which ssmtp
+  register: result__package__php_ssmtp__package__catchmali_result
+  failed_when: result__package__php_ssmtp__package__catchmali_result.rc != 0 or result__package__php_ssmtp__package__catchmali_result.stdout == ''
+
+- include: ../../../../../package/php/actions/tasks/module/module_configure.yml
+  vars:
+    package__php__module__module_configure:
+      title: "Writting Php sSMTP configuration module"
+      module: "ssmtp"
+      data:
+        module_as_option_prefix: "{{ false }}"
+        entries:
+          - option: "sendmail_path"
+            value: "{{ result__package__php_ssmtp__package__catchmali_result.stdout }} -t -i "

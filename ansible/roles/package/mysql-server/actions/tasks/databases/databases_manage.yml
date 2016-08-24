@@ -1,0 +1,27 @@
+###
+# ../../../../../package/mysql-server/actions/tasks/databases/databases_manage.yml
+###
+#
+# Manage MySQL databases
+#
+###
+#
+# package__mysql_server__databases__databases_manage:
+#   title <string> ["Managing MySQL databases"] - Title of the operation
+#   state: <string:"absent"|"present"|"dump"|"import">      - State of database
+#   databases:
+#    - database <string>                     - database name
+#      collation <string> [utf8_unicode_ci]  - database collation
+#      encoding <string> [utf8]              - database encoding
+#      file <string|omit> [omit]             - target file for backup / restore
+#
+###
+- name: "{{ package__mysql_server__databases__databases_manage.title | default('Managing MySQL databases') }}"
+  mysql_db: name="{{ item.1.database | mandatory }}"
+            state="{{ package__mysql_server__databases__databases_manage.state | mandatory }}"
+            collation="{{ item.1.collation | default('utf8_unicode_ci') }}"
+            encoding="{{ item.1.encoding | default('utf8') }}"
+            target="{{ item.1.file | default(omit) }}"
+  with_indexed_items: "{{ package__mysql_server__databases__databases_manage.databases | default([]) }}"
+  when: item.1.database | mandatory not in ['information_schema','mysql','preformance_schema', 'sys']
+  become: true

@@ -1,0 +1,42 @@
+---
+############
+# RabbitMQ #
+############
+
+package__rabbitmq__setup__plugins__disable: []
+#  - name: rabbitmq_management
+
+package__rabbitmq__setup__plugins__enable:
+  - name: rabbitmq_management
+
+package__rabbitmq__setup__users__remove:
+  - username: demo
+  - username: "{{ common_admin_user_name }}"
+  - username: "{{ common_reader_user_name }}"
+  - username: "{{ common_application_user_name }}"
+
+package__rabbitmq__setup__users__add:
+  - username: "{{ common_admin_user_name }}"
+    password: "{{ common_admin_user_pass }}"
+    vhost: "/"
+    configure_priv: ".*"
+    read_priv: ".*"
+    write_priv: ".*"
+    tags: "administrator,monitoring,policymaker,management"
+
+  - username: "{{ common_reader_user_name }}"
+    password: "{{ common_reader_user_pass }}"
+    vhost: "/"
+    configure_priv: "^$"
+    read_priv: ".*"
+    write_priv: "^$"
+    tags: "monitoring"
+
+  - username: "{{ common_application_user_name }}"
+    password: "{{ common_application_user_pass }}"
+    vhost: "/"
+    configure_priv: "^$"
+    read_priv: ".*"
+    write_priv: ".*"
+    tags: "management"
+

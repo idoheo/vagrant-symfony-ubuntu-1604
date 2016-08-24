@@ -1,0 +1,14 @@
+- include: ../../../../../system/service/actions/tasks/service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: Stopping Php FPM
+      state: stopped
+      services:
+        - name: "php{{ fact_php.version }}-fpm"
+
+- include: ../../../../../system/service/actions/tasks/schedule_restart/schedule_restart_service.yml
+  vars:
+    system__service__schedule_restart__schedule_restart_service:
+      title: Scheduling Php FPM restart
+      services:
+        - service: "php{{ fact_php.version }}-fpm"

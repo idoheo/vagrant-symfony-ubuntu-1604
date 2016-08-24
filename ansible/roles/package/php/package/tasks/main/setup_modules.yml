@@ -1,0 +1,10 @@
+---
+- name: Scheduling PHP modules ini normalization for the end (1/2)
+  debug: msg="Scheduling PHP modules ini normalization for the end"
+  changed_when: true
+  notify: Normalzing final PHP modules ini files (Reading modules list)
+
+- name: Scheduling PHP modules ini normalization for the end  (2/2)
+  debug: msg="Scheduling PHP modules ini normalization for the end"
+  changed_when: true
+  notify: Normalzing final PHP modules ini files (Normalizing files)

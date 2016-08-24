@@ -1,0 +1,23 @@
+setup__project__base__git_checkout:
+  repostiory: "https://github.com/symfony/symfony-standard.git"
+  version: "master"
+  accept_hostkey: "yes"
+  key_file: "{{ omit }}"
+  ssh_opts: "{{ omit }}"
+
+setup__project__composer__composer_calls:
+  - call: install
+
+setup__project__symfony__symfony_parameters:
+  database_host: localhost
+  database_port: 3306
+  database_name: "{{ common_application_database_name }}"
+  database_user: "{{ common_application_user_name }}"
+  database_password: "{{ common_application_user_pass }}"
+
+setup__project__symfony__symfony_console_bin: "bin/console"
+
+setup__project__symfony__symfony_calls:
+  - call: "doctrine:schema:update --force --env=dev"
+  - call: "doctrine:schema:update --force --env=test"
+  - call: "doctrine:schema:update --force --env=prod"

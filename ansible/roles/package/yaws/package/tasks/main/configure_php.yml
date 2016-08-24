@@ -1,0 +1,10 @@
+- include: ../../../../../package/php-cgi/actions/tasks/php_ini/php_ini_configure.yml
+  package__php_cgi__php_ini__php_ini_configure:
+    title: "Disabling cgi.force_redirect to allow Yaws to use PHP CGI"
+    data:
+      sections:
+        - section: PHP
+          option_name_prefix: "cgi."
+          entries:
+            - option: "force_redirect"
+              value: 0

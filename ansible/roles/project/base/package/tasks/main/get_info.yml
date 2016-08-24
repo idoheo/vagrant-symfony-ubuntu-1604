@@ -1,0 +1,15 @@
+---
+- name: "Checking owner of project source"
+  stat: path="{{ project__base__package__project_source_share }}"
+  register: result__project__base__package__source_stat
+  changed_when: false
+  failed_when: not result__project__base__package__source_stat.stat.exists
+
+- name: "Setting project environment variable"
+  set_fact:
+    fact_project:
+      owner: "{{ result__project__base__package__source_stat.stat.pw_name }}"
+      group: "{{ result__project__base__package__source_stat.stat.gr_name }}"
+      project_folder: "{{ project__base__package__project_folder }}"
+      project_source_folder: "{{ project__base__package__project_source_share }}"
+      logs_folder: "{{ project__base__package__project_logs }}"

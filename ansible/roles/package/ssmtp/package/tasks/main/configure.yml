@@ -1,0 +1,16 @@
+---
+- name: Configuring sSMTP
+  lineinfile: dest="/etc/ssmtp/ssmtp.conf"
+              insertafter="EOF"
+              regexp="^(|#)[\s]*{{ item.1.option }}[\s]*="
+              line="{% if item.1.value | default(omit) == omit %}#{% endif %}{{ item.1.option }}={% if item.1.value | default(omit) != omit %}{{ item.1.value }}{% endif %}"
+              state="present"
+  with_indexed_items:
+    - option: "mailhub"
+      value: "localhost"
+    - option: "rewriteDomain"
+      value: "{{ omit }}"
+    - option: "FromLineOverride"
+      value: "YES"
+  become: true
+              

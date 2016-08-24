@@ -1,0 +1,14 @@
+---
+- include: ../../../../../system/service/actions/tasks/service_simple/service_simple_create.yml
+  vars:
+    system__service__service_simple__service_simple_create:
+      title: Creating Redis-commander service
+      service:
+        name: redis-commander
+        title: Redis-Commander
+        command: "{{ fact_npm.module_location }}/redis-commander/bin/redis-commander.js"
+        arguments:
+          - "--address={{ package__redis_commander__package__web_ip | string | quote }}"
+          - "--port={{ package__redis_commander__package__web_port | string | quote }}"
+          - "{% if package__redis_commander__package__web_user != omit %}--http-auth-username={{ package__redis_commander__package__web_user | string | quote }}{% endif %}"
+          - "{% if package__redis_commander__package__web_pass != omit %}--http-auth-password={{ package__redis_commander__package__web_pass | string | quote }}{% endif %}"

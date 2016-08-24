@@ -1,0 +1,37 @@
+###
+# ../../../../../package/php/actions/tasks/php_ini/php_ini_configure.yml
+###
+#
+# Configures PHP ini
+#
+###
+#
+# package__php__php_ini__php_ini_configure:
+#   title <string:"Configuring PHP ini file"> - Title of the operation
+#   php     <string>                          - Name of a php parser
+#   data:
+#     sections:
+#        - seciton <string>            - Section name
+#          option_name_prefix <string> - Prefix for option name
+#          entires:
+#            - option <string>    - Option name
+#              value <mixed:omit> - Value to set. {{ omit }} deletes entry
+#
+###
+- include: ../../../../../helper/ini/actions/tasks/ini/ini_write.yml
+  vars:
+    helper__ini__ini__write_ini:
+      title: "{{ package__php__php_ini__php_ini_configure.title | default('Configuring PHP ini file') }}"
+      file: "{{ fact_php.php_dir }}/{{ package__php__php_ini__php_ini_configure.php | mandatory }}/php.ini"
+      create: "{{ false | bool }}"
+      must_exist: "{{ true | bool }}"
+      attributes:
+        owner: "root"
+        group: "root"
+        mode: 644
+      values:
+        true: 1
+        false: 0
+        null: ""
+      data:
+        sections: "{{ package__php__php_ini__php_ini_configure.data.sections | default([]) }}"

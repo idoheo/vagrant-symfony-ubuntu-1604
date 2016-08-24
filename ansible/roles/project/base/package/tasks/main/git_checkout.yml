@@ -1,0 +1,26 @@
+---
+- name: Checking if source folder is empty
+  shell: "ls -a1 --ignore='.' --ignore='..' {{  fact_project.project_source_folder | quote }}| wc -l
+  args:
+    executable: "/bin/bash"
+  become: true
+  register: project__base__git_checkout__files_count
+
+- name: Cloning project source from git
+  git: accept_hostkey="{{ true }}"
+       bare="{{ false }}"
+       clone="{{ true }}"
+       depth="{{ omit }}"
+       dest="{{ fact_project.project_source_folder }}"
+       force="{{ false }}"
+       key_file="---------------------"
+       recursive="{{ true }}"
+       reference="{{ omit }}"
+       refspec="{{ omit }}"
+       remote="-------------------"
+       repo="--------------------"
+       ssh_opts="-------------------"
+       track_submodules="{{ false }}"
+       update="{{ true }}"
+       version="----------"
+  when: project__base__git_checkout__files_count.stdout | number == 0

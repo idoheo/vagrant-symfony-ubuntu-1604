@@ -1,0 +1,3 @@
+---
+dependencies:
+- role: package/php-ssh2/package

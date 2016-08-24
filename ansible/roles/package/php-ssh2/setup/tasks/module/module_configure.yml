@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_ssh2__module__module_configure:
+      title: "Configuring PHP ssh2 module - as specified by playbook"
+      config: "{{ package__php_ssh2__setup__config }}"

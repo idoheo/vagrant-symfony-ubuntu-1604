@@ -1,0 +1,23 @@
+###
+# ../../../../../package/php-curl/actions/tasks/module/module_state.yml
+###
+#
+# Enable or disable PHP curl module
+#
+###
+#
+# package__php_curl__module__module_state:
+#   title <string:"Setting PHP curl state"> - Title of the operation
+#   state <"enabled"|"disabled">              - State of a module
+#   modules:
+#     - module <string> - module name
+#
+###
+
+- include: ../../../../../package/php/actions/tasks/module/module_state.yml
+  vars:
+    package__php__module__module_state:
+      title: "{{ package__php_curl__module__module_state.title | default('Setting PHP cURL state') }}"
+      state: "{{ package__php_curl__module__module_state.state | mandatory }}"
+      modules:
+        - module: curl

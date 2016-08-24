@@ -1,0 +1,8 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/packages/packages_install.yml
+  vars:
+    packages__apt__packages__packages_install:
+      title: Installing Php-opcache
+      latest: "{{ true }}"
+      packages:
+        - name: "php{{ fact_php.version }}-opcache"

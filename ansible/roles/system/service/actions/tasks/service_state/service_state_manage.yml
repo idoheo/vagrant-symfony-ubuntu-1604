@@ -1,0 +1,37 @@
+###
+# ../../../../../system/service/actions/tasks/service_state/service_state_manage.yml
+###
+#
+# Manage Service state
+#
+###
+#
+# system__service__service_state__service_state_manage:
+#   title <string>                                    - Title of the operation
+#   state <string:started|stopped|restarted|reloaded> - State of packages
+#   services:                                         - Services to manage
+#    - name <string>     - Name of a service
+#      sleep <integer:0> - Sleep time betwen started/stopped state when service is being restarted
+#
+###
+- name: "{{ system__service__service_state__service_state_manage.title | mandatory }} (Checking services availability)"
+  shell: "service {{ item.1.name | quote }} status"
+  args:
+    executable: /bin/bash
+  register: result__system__service__service_state__service_state_manage__service_existence
+  failed_when:     result__system__service__service_state__service_state_manage__service_existence.rc != 0 
+               and result__system__service__service_state__service_state_manage__service_existence.rc != 1
+               and result__system__service__service_state__service_state_manage__service_existence.rc != 3
+  with_indexed_items: system__service__service_state__service_state_manage.services | mandatory
+  when: system__service__service_state__service_state_manage.state | mandatory == "stopped"
+  become: true
+  changed_when: false
+
+- name: "{{ system__service__service_state__service_state_manage.title | mandatory }} (Updating services state)"
+  service:
+    name: "{{ item.1.name | mandatory }}"
+    state: "{{ system__service__service_state__service_state_manage.state | mandatory }}"
+  with_indexed_items: system__service__service_state__service_state_manage.services | mandatory
+  become: true
+  when:    system__service__service_state__service_state_manage.state | mandatory != "stopped" 
+        or result__system__service__service_state__service_state_manage__service_existence.results[item.0].rc == 0

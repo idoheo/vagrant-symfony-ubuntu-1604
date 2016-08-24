@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_xml__module__module_configure:
+      title: "Configuring PHP xml module - as specified by playbook"
+      config: "{{ package__php_xml__setup__config }}"

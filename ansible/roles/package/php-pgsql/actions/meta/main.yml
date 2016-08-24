@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: package/php-pgsql/install
+- role: package/php/actions

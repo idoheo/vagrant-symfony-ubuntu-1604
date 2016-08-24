@@ -1,0 +1,6 @@
+---
+package__redis_commander__package__web_port: 16379
+package__redis_commander__package__web_ip: 0.0.0.0
+package__redis_commander__package__web_user: "{{ omit }}"
+package__redis_commander__package__web_pass: "{{ package__redis_commander__package__web_user }}"
+

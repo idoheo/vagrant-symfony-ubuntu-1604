@@ -1,0 +1,12 @@
+{{
+  {
+    'name' : item.name | mandatory,
+    'title' : item.title | default( item.name ) | mandatory,
+    'command': item.command | mandatory,
+    'arguments': item.arguments | default([]),
+    'logs': {
+       'stdout': fact_temp_dir.path ~ '/ansible_service_log_' ~ (system__service__service_simple__service_simple_create.service.name | mandatory ) ~ '_stdout.log',
+       'stderr': fact_temp_dir.path ~ '/ansible_service_log_' ~ (system__service__service_simple__service_simple_create.service.name | mandatory ) ~ '_stderr.log'
+    }
+  } | to_nice_json
+}}

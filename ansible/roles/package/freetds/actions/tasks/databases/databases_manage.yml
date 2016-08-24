@@ -1,0 +1,192 @@
+###
+# ../../../../../package/freetds/actions/tasks/databases/databases_manage.yml
+###
+#
+# Manage FreeTDS databases
+#
+###
+#
+# package__freetds__databases__databases_manage:
+#   title <string> ["Managing FreeTDS databases"] - Title of the operation
+#   databases:
+#    - database <string>                                  - database name
+#      tds_version <float>                                - TDS version
+#      host <string>                                      - Host for database
+#      port <integer> [1433]                              - Database port
+#      instance <string|None>                             - Database instance
+#      initial_block_size <integer:multiple of 512> [512] - Initial block size
+#      dump_file <string|None>                            - Specifies dump file and turns on logging
+#      dump_file_append <string:yes|no> [no]              - Appends to dump file instead of overriding it
+#      timeout <integer|None> [None]                      - Sets period to wait for response of query before timing out.
+#      connect_timeout <integer|None> [None]              - Sets period to wait for response from connect before timing out.
+#      emulate_little_endian <boolean> [fasle]            - Forces big endian machines (Sparc, PPC, PARISC) to act as little endian to communicate with MS Servers.
+#                                                           Set automatically for TDS 7.0 or above on big endian hosts
+#      client_charset <string> ["UTF-8"]                  - Makes FreeTDS use iconv to convert to and from the specified character set from UCS-2 in TDS 7.0 or above.
+#                                                           FreeTDS uses iconv to convert all character data, so there's no need to match the server's charset to insert any characters the server supports.
+#      text_size <integer> [4294967295]                   - default value of TEXTSIZE, in bytes.
+#                                                           For text and image datatypes, sets the maximum width of any returned column. Cf. set TEXTSIZE in the T-SQL documentation for your server.
+#      debug_flags <string> ["0x4fff"]                    - Sets granularity of logging. A bitmask.
+#      encryption <bool|None> [false]                     - Specify if encryption is desired.  (TRUE for require, FALSE for off, None for request)
+#      enable_gssapi_delegation <bool> [false]            - Enable delegation flag using Kerberos.
+#      realm <None|string>                                - Specify Kerberos realm.
+#      spn <None|string>                                  - Specify Kerberos SPN.
+#      use_ntlmv2 <bool> [false]                          - Use NTLMv2. An alternative to the UseNTLMv2 option in odbc.ini.
+#      use_lanman <bool> [false]                          - Use LAN MANAGER for NTLM. This is a very old encryption. Should not be enabled unless you have a really old server.
+#      use_utf_16 <bool> [false]                          - Instead of using UCS-2 for database wide character encoding use UTF-16.
+#                                                           Newer Windows versions use this encoding instead of UCS-2.
+#                                                           This could result in some issues if clients assume that a character is always 2 bytes.
+#      ca_file <string|None> [None]                       - File that hold root certificates (in PEM format) to verify server certificate, used during an encrypted connection.
+#                                                           If not specify or empty any certificate will be accepted from server. If you specify system FreeTDS will use system wide certificate list.
+#                                                           If a certiticate is not installed server can generate a self signed certificate, in this case is useful to disable certificate validation (default). #                                                           Note that is not possible to specify a directory.
+#      crl_file <string|None> [None]                      - File that hold certificate revocation list. Only used if ca file is also specified.
+#      check certificate hostname <bool> [true]           - Check is the hostname is valid in the certificate. Only used if ca file is also specified.
+#      read_only_intent <bool> [true]                     - Tell server we only intent to do read-only queries. This is supported from MSSQL 2012.
+#
+#
+#
+###
+- name: "{{ package__freetds__databases__databases_manage.title | default('Managing FreeTDS databases') }} (Building database info)"
+  set_fact:
+    result__package__freetds__actions__databases__database_manage: "{% 
+                                                                       set result__package__freetds__actions__databases__database_manage = []
+                                                                    %}{%
+                                                                       for entry_data in package__freetds__databases__databases_manage.databases | default([])
+                                                                    %}{{ 
+                                                                          result__package__freetds__actions__databases__database_manage.append({ 
+                                                                            'section': 'database_' ~ entry_data.name | mandatory,
+                                                                            'option_name_prefix': '',
+                                                                            'entries': [
+                                                                               {
+                                                                                 'option': 'host',
+                                                                                 'value': entry_data.host | mandatory
+                                                                               },
+                                                                               {
+                                                                                 'option': 'port',
+                                                                                 'value': entry_data.port | default(1433) | int
+                                                                               },
+                                                                               {
+                                                                                 'option': 'tds version',
+                                                                                 'value': entry_data.tds_version | mandatory | float
+                                                                               },
+                                                                               {
+                                                                                 'option': 'instance',
+                                                                                 'value': entry_data.instance | default('')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'database',
+                                                                                 'value': entry_data.database | default('')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'initial block size',
+                                                                                 'value': entry_data.initial_block_size | default(512) | int
+                                                                               },
+                                                                               {
+                                                                                 'option': 'dump file',
+                                                                                 'value': fact_temp_dir.path ~ '/freetds_server_' ~ entry_data.name | mandatory ~ '.log'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'dump file append',
+                                                                                 'value': 'on'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'timeout',
+                                                                                 'value': entry_data.timeout | default(None) | int if entry_data.timeout | default('') != '' else ''
+                                                                               },
+                                                                               {
+                                                                                 'option': 'connect timeout',
+                                                                                 'value': entry_data.connect_timeout | default(None) | int if entry_data.connect_timeout | default('') != '' else ''
+                                                                               },
+                                                                               {
+                                                                                 'option': 'emulate little_endian',
+                                                                                 'value': 'on' if entry_data.emulate_little_endian | default(false) | bool else 'off'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'client charset',
+                                                                                 'value': entry_data.client_charset | default('UTF-8')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'text size',
+                                                                                 'value': entry_data.text_size | default(4294967295) | int
+                                                                               },
+                                                                               {
+                                                                                 'option': 'debug flags',
+                                                                                 'value': entry_data.debug_flags | default('0x4fff') | int
+                                                                               },
+                                                                               {
+                                                                                 'option': 'encryption',
+                                                                                 'value': 'request' if entry_data.encryption | default(None) == None else ( 'require' if entry_data.encryption | default(None) | bool else 'off')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'enable gssapi delegation',
+                                                                                 'value': 'on' if entry_data.enable_gssapi_delegation | default(false) | bool else 'off'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'realm',
+                                                                                 'value': entry_data.realm | default('')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'spn',
+                                                                                 'value': entry_data.spn | default('')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'use ntlmv2',
+                                                                                 'value': 'on' if entry_data.use_ntlmv2 | default(false) | bool else 'off'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'use lanman',
+                                                                                 'value': 'on' if entry_data.use_lanman | default(false) | bool else 'off'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'use utf-16',
+                                                                                 'value': 'on' if entry_data.use_utf_16 | default(false) | bool else 'off'
+                                                                               },
+                                                                               {
+                                                                                 'option': 'ca file',
+                                                                                 'value': entry_data.ca_file | default('')
+                                                                               },
+                                                                               {
+                                                                                 'option': 'crl file',
+                                                                                 'value': entry_data.crl_file | default('') if (entry_data.ca_file is defined) else ''
+                                                                               },
+                                                                               {
+                                                                                 'option': 'check certificate hostname',
+                                                                                 'value': ('on' if entry_data.check_certificate_hostname | default(true) | bool else 'off') if entry_data.ca_file is defined else ''
+                                                                               },
+                                                                               {
+                                                                                 'option': 'read-only intent',
+                                                                                 'value': 'on' if entry_data.read_only_intent | default(false) | bool else 'off'
+                                                                               },
+                                                                             ]
+                                                                          })
+                                                                    }}{% endfor %}{{ result__package__freetds__actions__databases__database_manage }}"
+
+- name: "{{ package__freetds__databases__databases_manage.title | default('Managing FreeTDS databases') }} (writting ini entries)"
+  ini_file: dest="{{ package__freetds__package__freetds_conf }}"
+            section="{{ item.0.section | mandatory }}"
+            option="{{ item.1.option }}"
+            state="{% if item.1.value | string | trim == '' %}absent{% else %}present{% endif %}"
+            value="{{ item.1.value }}"
+  with_subelements:
+    - "{{ result__package__freetds__actions__databases__database_manage }}"
+    - entries
+  become: true
+
+- name: "{{ package__freetds__databases__databases_manage.title | default('Managing FreeTDS databases') }} (Building logs info)"
+  set_fact:
+    result__package__freetds__actions__databases__logs: "{% 
+                                                                       set result__package__freetds__actions__databases__logs = []
+                                                                    %}{%
+                                                                       for entry_data in package__freetds__databases__databases_manage.databases | default([])
+                                                                    %}{{ 
+                                                                          result__package__freetds__actions__databases__logs.append({ 
+                                                                            'name': 'database_' ~ entry_data.name | mandatory | lower,
+                                                                            'title': 'FreeTDS ' ~ entry_data.name | mandatory,
+                                                                            'path': fact_temp_dir.path ~ '/freetds_server_' ~ entry_data.name | mandatory ~ '.log'
+                                                                          })
+                                                                    }}{% endfor %}{{ result__package__freetds__actions__databases__logs }}"
+
+- include: ../../../../../system/logs/actions/tasks/logs/logs_register_log.yml
+  vars:
+    system__logs__logs__logs_register_logs:
+      title: "Registring FreeTDS server logs"
+      logs: "{{ result__package__freetds__actions__databases__logs }}"

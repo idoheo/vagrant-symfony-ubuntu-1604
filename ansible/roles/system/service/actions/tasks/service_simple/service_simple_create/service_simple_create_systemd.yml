@@ -1,0 +1,36 @@
+###
+# ../../../../../system/service/actions/tasks/service_simple/service_simple_create.yml
+###
+#
+# Create a simple service
+#
+###
+#
+# system__service__service_simple__service_simple_create:
+#   title <string>                                                         - Title of the operation
+#   service:                                                               - Services to manage
+#     name <string>                  - Name of a service
+#     title <string|omit> {{ omit }} - Readable name of a service
+#     command <string>               - Command to run
+#     arguments <string[]>           - Arguments for the command
+#
+###
+- name: "{{ system__service__service_simple__service_simple_create.title }} (Creating systemd service config file)"
+  template: src="../../../templates/systemd.service.j2"
+            dest="{{ system__service__package__service_dir__systemd_dir }}/{{ system__service__service_simple__service_simple_create.service.name | mandatory }}.service"
+            owner="root"
+            group="root"
+            mode="644"
+  with_items:
+    - "{{ system__service__service_simple__service_simple_create.service | mandatory }}"
+  become: true
+
+- name: "{{ system__service__service_simple__service_simple_create.title }} (Reloading systemd daemon)"
+  command: systemctl daemon-reload
+  become: true
+
+- name: "{{ system__service__service_simple__service_simple_create.title }} (Enabling systemd service)"
+  command: "systemctl enable {{ (system__service__package__service_dir__systemd_dir ~ '/' ~ (system__service__service_simple__service_simple_create.service.name | mandatory) ~ '.service') | quote }}"
+  with_items:
+    - "{{ system__service__service_simple__service_simple_create.service | mandatory }}"
+  become: true

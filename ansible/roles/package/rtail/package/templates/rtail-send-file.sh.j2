@@ -1,0 +1,47 @@
+#!/bin/bash
+if [ $# -lt 2 ]; then
+        echo "Need two args: <id> <message>"
+        exit 0
+fi
+
+
+## NO COLOR
+COLOR_NONE='\033[0m'
+
+## COLORS
+COLOR_BLACK='\033[0;30m'
+COLOR_RED='\033[0;31m'
+COLOR_GREEN='\033[0;32m'
+COLOR_ORANGE='\033[0;33m'
+COLOR_BLUE='\033[0;34m'
+COLOR_PURPLE='\033[0;35m'
+COLOR_CYAN='\033[0;36m'
+COLOR_GRAY='\033[0;37m'
+
+## LIGHT COLORS
+COLOR_BLACK_LIGHT='\033[1;30m'
+COLOR_RED_LIGHT='\033[1;31m'
+COLOR_GREEN_LIGHT='\033[1;32m'
+COLOR_ORANGE_LIGHT='\033[1;33m'
+COLOR_BLUE_LIGHT='\033[1;34m'
+COLOR_PURPLE_LIGHT='\033[1;35m'
+COLOR_CYAN_LIGHT='\033[1;36m'
+COLOR_GRAY_LIGHT='\033[1;37m'
+
+## ALIAS COLORS
+COLOR_YELLOW="$COLOR_ORANGE_LIGHT"
+COLOR_WHITE="$COLOR_GRAY_LIGHT"
+
+## TIME
+TIME=$(date +"%Y-%m-%d %H:%M:%S")
+
+if [ ! -f $2 ]; then
+  printf "${COLOR_BLUE_LIGHT}${TIME}${COLOR_NONE} :: File ${COLOR_YELLOW}$2${COLOR_NONE} is ${COLOR_RED}not present${COLOR_NONE}. Waiting for file to become available.\n"| rtail --id "$1" --no-parse-date --host {{ package__rtail__package__udp_host | default('127.0.0.1') | string | quote }} --port {{ package__rtail__package__udp_port | default(9999) | string | quote }} --mute
+  while [ ! -f $2 ]; do
+    sleep 1
+  done
+  printf "${COLOR_BLUE_LIGHT}${TIME}${COLOR_NONE} :: File ${COLOR_YELLOW}$2${COLOR_NONE} is ${COLOR_GREEN}now present${COLOR_NONE}.\n" | rtail --id "$1" --no-parse-date --host {{ package__rtail__package__udp_host | default('127.0.0.1') | string | quote }} --port {{ package__rtail__package__udp_port | default(9999) | string | quote }} --mute
+fi
+
+tail -f -n 50 $2 | rtail --id "$1" --no-parse-date --host {{ package__rtail__package__udp_host | default('127.0.0.1') | string | quote }} --port {{ package__rtail__package__udp_port | default(9999) | string | quote }} --mute
+

@@ -1,0 +1,5 @@
+---
+- include: main/halt_service.yml
+- include: main/install_package.yml
+- include: main/setup_directory_structure.yml
+- include: main/create_service.yml

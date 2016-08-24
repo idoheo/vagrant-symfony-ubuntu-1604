@@ -1,0 +1,8 @@
+---
+- name: Removing default sites for Nginx
+  file: path="{{ item.0 }}/{{ item.1 }}"
+        state="absent"
+  with_nested:
+    - [ "{{ package__nginx__package__nginx_sites_enabled_folder }}", "{{ package__nginx__package__nginx_sites_available_folder }}" ]
+    - [ "default" ]
+  become: true

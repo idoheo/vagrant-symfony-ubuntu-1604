@@ -1,0 +1,22 @@
+---
+- name: "Reading MongoDB config"
+  shell: "cat {{ package__mongodb__package__mongodb_yml | quote }}"
+  register: result__package__mongodb__package__bind__config
+  become: true
+
+- name: "Parsing MongoDB config"
+  set_fact:
+    result__package__mongodb__package__bind__config: "{{ result__package__mongodb__package__bind__config.stdout | from_yaml }}"
+
+- name: "Correcting MongoDB config"
+  set_fact:
+    result__package__mongodb__package__bind__config: "{{ {} }}"
+  when: result__package__mongodb__package__bind__config is not mapping
+
+- name: "Updating MongoDB fact"
+  set_fact:
+    mongodb:
+      config_path: "{{ package__mongodb__package__mongodb_yml }}"
+      config: "{{ result__package__mongodb__package__bind__config }}"
+
+  

@@ -1,0 +1,14 @@
+###
+#
+# package__rabbitmq__plugins__plugins_disable:
+#   title <string> ["Disabling RabbitMQ plugins"] - Title of the operation
+#   state: <string:"disabled"|"disabled">         - State of plugin
+#   plugins:
+#    - name <string>                   - Plugin name
+#
+###
+- include: ../../../actions/tasks/plugins/plugins_disable.yml
+  vars:
+    package__rabbitmq__plugins__plugins_disable:
+      title: "Disabling RabbitMQ plugins - as specified by playbook"
+      plugins: "{{ package__rabbitmq__setup__plugins__disable }}"

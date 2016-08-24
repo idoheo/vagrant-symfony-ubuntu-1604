@@ -1,0 +1,21 @@
+###
+# ../../../../../package/rabbitmq/actions/tasks/plugins/plugins_disable.yml
+###
+#
+# Disable RabbitMQ plugins
+#
+###
+#
+# package__rabbitmq__plugins__plugins_disable:
+#   title <string> ["Disabling RabbitMQ plugins"] - Title of the operation
+#   state: <string:"disabled"|"disabled">         - State of plugin
+#   plugins:
+#    - name <string>                   - Plugin name
+#
+###
+- include: plugins_manage.yml
+  vars:
+    package__rabbitmq__plugins__plugins_manage:
+      title: "{{ package__rabbitmq__plugins__plugins_disable.title | default('Disabling RabbitMQ plugins') }}"
+      state: "disabled"
+      plugins: "{{ package__rabbitmq__plugins__plugins_disable.plugins | default([]) }}"

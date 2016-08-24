@@ -1,0 +1,20 @@
+---
+- name: "Checking for temp dir candidates"
+  shell: "{{ item.1 }}"
+  register: result__facts__temp_dir__package__temp_dir_path
+  changed_when: false
+  with_indexed_items:
+    - echo /tmp
+    - echo $TMPDIR
+
+- name: "Selecting temp dir"
+  set_fact:
+    fact_temp_dir:
+      path: "{{ item.1.stdout }}"
+  with_indexed_items: result__facts__temp_dir__package__temp_dir_path.results
+  when: item.1.stdout | trim != "" and item.1.rc == 0
+
+- name: "Checking temp dir"
+  stat: path="{{ fact_temp_dir.path }}"
+  register: result__facts__temp_dir__package__temp_dir_check
+  failed_when: not result__facts__temp_dir__package__temp_dir_check.stat.exists or not result__facts__temp_dir__package__temp_dir_check.stat.isdir

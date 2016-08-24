@@ -1,0 +1,5 @@
+---
+dependencies:
+- role: package_management/apt/actions
+- role: package/java-jre-headless/install
+- role: system/service/actions

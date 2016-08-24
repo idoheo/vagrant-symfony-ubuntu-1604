@@ -1,0 +1,35 @@
+###
+# ../../../../../project/base/actions/tasks/project_code/project_code_git_checkout.yml
+###
+#
+# Git checkout project code
+#
+###
+#
+# project__base__project_code__project_code_git_checkout:
+#   title <string> ["Checking out git project code"]    - Title of the operation
+#   checkout:
+#     repository:    <string>                 - git, SSH, or HTTP(S) protocol address of the git repository.
+#     version:       <string>      ['HEAD']   - What version of the repository to check out. This can be the full 40-character SHA-1 hash, the literal string HEAD, a branch name, or a tag name.
+#     accept_hostkey <boolean>     [true]     - If yes, adds the hostkey for the repo url if not already added. If ssh_opts contains "-o StrictHostKeyChecking=no", this parameter is ignored.
+#     key_file       <string|omit> [omit]     - Specify an optional private key file to use for the checkout.
+#     ssh_opts:      <string|omit> [omit]     - Creates a wrapper script and exports the path as GIT_SSH which git then automatically uses to override ssh arguments. 
+#
+###
+- include: ../../../../../package/git/actions/tasks/git/git_checkout.yml
+  vars:
+    package__git__git__git_checkout:
+      checkout:
+        - repository: "{{ project__base__project_code__project_code_git_checkout.checkout.repository }}"
+          accept_hostkey: "{{ project__base__project_code__project_code_git_checkout.checkout.accept_hostkey }}"
+          key_file: "{{  project__base__project_code__project_code_git_checkout.checkout.key_file }}"
+          ssh_opts: "{{ project__base__project_code__project_code_git_checkout.checkout.ssh_opts }}"
+          version: "{{ project__base__project_code__project_code_git_checkout.checkout.version }}"
+          target: "{{ fact_project.project_source_folder }}"
+          target_create: "{{ false }}"
+          force: "{{ false }}"
+          recursive: "{{ true }}"
+          update: "{{ true }}"
+      title: "{{ project__base__project_code__project_code_git_checkout.title | default('Checking out git project code') }}"
+  when:     project__base__project_code__project_code_git_checkout.checkout.repository | default('') | trim != ''
+        and project__base__project_code__project_code_git_checkout.checkout.repository | default(omit) != omit

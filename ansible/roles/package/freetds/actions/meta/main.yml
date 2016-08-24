@@ -1,0 +1,6 @@
+---
+dependencies:
+- role: package/freetds/install
+- role: package/python-configparser/install
+- role: facts/temp_dir/install
+- role: system/logs/actions

@@ -1,0 +1,6 @@
+---
+- include: main/enable_php_modules.yml
+- include: main/get_info.yml
+- include: main/create_symfony_module.yml
+- include: main/setup_nginx.yml
+- include: main/register_log.yml

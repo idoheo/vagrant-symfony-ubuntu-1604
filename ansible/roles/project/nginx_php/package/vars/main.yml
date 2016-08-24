@@ -1,0 +1,10 @@
+---
+project__nginx_php__package__ssl_folder: "{{ fact_project.project_folder }}/ssl"
+project__nginx_php__package__ssl_key_file: "nginx_php_site.key"
+project__nginx_php__package__ssl_ssl_file: "nginx_php_site.ssl"
+project__nginx_php__package__web_root: "web"
+project__nginx_php__package__nginx_includes: "nginx_includes"
+project__nginx_php__package__logs__http__access: "http.access"
+project__nginx_php__package__logs__http__error: "http.error"
+project__nginx_php__package__logs__https__access: "https.access"
+project__nginx_php__package__logs__https__error: "https.error"

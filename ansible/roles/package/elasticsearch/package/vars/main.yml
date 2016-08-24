@@ -1,0 +1,4 @@
+---
+package__elasticsearch__package__elasticsearch_bin: /usr/share/elasticsearch/bin/elasticsearch
+package__elasticsearch__package__elasticsearch_yml: /etc/elasticsearch/elasticsearch.yml
+package__elasticsearch__package__elasticsearch_version: 2

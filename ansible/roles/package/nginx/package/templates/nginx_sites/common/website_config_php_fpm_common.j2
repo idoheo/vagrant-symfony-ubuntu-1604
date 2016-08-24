@@ -1,0 +1,6 @@
+    
+    server_name {{ project__web__package__server_name }};
+    root {{ project__web__package__web_dir }};
+    
+    include {{ project__web__package__nginx_includes_dir }}/*;
+    include {{ project__web__package__nginx_site_conf }};

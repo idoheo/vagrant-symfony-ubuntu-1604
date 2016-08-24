@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_xmlreader__module__module_configure:
+      title: "Configuring PHP xmlreader module - as specified by playbook"
+      config: "{{ package__php_xmlreader__setup__config }}"

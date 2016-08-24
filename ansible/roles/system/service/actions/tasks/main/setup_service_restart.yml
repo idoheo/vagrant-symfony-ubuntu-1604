@@ -1,0 +1,10 @@
+---
+- name: "Setting up service restart notification (Service shutdown)"
+  debug: msg="Setting up service restart notification (Service shutdown)"
+  notify: Services restart - shutdown
+  changed_when: true
+
+- name: "Setting up service restart notification (Service start)"
+  debug: msg="Setting up service restart notification (Service start)"
+  notify: Services restart - startup
+  changed_when: true

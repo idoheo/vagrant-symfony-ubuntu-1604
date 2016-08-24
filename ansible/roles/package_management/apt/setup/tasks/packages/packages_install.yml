@@ -1,0 +1,22 @@
+###
+# ../../../../../package_management/apt/actions/tasks/packages/packages_install.yml
+###
+#
+# Manage APT Packages
+#
+###
+#
+# packages__apt__setup__packages_install:
+#   - name <string>                        - Name of a package
+#     deb <string|omit> [omit]             - Debian package file
+#     default_release <string|omit> [omit] - Default release string
+#     force <bool:true|false} [true]       - Force install/remove
+#     install_recommends <bool> [false]    - Should recommended packages be installed
+#
+###
+- include: ../../../actions/tasks/packages/packages_install.yml
+  vars:
+    packages__apt__packages__packages_install:
+      title: "Installing APT packages as specified by playbook"
+      latest: true
+      packages: "{{ package_management__apt__setup__packages_install | mandatory }}"

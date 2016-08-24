@@ -1,0 +1,30 @@
+###
+# ../../../../../system/logs/actions/tasks/logs/logs_register_log.yml
+###
+#
+# Register logs
+#
+###
+#
+# system__logs__logs__logs_register_logs:
+#   title <string:"Registering logs"> - Title of the operation
+#   logs:                             - Logs to regiester
+#    - name <string>  - Unique name of a log
+#      title <string> - Readable title
+#      path <string>  - Path to log file
+#
+###
+- name: "{{ system__logs__logs__logs_register_logs.title | default('Registering logs') }}"
+  set_fact:
+    system__logs__package__logs: "{% for item in (system__logs__logs__logs_register_logs.logs | mandatory) %}{{ system__logs__package__logs.update({
+                                  item.name | mandatory : {
+					'name': item.name | mandatory,
+					'title': item.title | default( item.name | mandatory ),
+					'path': item.path | mandatory
+				  }
+                                  }) }}{% endfor %}{{ system__logs__package__logs }}"
+
+- name: "{{ system__logs__logs__logs_register_logs.title | default('Registering logs') }} (Saving logs changes)"
+  template: src="../../../package/templates/logs.json.j2"
+            dest="{{ system__logs__package__logs_conf }}"
+  become: true

@@ -1,0 +1,15 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/keys/keys_add.yml
+  vars:
+    keys__apt__keys__keys_add:
+      title: Adding Docker APT keys
+      apt_keys:
+        - id: "58118E89F3A912897C070ADBF76221572C52609D"
+          keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+
+- include: ../../../../../package_management/apt/actions/tasks/repositories/repositories_add.yml
+  vars:
+    repositories__apt__repositories__repositories_add:
+      title: Adding Docker APT repositories
+      repositories:
+        - repo: "deb https://apt.dockerproject.org/repo {{ fact_os.distributor | lower }}-{{ fact_os.codename | lower }} main"

@@ -1,0 +1,34 @@
+---
+- name: Creating Rtail directory structure
+  file: path="{{ item.1.name | mandatory }}"
+        state="{{ item.1.state | mandatory }}"
+        owner="{{ item.1.owner | mandatory }}"
+        group="{{ item.1.group | mandatory }}"
+        mode="{{ item.1.mode | mandatory }}"
+  with_indexed_items:
+    - name: "{{ package__rtail__package__path }}"
+      owner: root
+      group: root
+      mode: 755
+      state: directory
+    - name: "{{ package__rtail__package__path_systemd_conf }}"
+      owner: root
+      group: root
+      mode: 755
+      state: directory
+  become: true
+
+- name: "Copying Rtail scripts"
+  template: src="{{ item.1.from }}"
+            dest="{{ item.1.to }}"
+            owner="root"
+            group="root"
+            mode="755"
+  with_indexed_items:
+    - from: ../../templates/rtail-server.sh.j2
+      to: "{{ package__rtail__package__path_server }}"
+    - from: "../../templates/rtail-send-string.sh.j2"
+      to: "{{ package__rtail__package__path_send_string }}"
+    - from: "../../templates/rtail-send-file.sh.j2"
+      to: "{{ package__rtail__package__path_send_file }}"
+  become: true

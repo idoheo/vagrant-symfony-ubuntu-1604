@@ -1,0 +1,15 @@
+###
+#
+# package__mysql_server__databases__databases_add:
+#   title <string> ["Adding MySQL databases"] - Title of the operation
+#   databases:
+#    - database <string>                     - database name
+#      collation <string> [utf8_unicode_ci]  - database collation
+#      encoding <string> [utf8]              - database encoding
+#
+###
+- include: ../../../actions/tasks/databases/databases_add.yml
+  vars: 
+    package__mysql_server__databases__databases_add:
+      title: "Adding MySQL databases - as specified by playbook"
+      databases: "{{ package__mysql_server__setup__databases__add }}"

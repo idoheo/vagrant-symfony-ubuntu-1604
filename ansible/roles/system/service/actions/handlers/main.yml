@@ -1,0 +1,11 @@
+- name: Services restart - shutdown
+  service: name="{{ item.1 }}"
+           state="stopped"
+  with_indexed_items: "{{ system__service__actions__service_restart }}"
+  become: true
+
+- name: Services restart - startup
+  service: name="{{ item.1 }}"
+           state="started"
+  with_indexed_items: "{{ system__service__actions__service_restart }}"
+  become: true

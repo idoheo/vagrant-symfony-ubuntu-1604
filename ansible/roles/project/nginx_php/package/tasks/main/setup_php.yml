@@ -1,0 +1,25 @@
+---
+- include: ../../../../../package/php-fpm/actions/tasks/pool/pool_configure_default.yml
+  vars:
+    package__php_fpm__pool__pool_configure_default:
+      title: "Setting up Php for Nginx-Php project"
+      pool: "php_nginx_project"
+      settings:
+        listen_path: "{{ fact_project.php_socket_file }}"
+        listen_user: www-data
+        listen_group: www-data
+        listen_mode: 660
+        socket_user: "{{ fact_project.owner }}"
+        socket_group: "{{ fact_project.group }}"
+        request_terminate_timeout: "{{ project__nginx_php__php_timeout | int }}"
+
+- include: ../../../../../package/php-fpm/actions/tasks/php_ini/php_ini_configure.yml
+  vars:
+    package__php_fpm__php_ini__php_ini_configure:
+      title: "Setting up Php FPM ini for Nginx-Php project"
+      data:
+        sections:
+          - section: PHP
+            entries:
+              - option: "max_execution_time"
+                value: "{{ project__nginx_php__php_timeout | int }}"

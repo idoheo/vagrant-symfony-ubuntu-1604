@@ -1,0 +1,36 @@
+###
+# ../../../../../system/php_app/actions/tasks/php_app/php_app_create.yml
+###
+#
+# Create a simple php app
+#
+###
+#
+# system__php_app__php_app__php_app_create:
+#   title <string:"Creating PHP app sites">  - Title of the operation
+#   php_app:                                  
+#     - name <string>                  - Name of a php_app
+#       title <string|omit> {{ omit }} - Readable name of a php_app
+#       host <stirng:"0.0.0.0">        - Host 
+#       port <integer>                 - Port on which to listen to
+#       doc_root <integer>             - Path to doc root
+#
+###
+- name: "{{ system__php_app__php_app__php_app_create.title | default('Creating PHP app sites') }} (Creating php app config file)"
+  template: dest="{{ package__yaws__package__conf_avail_dir }}/php_app_{{ item.1.name | mandatory }}.conf"
+            src="../../templates/site.conf.j2"
+            owner="root"
+            group="yaws"
+            mode="640"
+  become: true
+  with_indexed_items: "{{ system__php_app__php_app__php_app_create.php_app | mandatory }}"
+
+- name: "{{ system__php_app__php_app__php_app_create.title | default('Creating PHP app sites') }} (Enabling php app config file)"
+  file: src="{{ package__yaws__package__conf_avail_dir }}/php_app_{{ item.1.name | mandatory }}.conf"
+        path="{{ package__yaws__package__conf_d_dir }}/php_app_{{ item.1.name | mandatory }}.conf"
+        state="link"
+        owner="root"
+        group="yaws"
+        mode="640"
+  become: true
+  with_indexed_items: "{{ system__php_app__php_app__php_app_create.php_app | mandatory }}"

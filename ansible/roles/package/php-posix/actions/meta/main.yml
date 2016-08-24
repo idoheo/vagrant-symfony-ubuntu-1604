@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: package/php-posix/install
+- role: package/php/actions

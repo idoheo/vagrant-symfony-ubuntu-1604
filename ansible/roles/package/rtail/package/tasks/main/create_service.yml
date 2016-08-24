@@ -1,0 +1,16 @@
+---
+- include: ../../../../../system/service/actions/tasks/service_simple/service_simple_create.yml
+  vars:
+    system__service__service_simple__service_simple_create:
+      title: Creating Rtail service
+      service_prefix: "{{ system__service__package__service_prefix }}"
+      service:
+        name: rtail
+        title: Rtail Server
+        command: "/usr/local/bin/rtail-server"
+        arguments:
+          - "{% if package__rtail__package__udp_host != omit %}--udp-host={{ package__rtail__package__udp_host | string | quote }}{% endif %}"
+          - "{% if package__rtail__package__udp_port != omit %}--udp-port={{ package__rtail__package__udp_port | string | quote }}{% endif %}"
+          - "{% if package__rtail__package__web_host != omit %}--web-host={{ package__rtail__package__web_host | string | quote }}{% endif %}"
+          - "{% if package__rtail__package__web_port != omit %}--web-port={{ package__rtail__package__web_port | string | quote }}{% endif %}"
+          - "{% if package__rtail__package__web_version != omit %}--web-version={{ package__rtail__package__web_version | string | quote }}{% endif %}"

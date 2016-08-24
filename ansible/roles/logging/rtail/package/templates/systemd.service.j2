@@ -1,0 +1,16 @@
+[Unit]
+Description=Rtail Log {{ item.title | default( item.name | mandatory ) }}
+Requires=rtail.service
+BindsTo=rtail.service
+After=rtail.service
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sleep 2
+ExecStartPre={{ package__rtail__package__path_send_string | quote }} {{ item.title | default( item.name | mandatory ) | quote }} "{COLOR_BLUE_LIGHT}{TIME}{COLOR_NONE} :: {COLOR_GREEN_LIGHT}{{ item.title | default( item.name | mandatory ) }}{COLOR_NONE} :: {COLOR_ORANGE_LIGHT}{{ item.path | mandatory }}{COLOR_NONE} :: {COLOR_GREEN}START{COLOR_NONE}"
+ExecStart={{ package__rtail__package__path_send_file | quote }} {{ item.title | default( item.name | mandatory ) | quote }} {{ item.path | mandatory | quote }}
+ExecStopPost={{ package__rtail__package__path_send_string | quote }} {{ item.title | default( item.name | mandatory ) | quote }} "{COLOR_BLUE_LIGHT}{TIME}{COLOR_NONE} :: {COLOR_GREEN_LIGHT}{{ item.title | default( item.name | mandatory ) }}{COLOR_NONE} :: {COLOR_ORANGE_LIGHT}{{ item.path | mandatory }}{COLOR_NONE} :: {COLOR_RED}STOP{COLOR_NONE}"
+Restart=no
+
+[Install]
+WantedBy=rtail.service

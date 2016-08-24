@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_posix__module__module_state:
+      title: "Setting PHP posix state - as specified by playbook"
+      state: "{{ package__php_posix__setup__state }}"

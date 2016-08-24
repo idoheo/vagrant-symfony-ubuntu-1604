@@ -1,0 +1,19 @@
+###
+# ../../../../../package/rabbitmq/actions/tasks/users/users_remove.yml
+###
+#
+# Remove RabbitMQ users
+#
+###
+#
+# package__rabbitmq__users__users_remove:
+#   title <string> ["Removing RabbitMQ users"] - Title of the operation
+#   users:
+#    - username <string>                   - Username
+#
+###
+- include: ../../../actions/tasks/users/users_remove.yml
+  vars:
+    package__rabbitmq__users__users_remove:
+      title: "Removing RabbitMQ users - as specified by playbook"
+      users: "{{ package__rabbitmq__setup__users__remove | mandatory }}"

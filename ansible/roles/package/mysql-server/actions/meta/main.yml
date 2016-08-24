@@ -1,0 +1,6 @@
+---
+dependencies:
+- role: package/mysql-server/install
+- role: package/python-mysqldb/install
+- role: package/gzip/install
+- role: package/bzip2/install

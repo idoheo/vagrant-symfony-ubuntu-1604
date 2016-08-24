@@ -1,0 +1,37 @@
+###
+# ../../../../../package_management/apt/actions/tasks/update/update_packages.yml
+###
+#
+# Update APT packages
+#
+###
+#
+# packages__apt__update__update_packages:
+#   title <string> ['Updating APT packages']- Title of the operation
+#
+###
+
+- name: "{{ packages__apt__update__update_packages.title | default('Updating APT packages') }} (Getting packages list)"
+  shell: "(aptitude search -F '%p' --disable-columns '~U' && apt-mark showmanual) | sort | uniq --repeated"
+  args:
+    executable: "/bin/bash"
+  become: true
+  register: result__package_management__apt__update__update_packages__packages_list
+  changed_when: false
+
+- name: "{{ packages__apt__update__update_packages.title | default('Updating APT packages') }} (Initializing packages list)"
+  set_fact:
+    fact_update_apt: "{{ [] }}"
+  changed_when: false
+
+- name: "{{ packages__apt__update__update_packages.title | default('Updating APT packages') }} (Populating packages list)"
+  set_fact:
+    fact_update_apt: "[] {% for package in result__package_management__apt__update__update_packages__packages_list.stdout_lines %}{% if package != 'ansible' %}+ {{ [{'name' : package }] }}{% endif %}{% endfor %}"
+  changed_when: false
+
+- include: "../packages/packages_install.yml"
+  vars:
+    packages__apt__packages__packages_install:
+      title: "{{ packages__apt__update__update_packages.title | default('Updating APT packages') }} (Updating packages)"
+      latest: true
+      packages: "{{ fact_update_apt }}"

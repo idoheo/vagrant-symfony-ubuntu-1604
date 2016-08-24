@@ -1,0 +1,25 @@
+---
+###
+# ../../../../../package/nginx/actions/tasks/sites/sites_from_role_templates.yml
+###
+#
+# Copy nginx sites from role templates
+#
+###
+#   Configuration parameter:
+#   ------------------------
+#
+#   package__nginx__sites__sites_from_role_templates:
+#       role: <string>                                        # Role containing templates for nginx sites
+#       template_dir: <string:"nginx_sites">:                 # Directory in roles "templates" directory contining templates for nginx sites
+#       title: <string:"Copying Nginx sites">                 # Title to display
+#       enable: <boolean:true>                                # Should these sites be automaticly enabled
+#
+###
+
+- include: ./sites_from_dir_templates.yml
+  vars:
+    package__nginx__sites__sites_from_dir_templates:
+      title: "{{ package__nginx__sites__sites_from_role_templates.title | default('Copying Nginx sites from role templates') }}"
+      enable: "{{ package__nginx__sites__sites_from_role_templates.enable | default(true) }}"
+      dir: "../../../../../{{ package__nginx__sites__sites_from_role_templates.role | mandatory }}/templates/{{ package__nginx__sites__sites_from_role_templates.template_dir | default('nginx_sites') }}"

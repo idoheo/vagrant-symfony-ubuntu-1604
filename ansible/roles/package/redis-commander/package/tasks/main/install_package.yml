@@ -1,0 +1,8 @@
+---
+- include: ../../../../../package_management/npm/actions/tasks/packages/packages_install.yml
+  vars:
+    packages__npm__packages__packages_install:
+      title: Installing Redis commander
+      latest: "{{ true }}"
+      packages:
+        - name: redis-commander

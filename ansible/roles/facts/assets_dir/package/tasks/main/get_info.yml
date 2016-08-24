@@ -1,0 +1,13 @@
+---
+- name: "Checking owner of assets folder"
+  stat: path="{{ facts__assets_dir__package__assets_folder }}"
+  register: result__facts__assets_dir__package__assets_folder_stat
+  changed_when: false
+  failed_when: not result__facts__assets_dir__package__assets_folder_stat.stat.exists
+
+- name: "Setting assts dir environment variable"
+  set_fact:
+    fact_assets_dir:
+      owner: "{{ result__facts__assets_dir__package__assets_folder_stat.stat.pw_name }}"
+      group: "{{ result__facts__assets_dir__package__assets_folder_stat.stat.gr_name }}"
+      assets_folder: "{{ result__facts__assets_dir__package__assets_folder_stat.stat.path }}"

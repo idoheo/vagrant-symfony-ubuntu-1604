@@ -1,0 +1,17 @@
+###
+# ../../../../../system/service/actions/tasks/schedule_restart/schedule_restart_service.yml
+###
+#
+# Schedule service restart
+#
+###
+#
+# system__service__schedule_restart__schedule_restart_service:
+#   title <string:"Scheduling service restart">       - Title of the operation
+#   services:                                         - Services to restart
+#    - service <string> - Name of a service
+#
+###
+- name: "{{ system__service__schedule_restart__schedule_restart_service.title | default('Scheduling service restart') }}"
+  set_fact:
+    system__service__actions__service_restart: "{% for service in system__service__schedule_restart__schedule_restart_service.services | default([]) %}{% if not service.service | mandatory in system__service__actions__service_restart %}{{ system__service__actions__service_restart.append(service.service) }}{% endif %}{% endfor %}{{ system__service__actions__service_restart }}"

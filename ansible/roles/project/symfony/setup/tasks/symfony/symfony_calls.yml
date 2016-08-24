@@ -1,0 +1,22 @@
+###
+# ../../../../../project/symfony/actions/tasks/symfony/symfony_calls.yml
+###
+#
+# Call Symfony calls in project
+#
+###
+#
+# project__symfony__symfony__symfony_calls:
+#   title <string> ["Running Symfony calls in project"]    - Title of the operation
+#   console_bin <string> ['bin/console']                   - console binary path
+#   calls:
+#     - call <string> "symfony call"
+#
+###
+- include: ../../../actions/tasks/symfony/symfony_calls.yml
+  vars:
+    project__symfony__symfony__symfony_calls:
+      title: "Running Symfony calls in project - as specified by playbook"
+      console_bin: "{{ setup__project__symfony__symfony_console_bin }}"
+      calls: "{{ setup__project__symfony__symfony_calls }}"
+

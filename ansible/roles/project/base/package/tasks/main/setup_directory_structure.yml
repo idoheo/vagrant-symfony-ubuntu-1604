@@ -1,0 +1,18 @@
+---
+- name: Updating base project directory ownerships
+  file: path="{{ item.1.name | mandatory }}"
+        state="{{ item.1.state | mandatory }}"
+        mode="{{ item.1.mode | mandatory }}"
+        owner="{{ fact_project.owner }}"
+        group="{{ fact_project.group }}"
+  with_indexed_items:
+    - name: "{{ fact_project.project_folder }}"
+      state: "directory"
+      mode: 775
+    - name: "{{ fact_project.project_source_folder }}"
+      state: "directory"
+      mode: 755
+    - name: "{{ fact_project.logs_folder }}"
+      state: "directory"
+      mode: 775
+  become: true

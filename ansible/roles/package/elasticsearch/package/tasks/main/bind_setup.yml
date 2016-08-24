@@ -1,0 +1,8 @@
+---
+- name: "Ensuring Elastic Search settings has network section"
+  set_fact:
+    elastic_search: "{{ elastic_search.config.update({'network' : elastic_search.config.network | default({}) }) }}{{ elastic_search }}"
+
+- name: "Setting Elastic Search settings network.host to 0.0.0.0"
+  set_fact:
+    elastic_search: "{{ elastic_search.config.network.update({'host' : '0.0.0.0' }) }}{{ elastic_search }}"

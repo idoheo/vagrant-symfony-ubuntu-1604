@@ -1,0 +1,23 @@
+###
+# ../../../../../package/php-ctype/actions/tasks/module/module_state.yml
+###
+#
+# Enable or disable PHP ctype module
+#
+###
+#
+# package__php_ctype__module__module_state:
+#   title <string:"Setting PHP ctype state"> - Title of the operation
+#   state <"enabled"|"disabled">              - State of a module
+#   modules:
+#     - module <string> - module name
+#
+###
+
+- include: ../../../../../package/php/actions/tasks/module/module_state.yml
+  vars:
+    package__php__module__module_state:
+      title: "{{ package__php_ctype__module__module_state.title | default('Setting PHP ctype state') }}"
+      state: "{{ package__php_ctype__module__module_state.state | mandatory }}"
+      modules:
+        - module: ctype

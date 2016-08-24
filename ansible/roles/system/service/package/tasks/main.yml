@@ -1,0 +1,4 @@
+---
+- include: main/get_info.yml
+- include: main/install_package.yml
+- include: main/setup_directory_structure.yml

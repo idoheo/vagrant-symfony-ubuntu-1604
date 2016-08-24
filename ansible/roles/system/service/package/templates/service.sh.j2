@@ -1,0 +1,73 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+  echo "Expecting single argument <service_config_name>"
+  exit 1
+fi
+SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SERVICE_CONFIG_FILE="$SCRIPT_PATH/conf/$1.json"
+
+echo "Config file: $SERVICE_CONFIG_FILE"
+if [ ! -f $SERVICE_CONFIG_FILE ]; then
+  echo "Service configuration file not found."
+  exit 2
+fi
+
+COMMAND_TYPE=$(jq ".command | type" "$SERVICE_CONFIG_FILE" | xargs)
+if [ "$COMMAND_TYPE" != "string" ]; then
+  echo ".command must be a string. Got $COMMAND_TYPE"
+  exit 3
+fi
+
+COMMAND=$(jq ".command" "$SERVICE_CONFIG_FILE")
+
+ARGUMENTS_TYPE=$(jq ".arguments | type" "$SERVICE_CONFIG_FILE" | xargs)
+if [ "$ARGUMENTS_TYPE" != "array" ] && [ "$ARGUMENTS_TYPE" != "null" ]; then
+  echo ".arguments must be an array. Got $ARGUMENTS_TYPE"
+  exit 4
+fi
+
+if [ "$ARGUMENTS_TYPE" == "array" ]; then
+  for ARG_KEY in $(jq ".arguments | keys | .[]" "$SERVICE_CONFIG_FILE"); do
+    ARG_KEY_TYPE=$(jq ".arguments[$ARG_KEY] | type" "$SERVICE_CONFIG_FILE" | xargs);
+    if [ "$ARG_KEY_TYPE" != "string" ] && [ "$ARG_KEY_TYPE" != "number" ]; then
+      echo ".arguments.[$ARG_KEY] should be number or string. Got $ARG_KEY_TYPE."
+      exit 5
+    fi 
+    ARG_VALUE=$(jq --raw-output ".arguments[$ARG_KEY]" "$SERVICE_CONFIG_FILE")
+    COMMAND="$COMMAND $ARG_VALUE"
+  done
+fi
+
+STDOUT_TYPE=$(jq ".logs.stdout | type" "$SERVICE_CONFIG_FILE" | xargs)
+if [ "$STDOUT_TYPE" != "string" ] && [ "$STDOUT_TYPE" != "null" ]; then
+  echo ".logs.stdout must be a string. Got $STDOUT_TYPE"
+  exit 6
+fi
+
+STDERR_TYPE=$(jq ".logs.stderr | type" "$SERVICE_CONFIG_FILE" | xargs)
+if [ "$STDERR_TYPE" != "string" ] && [ "$STDERR_TYPE" != "null" ]; then
+  echo ".logs.stderr must be a string. Got $STDERR_TYPE"
+  exit 7
+fi
+
+if [ "$STDOUT_TYPE" != "null" ]; then
+  STDOUT=$(jq ".logs.stdout" "$SERVICE_CONFIG_FILE")
+  COMMAND="$COMMAND 1>$STDOUT"
+fi
+
+if [ "$STDERR_TYPE" != "null" ]; then
+  STDERR=$(jq ".logs.stderr" "$SERVICE_CONFIG_FILE")
+  COMMAND="$COMMAND 2>$STDERR"
+else
+  COMMAND="$COMMAND 2>&1"
+fi
+
+echo "Service command: $COMMAND"
+echo ""
+echo "-- STARTING SERVICE --"
+
+eval $COMMAND
+exit $?
+
+

@@ -1,0 +1,6 @@
+---
+package__rtail__package__path: "/opt/ratil"
+package__rtail__package__path_systemd_conf: "{{ package__rtail__package__path }}/systemd"
+package__rtail__package__path_server: "{{ package__rtail__package__path }}/rtail-server.sh"
+package__rtail__package__path_send_string: "{{ package__rtail__package__path }}/rtail-send-string.sh"
+package__rtail__package__path_send_file: "{{ package__rtail__package__path }}/rtail-send-file.sh"

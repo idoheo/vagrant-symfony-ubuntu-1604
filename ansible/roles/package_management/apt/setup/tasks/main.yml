@@ -1,0 +1,3 @@
+---
+- include: packages/packages_install.yml
+- include: update/update_packages.yml

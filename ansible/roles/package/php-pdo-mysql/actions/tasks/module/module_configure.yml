@@ -1,0 +1,24 @@
+###
+# ../../../../../package/php-pdo-mysql/actions/tasks/module/module_configure.yml
+###
+#
+# Configures PHP pdo_mysql module
+#
+###
+#
+# package__php_pdo_mysql__module__module_configure:
+#   title <string:"Configuring PHP pdo_mysql module"> - Title of the operation
+#   module <string>                                - Name of a module
+#   config:
+#     - option <string>    - Option name
+#       value <mixed:omit> - Value to set. {{ omit }} deletes entry
+#
+###
+- include: ../../../../../package/php/actions/tasks/module/module_configure.yml
+  vars:
+    package__php__module__module_configure:
+      title: "{{ package__php_pdo_mysql__module__module_configure.title | default('Configuring PHP pdo_mysql module') }}"
+      module: "pdo_mysql"
+      data:
+        module_as_option_prefix: true
+        entries: "{{ package__php_pdo_mysql__module__module_configure.config | default([]) }}"

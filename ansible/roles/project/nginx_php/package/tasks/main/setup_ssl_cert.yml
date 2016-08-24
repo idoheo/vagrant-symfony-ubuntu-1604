@@ -1,0 +1,24 @@
+---
+- include: ../../../../../package/openssl/actions/tasks/ssl_certificate/ssl_certificate_create.yml
+  vars:
+    package__openssl__ssl_certificate__ssl_certificate_create:
+      title: "Creating SSL certificate for Nginx Php Project"
+      certificates:
+        - ssl_file: "{{ fact_project.ssl_source_folder }}/{{ fact_project.ssl_cert_ssl_file }}"
+          key_file: "{{ fact_project.ssl_source_folder }}/{{ fact_project.ssl_cert_key_file }}"
+          owner: "{{ fact_assets_dir.owner }}"
+          group: "{{ fact_assets_dir.group }}"
+          owerwrite: "{{ false }}"
+          country_code: "GB"
+          state: "London"
+          location: "London"
+          organization: "Development"
+          organization_unit: "Development"
+          common_name: localhost
+
+- name: "Copying SSL certificate files for Nginx Php project"
+  shell: "cp -f {{ ( fact_project.ssl_source_folder ~ '/' ~ item.1 ) | quote }} {{ ( fact_project.ssl_folder ~ '/' ~ item.1 ) | quote }}"
+  with_indexed_items:
+    - "{{ fact_project.ssl_cert_key_file }}"
+    - "{{ fact_project.ssl_cert_ssl_file }}"
+  become: true

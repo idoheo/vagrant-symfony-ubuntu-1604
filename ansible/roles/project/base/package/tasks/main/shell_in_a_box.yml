@@ -1,0 +1,36 @@
+---
+- name: Getting Box in a shell CSS configs
+  script: ../../files/box_in_a_shell_css.sh
+  register: result__project__base_project__package__box_in_a_shell__css
+  become: true
+
+- include: "../../../../../system/service/actions/tasks/service_simple/service_simple_create.yml"
+  vars:
+    system__service__service_simple__service_simple_create:
+      title: "Creating Shell In A Box service for project"
+      service:
+        name: "project-shellinabox"
+        title: "Project Shell in a box"
+        command: shellinaboxd
+        arguments:
+          - "--port={{ project__base__package__project_box_in_a_shell_port }}"
+          - "-t"
+          - "--no-beep"
+          - "--disable-ssl-menu "
+          - "--service='/:{{ fact_project.owner }}:{{ fact_project.group }}:/:bash -c \"TERM=xterm-color; export TERM; cd {{ fact_project.project_folder }}; bash\"'"
+          - "{{ result__project__base_project__package__box_in_a_shell__css.stdout | trim }}"
+
+- include: ../../../../../system/service/actions/tasks/service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: Stopping Projects Shell in a box
+      state: stopped
+      services:
+        - name: project-shellinabox
+
+- include: ../../../../../system/service/actions/tasks/schedule_restart/schedule_restart_service.yml
+  vars:
+    system__service__schedule_restart__schedule_restart_service:
+      title: Scheduling Projects Shell in a box restart
+      services:
+        - service: project-shellinabox

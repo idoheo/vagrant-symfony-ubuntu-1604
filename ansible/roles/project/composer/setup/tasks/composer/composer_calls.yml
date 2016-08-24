@@ -1,0 +1,20 @@
+###
+# ../../../../../project/composer/actions/tasks/composer/composer_calls.yml
+###
+#
+# Call composer calls in project
+#
+###
+#
+# project__composer__composer__composer_calls:
+#   title <string> ["Running composer calls in project"]    - Title of the operation
+#   calls:
+#     - call <string> "Composer call"
+#
+###
+- include: ../../../actions/tasks/composer/composer_calls.yml
+  vars:
+    project__composer__composer__composer_calls:
+      title: "Running composer calls in project - as specified by playbook"
+      calls: "{{ setup__project__composer__composer_calls }}"
+

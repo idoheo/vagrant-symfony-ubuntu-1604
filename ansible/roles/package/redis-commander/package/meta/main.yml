@@ -1,0 +1,6 @@
+---
+dependencies:
+- role: package/redis-server/install
+- role: package_management/npm/actions
+- role: system/service/actions
+

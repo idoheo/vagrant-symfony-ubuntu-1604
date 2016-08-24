@@ -1,0 +1,12 @@
+---
+- include: ../../../../../system/php_app/actions/tasks/php_app/php_app_create.yml
+  vars:
+    system__php_app__php_app__php_app_create:
+      title: "Creating site for PhpMyAdmin"
+      php_app:
+        - name: phpmyadmin
+          title: "PhpMyAdmin"
+          host: "0.0.0.0"
+          port: "{{ package__phpmyadmin__package__web_port }}"
+          doc_root: "/usr/share/phpmyadmin"
+          

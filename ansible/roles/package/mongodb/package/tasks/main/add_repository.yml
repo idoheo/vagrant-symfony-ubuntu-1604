@@ -1,0 +1,15 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/keys/keys_add.yml
+  vars:
+    keys__apt__keys__keys_add:
+      title: Adding MongoDB APT keys
+      apt_keys:
+        - id: "EA312927"
+          keyserver: "hkp://keyserver.ubuntu.com:80"
+
+- include: ../../../../../package_management/apt/actions/tasks/repositories/repositories_add.yml
+  vars:
+    repositories__apt__repositories__repositories_add:
+      title: Adding MongoDB APT repositories
+      repositories:
+        - repo: "deb http://repo.mongodb.org/apt/{{ fact_os.distributor | lower }} {{ fact_os.codename | lower }}/mongodb-org/{{ package__mongodb__package__mongodb_version }} multiverse"

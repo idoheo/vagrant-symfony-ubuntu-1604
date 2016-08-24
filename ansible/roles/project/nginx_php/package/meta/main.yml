@@ -1,0 +1,8 @@
+---
+dependencies:
+- role: project/base/install
+- role: facts/assets_dir/install
+- role: package/php-fpm/actions
+- role: package/openssl/actions
+- role: package/nginx/actions
+- role: system/logs/actions

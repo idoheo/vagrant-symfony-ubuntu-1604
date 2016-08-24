@@ -1,0 +1,39 @@
+---
+- name: Rtail Logs Setup (Reading config)
+  shell: "cat {{ system__logs__package__logs_conf | quote }}"
+  register: result__logging__rtail__package__config_read
+  become: true
+
+- name: Rtail Logs Setup (Parse config)
+  set_fact:
+    result__logging__rtail__package__config_read: "{{ result__logging__rtail__package__config_read.stdout | from_json }}"
+
+- name: Rtail Logs Setup (Create Upstart)
+  when: fact_service.use_upstart
+  template: src="../templates/upstart.conf.j2"
+            dest="/etc/init/rtail_log_{{ item.name | mandatory }}.conf"
+  with_items: result__logging__rtail__package__config_read.values()
+  become: true
+
+- name: Rtail Logs Setup (Create Systemd)
+  when: fact_service.use_systemd
+  template: src="../templates/systemd.service.j2"
+            dest="{{ package__rtail__package__path_systemd_conf }}/rtail_log_{{ item.name | mandatory }}.service"
+  with_items: result__logging__rtail__package__config_read.values()
+  become: true
+
+- name: Rtail Logs Setup (Enable Systemd)
+  when: fact_service.use_systemd
+  shell: "systemctl enable {{ package__rtail__package__path_systemd_conf }}/rtail_log_{{ item.name | mandatory }}.service"
+  with_items: result__logging__rtail__package__config_read.values()
+  become: true
+
+- name: Rtail Logs Setup (Reload Systemd)
+  when: fact_service.use_systemd
+  shell: "systemctl daemon-reload"
+  become: true
+
+- name: Rtail Logs Setup (Restart Rtail)
+  service: name=rtail
+           state=restarted
+  become: true

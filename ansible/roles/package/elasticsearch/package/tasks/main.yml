@@ -1,0 +1,9 @@
+---
+- include: main/stop_service.yml
+- include: main/remove_package.yml
+- include: main/add_repository.yml
+- include: main/install_package.yml
+- include: main/handle_service.yml
+- include: main/read_config.yml
+- include: main/bind_setup.yml
+- include: main/write_config.yml

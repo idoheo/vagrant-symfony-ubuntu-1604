@@ -1,0 +1,10 @@
+---
+###############
+# Common vars #
+###############
+common_admin_user_name: admin
+common_admin_user_pass: pass
+common_reader_user_name: reader
+common_reader_user_pass: reader
+common_application_user_name: application
+common_application_user_pass: application

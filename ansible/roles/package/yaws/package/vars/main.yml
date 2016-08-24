@@ -1,0 +1,4 @@
+---
+package__yaws__package__yaws_dir: /etc/yaws
+package__yaws__package__conf_d_dir: "{{ package__yaws__package__yaws_dir }}/conf.d"
+package__yaws__package__conf_avail_dir: "{{ package__yaws__package__yaws_dir }}/conf.avail"

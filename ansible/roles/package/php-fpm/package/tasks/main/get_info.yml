@@ -1,0 +1,7 @@
+---
+- name: "Updating PHP variable with FPM info"
+  set_fact:
+    fact_php: "{{ fact_php.update({
+                  'php_fpm_dir' : fact_php.php_dir ~ '/fpm',
+                  'php_fpm_pool_dir' : fact_php.php_dir ~ '/fpm/pool.d',
+               }) }}{{ fact_php }}"

@@ -1,0 +1,24 @@
+###
+# ../../../../../package_management/apt/actions/tasks/repositories/repositories_manage.yml
+###
+#
+# Manage APT repositories
+#
+###
+#
+# repositories__apt__repositories__repositories_manage:
+#   title <string>                - Title of the operation
+#   state <string:absent|present> - State of repositories
+#   repositories:                         - repositories to manage
+#    - repo <string|omit> [omit]    - repository
+#      validate_certs <bool> [true] - Validate URL SSL certs
+#
+###
+
+- name: "{{ repositories__apt__repositories__repositories_manage.title | mandatory }}"
+  apt_repository: repo="{{ item.1.repo | default(omit) }}"
+                  validate_certs="{{ item.1.url | default(true) | bool }}"   
+                  state="{{ repositories__apt__repositories__repositories_manage.state | mandatory }}"
+                  update_cache="{{ true }}"
+  with_indexed_items: repositories__apt__repositories__repositories_manage.repositories | mandatory
+  become: true

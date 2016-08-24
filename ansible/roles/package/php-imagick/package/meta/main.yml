@@ -1,0 +1,5 @@
+---
+dependencies:
+- role: package/php/install
+- role: package/imagemagick/install
+- role: package_management/apt/actions

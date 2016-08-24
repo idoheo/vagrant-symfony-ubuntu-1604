@@ -1,0 +1,2 @@
+---
+- include: main/setup_directory_structure.yml

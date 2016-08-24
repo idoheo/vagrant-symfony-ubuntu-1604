@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: package/php-json/install
+- role: package/php/actions

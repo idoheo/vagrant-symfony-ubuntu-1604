@@ -1,0 +1,14 @@
+---
+- name: System upkeep
+  hosts: all
+  roles:
+    - system/hosts/install
+    - package_management/apt/setup
+
+  vars_files:
+    - php-config.yml
+    - sql-config.yml
+    - message-queue-config.yml
+    - project-config.yml
+    - default-playbook-vars.yml
+    - playbook-always-vars.yml

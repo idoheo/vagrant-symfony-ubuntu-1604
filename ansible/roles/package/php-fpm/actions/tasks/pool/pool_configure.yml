@@ -1,0 +1,39 @@
+---
+###
+# ../../../../../package/php-fpm/actions/tasks/pool/pool_configure.yml
+###
+#
+# Config PHP Fpm pools
+#
+###
+#   Configuration parameter:
+#   ------------------------
+#
+#   package__php_fpm__pool__pool_configure:
+#     title <string> ['Configuring Php FPM pool'] - Title to display
+#     pool <string>                               - Pool to configure
+#     config:
+#       - option <string> - Option name
+#         value <string> - Option value
+###
+- include: ../../../../../helper/ini/actions/tasks/ini/ini_write.yml
+  vars:
+    helper__ini__ini__write_ini: 
+      title: "{{ package__php_fpm__pool__pool_configure.title | default('Configuring Php FPM pool') }}"
+      file: "{{ fact_php.php_fpm_pool_dir }}/{{ package__php_fpm__pool__pool_configure.pool | mandatory }}.conf"
+      create: "{{ true }}"
+      must_exist: "{{ true }}"
+      attributes:
+        owner: "root"
+        group: "root"
+        mode: 644
+      values:
+        true: 1
+        false: 0
+        null: ""
+      data:
+        sections:
+          - section: "{{ package__php_fpm__pool__pool_configure.pool | mandatory }}"
+            option_name_prefix: ""
+            entries: "{{ package__php_fpm__pool__pool_configure.config | default([]) }}"
+

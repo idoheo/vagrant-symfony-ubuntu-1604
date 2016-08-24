@@ -1,0 +1,32 @@
+---
+- name: Creating services directory structure
+  file: path="{{ item.1.name | mandatory }}"
+        state="{{ item.1.state | mandatory }}"
+        owner="{{ item.1.owner | mandatory }}"
+        group="{{ item.1.group | mandatory }}"
+        mode="{{ item.1.mode | mandatory }}"
+  with_indexed_items:
+    - name: "{{ system__service__package__service_dir }}"
+      owner: root
+      group: root
+      mode: 755
+      state: directory
+    - name: "{{ system__service__package__service_dir__config_dir }}"
+      owner: root
+      group: root
+      mode: 755
+      state: directory
+    - name: "{{ system__service__package__service_dir__systemd_dir }}"
+      owner: root
+      group: root
+      mode: 755
+      state: directory
+  become: true
+
+- name: "Creating services script"
+  template: src="../../templates/service.sh.j2"
+            dest="{{ system__service__package__service_dir__script }}"
+            owner="root"
+            group="root"
+            mode="755"
+  become: true

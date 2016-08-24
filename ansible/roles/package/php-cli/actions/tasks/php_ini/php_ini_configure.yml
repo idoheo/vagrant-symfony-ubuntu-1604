@@ -1,0 +1,26 @@
+###
+# ../../../../../package/php-cli/actions/tasks/php_ini/php_ini_configure.yml
+###
+#
+# Configures PHP cli ini
+#
+###
+#
+# package__php_cli__php_ini__php_ini_configure:
+#   title <string:"Configuring PHP Cli ini file"> - Title of the operation
+#   data:
+#     sections:
+#        - seciton <string>            - Section name
+#          option_name_prefix <string> - Prefix for option name
+#          entires:
+#            - option <string>    - Option name
+#              value <mixed:omit> - Value to set. {{ omit }} deletes entry
+#
+###
+- include: ../../../../../package/php/actions/tasks/php_ini/php_ini_configure.yml
+  vars:
+    package__php__php_ini__php_ini_configure:
+      title: "{{ package__php_cli__php_ini__php_ini_configure.title | default('Configuring PHP Cli ini file') }}"
+      php: cli
+      data:
+        sections: "{{ package__php_cli__php_ini__php_ini_configure.data.sections | default([]) }}"

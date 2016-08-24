@@ -1,0 +1,74 @@
+###
+# ../../../../../helper/download/actions/tasks/download/download.yml
+###
+#
+# Downloads and unarchives files
+#
+###
+#
+# helper__download__download__download:
+#    title:
+#    files:
+#      - source:
+#          url <string> ['Downloading files'] - Descriptive action title
+#          username <string|omit> [omit]      - Download username
+#          password <string|omit> [omit]      - Download password
+#          force <boolean> [false]            - Force download if file already exists
+#          use_proxy <boolean> [true]         - Use proxy
+#          validate_certs <boolean> [true]    - Validate SSL certificates
+#          timeout <integer> [10]             - Timeout in seconds
+#        target:
+#          path <string>       - Download path
+#          owner <string|omit> - Download owner
+#          group <string|omit> - Download group
+#          mode <string> [640] - Download mode
+#        extract:
+#          target <sting|omit>               - Extract path
+#	   owner <string|omit>               - Extract owner
+#          group <string|omit>               - Extract user
+#          mode <string|omit>                - Extract mode
+#          keep_source <boolean> [true]      - Keep source download
+#          only_on_download <boolean> [true] - Extract only if download was made
+#
+#
+
+- name: "{{ helper__download__download__download.title | default('Downloading files') }} (Downloading files)"
+  get_url: url="{{ item.1.source.url | mandatory }}"
+           dest="{{ item.1.target.path | mandatory }}"
+           url_username="{{ item.1.source.username | default(omit) }}"
+           url_password="{{ item.1.source.password | default(omit) }}"
+           use_proxy="{{ item.1.source.use_proxy | default(false) | bool }}"
+           validate_certs="{{ item.1.source.validate_certs | default(true) | bool }}"
+           timeout="{{ item.1.source.timeout | default(10) | int }}"
+           force="{{ item.1.source.force | default(false) | bool }}"
+           owner="{{ item.1.target.owner | default(omit) }}"
+           group="{{ item.1.target.group | default( item.1.owner | default(640) ) }}"
+           mode="{{ item.1.target.mode | default(644) }}"
+  with_indexed_items: "{{ helper__download__download__download.files | default([]) }}"
+  become: true
+  register: result__helper__download__download__download__download_result
+
+- name: "{{ helper__download__download__download.title | default('Downloading files') }} (Extracting files)"
+  unarchive: copy="{{ false }}"
+             src="{{ item.1.target.path | mandatory }}"
+             dest="{{ item.1.extract.target }}"
+             mode="{{ omit }}"
+             owner="{{ item.1.extract.owner | default(omit) }}"
+             group="{{ item.1.extract.group | default( item.1.extract.owner | default(omit) ) }}"
+  with_indexed_items: "{{ helper__download__download__download.files | default([]) }}"
+  become: true
+  when: "{{        item.1.extract is defined 
+               and (item.1.extract | default({})).target | default(omit) is string 
+               and (item.1.extract | default({})).target | default(omit) | string | trim != '' 
+               and (
+                      not (item.1.extract | default({})).only_on_download | default(true) | bool
+                   or     result__helper__download__download__download__download_result.results[item.0].changed
+               )
+         }}"
+
+- name: "{{ helper__download__download__download.title | default('Downloading files') }} (Cleaning up downloaded)"
+  file: path="{{ item.1.target.path | mandatory }}"
+        state="absent"
+  with_indexed_items: "{{ helper__download__download__download.files | default([]) }}"
+  become: true
+  when: "{{ (item.1.extract | default({})).target | default(omit) is string and (item.1.extract | default({})).target | default(omit) | trim != '' and not (item.1.extract | default({})).keep_source | default(true) | bool }}"

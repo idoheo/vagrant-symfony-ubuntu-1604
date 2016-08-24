@@ -1,0 +1,19 @@
+---
+dependencies:
+- role: project/composer/install
+- role: package/php/actions
+- role: package/php-ctype/actions
+- role: package/php-json/actions
+- role: package/php-xml/actions
+- role: package/php-xmlreader/actions
+- role: package/php-xmlwriter/actions
+- role: package/php-xsl/actions
+- role: package/php-wddx/actions
+- role: package/php-simplexml/actions
+- role: package/php-dom/actions
+- role: package/php-tokenizer/actions
+- role: package/php-mbstring/actions
+- role: package/php-iconv/actions
+- role: package/php-posix/actions
+- role: package/php-intl/actions
+- role: system/logs/actions

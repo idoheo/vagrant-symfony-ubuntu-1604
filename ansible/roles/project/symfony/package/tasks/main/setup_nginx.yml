@@ -1,0 +1,9 @@
+---
+- name: "Copying Nginx site config for Symfony project site"
+  template: src="../../templates/nginx_site_config.j2"
+            dest="{{ fact_project.nginx_site_config }}"
+            owner="{{ fact_project.owner }}"
+            group="{{ fact_project.group }}"
+            mode=0644
+  become: true
+

@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_pdo_mysql__module__module_configure:
+      title: "Configuring PHP pdo_mysql module - as specified by playbook"
+      config: "{{ package__php_pdo_mysql__setup__config }}"

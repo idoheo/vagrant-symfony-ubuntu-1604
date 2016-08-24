@@ -1,0 +1,3 @@
+---
+dependencies:
+- role: package/php-pdo-mysql/package

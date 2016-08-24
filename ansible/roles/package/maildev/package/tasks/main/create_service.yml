@@ -1,0 +1,26 @@
+---
+- include: ../../../../../system/service/actions/tasks/service_simple/service_simple_create.yml
+  vars:
+    system__service__service_simple__service_simple_create:
+      title: Creating MailDev service
+      service_prefix: "{{ system__service__package__service_prefix }}"
+      service:
+        name: maildev
+        title: MailDev
+        command: "{{ fact_npm.module_location }}/maildev/bin/maildev"
+        arguments:
+          - "--ip={{ package__maildev__package__smtp_ip | string |quote }}"
+          - "--smtp={{ package__maildev__package__smtp_port | string |quote }}"
+          - "{% if package__maildev__package__smtp_user != omit %}--incoming-user={{ package__maildev__package__smtp_user | string | quote }}{% endif %}"
+          - "{% if package__maildev__package__smtp_pass != omit %}--incoming-pass={{ package__maildev__package__smtp_pass | string | quote }}{% endif %}"
+
+          - "--web-ip={{ package__maildev__package__web_ip | string | quote }}"
+          - "--web={{ package__maildev__package__web_port | string | quote }}"
+          - "{% if package__maildev__package__web_user != omit %}--web-user={{ package__maildev__package__web_user | string | quote }}{% endif %}"
+          - "{% if package__maildev__package__web_pass != omit %}--web-pass={{ package__maildev__package__web_pass | string | quote }}{% endif %}"
+
+          - "{% if package__maildev__package__outgoing_host != omit %}--outgoing-host={{ package__maildev__package__outgoing_host | string | quote }}{% endif %}"
+          - "{% if package__maildev__package__outgoing_host != omit and package__maildev__package__outgoing_port != omit %}--outgoing-port={{ package__maildev__package__outgoing_port | string | quote }}{% endif %}"
+          - "{% if package__maildev__package__outgoing_host != omit and package__maildev__package__outgoing_secure | bool %}--outgoing-secure{% endif %}"
+          - "{% if package__maildev__package__outgoing_host != omit and package__maildev__package__outgoing_user != omit %}--outgoing-user={{ package__maildev__package__outgoing_user | string | quote }}{% endif %}"
+          - "{% if package__maildev__package__outgoing_host != omit and package__maildev__package__outgoing_pass != omit %}--outgoing-pass={{ package__maildev__package__outgoing_pass | string | quote }}{% endif %}"

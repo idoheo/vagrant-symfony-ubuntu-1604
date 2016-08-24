@@ -1,0 +1,8 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/packages/packages_install.yml
+  vars:
+    packages__apt__packages__packages_install:
+      title: Installing Gzip
+      latest: "{{ true }}"
+      packages:
+        - name: gzip

@@ -1,0 +1,25 @@
+###
+# ../../../../../package_management/npm/actions/tasks/packages/packages_install.yml
+###
+#
+# Install NPM Packages
+#
+###
+#
+# packages__npm__packages__packages_install:
+#   title <string> ['Installing NPM packages'] - Title of the operation
+#   latest <bool> [true]                       - Should latest packages be installed
+#   packages:                                  - Packages to install
+#    - name <string>                 - Name of a package
+#      ignore_scripts <bool> [false] - Use the --ignore-scripts flag when installing
+#      production <bool> [true]      - Install dependencies in production mode, excluding devDependencies
+#      registry <string|omit> [omit] - The registry to install modules from.
+#      version <string|omit> [omit]  - The version to be installed
+#
+###
+- include: packages_manage.yml
+  vars:
+    packages__npm__packages__packages_manage:
+      title: "{{ packages__npm__packages__packages_install.title | default('Installing NPM packages') }}"
+      state: "{% if packages__npm__packages__packages_install.latest | default(true) | bool %}latest{% else %}present{% endif %}"
+      packages: "{{ packages__npm__packages__packages_install.packages | mandatory }}"

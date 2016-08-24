@@ -1,0 +1,4 @@
+---
+package__nginx__package__nginx_folder: "/etc/nginx"
+package__nginx__package__nginx_sites_available_folder: "{{ package__nginx__package__nginx_folder }}/sites-available"
+package__nginx__package__nginx_sites_enabled_folder: "{{ package__nginx__package__nginx_folder }}/sites-enabled"

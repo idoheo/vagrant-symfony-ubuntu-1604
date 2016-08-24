@@ -1,0 +1,25 @@
+###
+# ../../../../../package_management/apt/actions/tasks/keys/keys_add.yml
+###
+#
+# Add APT keys
+#
+###
+#
+# keys__apt__keys__keys_add:
+#   title <string> ["Adding APT keys"] - Title of the operation
+#   apt_keys:                              - keys to manage
+#    - data <string|omit> [omit]      - Key data
+#      file <string|omit> [omit]      - File containing key
+#      url <string|url> [omit]        - Url to retrieve key from
+#      validate_certs <bool> [true]   - Validate URL SSL certs
+#      id <string|omit> [omit]        - identifier of key. Including this allows checking correctly of changed state.
+#      keyserver <string|omit> [omit] - keyserver to retrieve key from
+#
+###
+- include: keys_manage.yml
+  vars:
+    keys__apt__keys__keys_manage:
+      title: "{{ keys__apt__keys__keys_add.title | default('Adding APT keys') }}"
+      state: present
+      apt_keys: "{{ keys__apt__keys__keys_add.apt_keys | default([]) }}"

@@ -1,0 +1,6 @@
+---
+package__rtail__package__udp_host: "127.0.0.1"
+package__rtail__package__udp_port: 9999
+package__rtail__package__web_host: "0.0.0.0"
+package__rtail__package__web_port: 8888
+package__rtail__package__web_version: "stable"

@@ -1,0 +1,23 @@
+###
+# ../../../../../package/php-sqlite3/actions/tasks/module/module_state.yml
+###
+#
+# Enable or disable PHP sqlite3 module
+#
+###
+#
+# package__php_sqlite3__module__module_state:
+#   title <string:"Setting PHP sqlite3 state"> - Title of the operation
+#   state <"enabled"|"disabled">              - State of a module
+#   modules:
+#     - module <string> - module name
+#
+###
+
+- include: ../../../../../package/php/actions/tasks/module/module_state.yml
+  vars:
+    package__php__module__module_state:
+      title: "{{ package__php_sqlite3__module__module_state.title | default('Setting PHP sqlite3 state') }}"
+      state: "{{ package__php_sqlite3__module__module_state.state | mandatory }}"
+      modules:
+        - module: sqlite3

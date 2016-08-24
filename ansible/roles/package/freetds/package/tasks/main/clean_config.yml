@@ -1,0 +1,30 @@
+---
+- name: "Cleaning up FreeTDS config file (removing comment lines)"
+  lineinfile:
+      backrefs: "{{ false }}"
+      backup: "{{ false }}"
+      create: "{{ false }}"
+      dest: "{{ package__freetds__package__freetds_conf }}"
+      follow: "{{ false }}"
+      regexp: "^(\\s*)(;|#)"
+      state: "absent"
+  become: true
+
+- name: "Cleaning up FreeTDS config file (removing whitespaces from start of lines)"
+  replace:
+      dest: "{{ package__freetds__package__freetds_conf }}"
+      regexp: "^([\\t|\\s]*)(.*)"
+      replace: '\2'
+  become: true
+
+
+#- name: "Cleaning up FreeTDS config file (removing empty lines)"
+#  lineinfile:
+#      backrefs: "{{ true }}"
+#      backup: "{{ false }}"
+#      create: "{{ false }}"
+#      dest: "{{ package__freetds__package__freetds_conf }}"
+#      follow: "{{ false }}"
+#      regexp: "^(\\s*)$"
+#      state: "absent"
+#  become: true

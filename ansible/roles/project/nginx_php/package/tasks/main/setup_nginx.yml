@@ -1,0 +1,27 @@
+---
+- name: "Copying Nginx includes for the Nginx-Php project site"
+  template: src="{{ item }}"
+            dest="{{ fact_project.nginx_includes_folder ~ "/" ~(item[:(item|length-3)]|basename) }}"
+            owner="{{ fact_project.owner }}"
+            group="{{ fact_project.group }}"
+            mode=0644
+  with_fileglob:
+    - "../../templates/nginx_site_includes/*.j2"
+  become: true
+
+- name: "Copying Nginx site config for Nginx-Php project site"
+  template: src="../../templates/nginx_site_config.j2"
+            dest="{{ fact_project.nginx_site_config }}"
+            owner="{{ fact_project.owner }}"
+            group="{{ fact_project.group }}"
+            mode=0644
+  become: true
+
+- include: ../../../../../package/nginx/actions/tasks/sites/sites_from_role_templates.yml
+  vars:
+    package__nginx__sites__sites_from_role_templates:
+      title: "Copying Nginx config to Nginx-Php project"
+      enable: "{{ true }}"
+      role: "project/nginx_php/package"
+      template_dir: "nginx_sites"
+

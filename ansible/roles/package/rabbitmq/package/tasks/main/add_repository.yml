@@ -1,0 +1,14 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/keys/keys_add.yml
+  vars:
+    keys__apt__keys__keys_add:
+      title: Adding RabbitMQ APT keys
+      apt_keys:
+        - url: "https://www.rabbitmq.com/rabbitmq-release-signing-key.asc"
+
+- include: ../../../../../package_management/apt/actions/tasks/repositories/repositories_add.yml
+  vars:
+    repositories__apt__repositories__repositories_add:
+      title: Adding RabbitMQ APT repositories
+      repositories:
+        - repo: "deb http://www.rabbitmq.com/debian/ testing main"

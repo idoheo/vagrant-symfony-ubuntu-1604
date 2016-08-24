@@ -1,0 +1,3 @@
+---
+dependencies:
+- role: package/bzip2/package

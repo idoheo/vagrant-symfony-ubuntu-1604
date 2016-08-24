@@ -1,0 +1,7 @@
+---
+- include: main/get_info.yml
+- include: main/setup_directory_structure.yml
+- include: main/setup_ssl_cert.yml
+- include: main/setup_php.yml
+- include: main/setup_nginx.yml
+- include: main/register_log.yml

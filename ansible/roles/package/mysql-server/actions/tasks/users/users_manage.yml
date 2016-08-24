@@ -1,0 +1,29 @@
+###
+# ../../../../../package/mysql-server/actions/tasks/users/users_manage.yml
+###
+#
+# Manage MySQL users
+#
+###
+#
+# package__mysql_server__users__users_manage:
+#   title <string> ["Managing MySQL users"] - Title of the operation
+#   state: <string:"absent"|"present">      - State of user
+#   users:
+#    - username <string>             - Username
+#      password <string|omit> [omit] - Password of user (will use username if not specified)
+#      host <string|omit> ["%"]      - Host part of mysql username
+#      priv <stirng|omit> [omit]     - Privilages. Will grant all on "username" and "username_%" databases if not specified
+#
+###
+- name: "{{ package__mysql_server__users__users_manage.title | default('Managing MySQL users') }}"
+  mysql_user: append_privs="{{ false }}"
+              check_implicit_admin="{{ false }}"
+              host="{{ item.1.host | default('%') }}"
+              name="{{ item.1.username | mandatory }}"
+              password="{{ item.1.password | default( item.1.username | mandatory if (package__mysql_server__users__users_manage.state | mandatory == 'present') else omit ) }}"
+              priv="{% if package__mysql_server__users__users_manage.state | mandatory == 'present'%}{{ item.1.priv | default( item.1.username | mandatory ~ '.*:ALL' ~ '/' ~  item.1.username | mandatory ~ '_%.*:ALL') }}{% else %}{{ omit }}{% endif %}"
+              state="{{ package__mysql_server__users__users_manage.state | mandatory }}"
+  with_indexed_items: "{{ package__mysql_server__users__users_manage.users | default([]) }}"
+  when: item.1.username | mandatory | string | trim != "root"
+  become: true

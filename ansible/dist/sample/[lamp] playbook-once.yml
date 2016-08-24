@@ -1,0 +1,86 @@
+---
+- name: System setup
+  hosts: all
+  roles:
+### INSTALLATIONS WITH ADDITIONAL ACTIONS HERE IN PLAYBOOK
+
+### PHP Interpreters
+    - package/php/install
+    - package/php-cgi/setup
+    - package/php-fpm/setup
+    - package/php-cli/setup
+
+### PHP modules (setup)
+    - package/php-bcmath/setup
+    - package/php-bz2/setup
+    - package/php-ctype/setup
+    - package/php-curl/setup
+    - package/php-dom/setup
+    - package/php-gd/setup
+    - package/php-gettext/setup
+    - package/php-gmp/setup
+    - package/php-iconv/setup
+    - package/php-imagick/setup
+    - package/php-imap/setup
+    - package/php-intl/setup
+    - package/php-json/setup
+    - package/php-ldap/setup
+    - package/php-mbstring/setup
+    - package/php-mcrypt/setup
+    - package/php-mysqli/setup
+    - package/php-mysqlnd/setup
+    - package/php-odbc/setup
+    - package/php-opcache/setup
+    - package/php-pdo-mysql/setup
+    - package/php-pgsql/setup
+    - package/php-posix/setup
+    - package/php-recode/setup
+    - package/php-simplexml/setup
+    - package/php-soap/setup
+    - package/php-sqlite3/setup
+    - package/php-ssh2/setup
+    - package/php-sybase/setup
+    - package/php-tokenizer/setup
+    - package/php-wddx/setup
+    - package/php-xdebug/setup
+    - package/php-xml/setup
+    - package/php-xmlreader/setup
+    - package/php-xmlrpc/setup
+    - package/php-xmlwriter/setup
+    - package/php-xsl/setup
+    - package/php-zip/setup
+
+### PHP modules (install)
+    - package/php-tcpdf/install
+    - package/php-phpseclib/install
+
+### PHP project tools
+    - package/composer/install
+
+### Projects
+    - project/base/setup
+    - project/nginx_php/install
+    - project/composer/setup
+
+### Smtp
+    - package/maildev/install
+    - package/ssmtp/install
+    - package/php-ssmtp/install
+
+### MySql
+    - package/mysql-common/install
+    - package/mysql-client/install
+    - package/mysql-server/setup
+    - package/phpmyadmin/install
+
+### Logging
+    - package/rtail/install
+    - logging/rtail/install
+
+  vars_files:
+    - php-config.yml
+    - sql-config.yml
+    - message-queue-config.yml
+    - project-config.yml
+    - default-playbook-vars.yml
+    - playbook-once-vars.yml

@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_soap__module__module_configure:
+      title: "Configuring PHP soap module - as specified by playbook"
+      config: "{{ package__php_soap__setup__config }}"

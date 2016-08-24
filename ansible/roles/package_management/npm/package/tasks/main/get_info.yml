@@ -1,0 +1,12 @@
+---
+- name: Getting NPM package location
+  shell: "npm -g list | head -n 1"
+  register: result__package_management__npm__package__modules_location
+  become: true
+  changed_when: false
+
+- name: Setting NPM package location
+  set_fact:
+    fact_npm:
+      module_location: "{{ result__package_management__npm__package__modules_location.stdout }}/node_modules"
+ 

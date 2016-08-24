@@ -1,0 +1,14 @@
+- include: ../../../../../system/service/actions/tasks/service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: Restarting MySQL
+      state: restarted
+      services:
+        - name: mysql
+
+- include: ../../../../../system/service/actions/tasks/schedule_restart/schedule_restart_service.yml
+  vars:
+    system__service__schedule_restart__schedule_restart_service:
+      title: Scheduling MySQL restart
+      services:
+        - service: mysql

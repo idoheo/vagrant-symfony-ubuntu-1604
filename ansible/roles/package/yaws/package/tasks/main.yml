@@ -1,0 +1,5 @@
+---
+- include: main/install_package.yml
+- include: main/handle_service.yml
+- include: main/configure_php.yml
+- include: main/remove_default.yml

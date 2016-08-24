@@ -1,0 +1,29 @@
+---
+- name: Creating MongoDB service
+  template: src="../../templates/mongod.service.j2"
+            dest="/etc/systemd/system/mongod.service"
+            owner="root"
+            group="root"
+            mode="644"
+  when: fact_service.use_systemd | bool
+  become: true
+  register: result__package__mongodb__package__create_service_1
+
+- name: Creating MongoDB service
+  file: path="/etc/systemd/system/multi-user.target.wants/mongod.service"
+        src="/etc/systemd/system/mongod.service"
+        owner="root"
+        group="root"
+        mode="777"
+        state="link"
+  when: fact_service.use_systemd | bool
+  become: true
+  register: result__package__mongodb__package__create_service_2
+
+- name: Creating MongoDB service
+  shell: systemctl daemon-reload 
+  args:
+    executable: /bin/bash
+  become: true
+  when: result__package__mongodb__package__create_service_1.changed or result__package__mongodb__package__create_service_2.changed
+        

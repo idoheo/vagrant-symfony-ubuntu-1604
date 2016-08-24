@@ -1,0 +1,56 @@
+###
+# ../../../../../package/git/actions/tasks/git/git_checkout.yml
+###
+#
+# Checkout Git repositories
+#
+###
+#
+# package__git__git__git_checkout:
+#   title <string> ["Checking out git repositories"] - Title of the operation
+#   checkout:
+#    - target         <string>                 - Absolute path of where the repository should be checked out to.
+#      repository     <string>                 - git, SSH, or HTTP(S) protocol address of the git repository.
+#      target_create  <boolean>     [false]    - Should target directory be created
+#      target_owner   <string|omit> [omit]     - Owner of target directory (when created)
+#      target_group   <string|omit> [omit]     - Group of target directory (when created)
+#      target_mode    <string|omit> [755]      - Mode of target directory (when created)
+#      accept_hostkey <boolean>     [true]     - If yes, adds the hostkey for the repo url if not already added. If ssh_opts contains "-o StrictHostKeyChecking=no", this parameter is ignored.
+#      force          <boolean>     [false]    - If yes, any modified files in the working repository will be discarded. 
+#      key_file       <string|omit> [omit]     - Specify an optional private key file to use for the checkout.
+#      recursive      <boolean>     [true]     - If no, repository will be cloned without the --recursive option, skipping sub-modules.
+#      remote         <string>      ['origin'] - Name of the remote.
+#      ssh_opts       <string|omit> [omit]     - Creates a wrapper script and exports the path as GIT_SSH which git then automatically uses to override ssh arguments. 
+#      update         <boolean>     [true]     - If no, do not retrieve new revisions from the origin repository
+#      version        <string>      ['HEAD']   - What version of the repository to check out. This can be the full 40-character SHA-1 hash, the literal string HEAD, a branch name, or a tag name.
+#
+###
+- name: "{{ package__git__git__git_checkout.title | default('Checking out git repositories') }} (Creating checkout folders)"
+  file: follow="{{ true }}"
+        force="{{ false }}"
+        owner="{{ item.1.target_owner | default(item.1.target_owner) }}"
+        group="{{ item.1.target_group | default(item.1.target_owner | default(omit) ) }}"
+        mode="{{ item.1.target_mode | default('755') }}"
+        path="{{ item.1.target | mandatory }}"
+        recurse="{{ false }}"
+        state="{{ directory }}"
+  with_indexed_items: package__git__git__git_checkout.checkout
+  when: item.1.target_create | default(false) | bool and item.1.repo | default(omit) != omit
+  become: "{{ true }}"
+
+- name: "{{ package__git__git__git_checkout.title | default('Checking out git repositories') }} (Checking out code)"
+  git: repo="{{ item.1.repository | mandatory }}"
+       dest="{{ item.1.target | mandatory }}"
+       accept_hostkey="{{ item.1.accept_hostkey | default(true) | bool }}"
+       bare="{{ false }}"
+       clone="{{ true }}"
+       depth="{{ omit }}"
+       force="{{ item.1.force | default(false) | bool }}"
+       key_file="{{ item.1.key_file | default(omit) }}"
+       recursive="{{ item.1.recursive | default(true) | bool }}"
+       remote="{{ item.1.remote | default('origin') }}"
+       ssh_opts="{{ item.1.ssh_opts | default(omit) }}"
+       track_submodules="{{ false }}"
+       update="{{ item.1.update | default(true) | bool }}"
+  with_indexed_items: package__git__git__git_checkout.checkout
+  become: "{{ true }}"

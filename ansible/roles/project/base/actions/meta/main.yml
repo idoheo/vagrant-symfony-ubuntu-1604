@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: project/base/install
+- role: package/git/actions

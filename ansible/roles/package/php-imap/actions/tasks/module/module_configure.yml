@@ -1,0 +1,24 @@
+###
+# ../../../../../package/php-imap/actions/tasks/module/module_configure.yml
+###
+#
+# Configures PHP imap module
+#
+###
+#
+# package__php_imap__module__module_configure:
+#   title <string:"Configuring PHP imap module"> - Title of the operation
+#   module <string>                                - Name of a module
+#   config:
+#     - option <string>    - Option name
+#       value <mixed:omit> - Value to set. {{ omit }} deletes entry
+#
+###
+- include: ../../../../../package/php/actions/tasks/module/module_configure.yml
+  vars:
+    package__php__module__module_configure:
+      title: "{{ package__php_imap__module__module_configure.title | default('Configuring PHP imap module') }}"
+      module: "imap"
+      data:
+        module_as_option_prefix: true
+        entries: "{{ package__php_imap__module__module_configure.config | default([]) }}"

@@ -1,0 +1,5 @@
+---
+- include: plugins/plugins_disable.yml
+- include: plugins/plugins_enable.yml
+- include: users/users_remove.yml
+- include: users/users_add.yml

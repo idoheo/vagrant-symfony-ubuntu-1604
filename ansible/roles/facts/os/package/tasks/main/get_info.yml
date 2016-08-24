@@ -1,0 +1,28 @@
+---
+- name: "Checking OS Distributor ID"
+  shell: lsb_release -i -s
+  register: result__facts__os__package__os_info__distributor
+  changed_when: false
+
+- name: "Checking OS Description"
+  shell: lsb_release -d -s
+  register: result__facts__os__package__os_info__description
+  changed_when: false
+
+- name: "Checking OS Release"
+  shell: lsb_release -r -s
+  register: result__facts__os__package__os_info__release
+  changed_when: false
+
+- name: "Checking OS Codename"
+  shell: lsb_release -c -s
+  register: result__facts__os__package__os_info__codename
+  changed_when: false
+
+- name: "Setting OS environment variable"
+  set_fact:
+    fact_os:
+      distributor: "{{ result__facts__os__package__os_info__distributor.stdout }}"
+      description: "{{ result__facts__os__package__os_info__description.stdout }}"
+      release: "{{ result__facts__os__package__os_info__release.stdout }}"
+      codename: "{{ result__facts__os__package__os_info__codename.stdout }}"

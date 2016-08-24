@@ -1,0 +1,3 @@
+---
+package__php_opcache__setup__config: []
+package__php_opcache__setup__state: "enabled"

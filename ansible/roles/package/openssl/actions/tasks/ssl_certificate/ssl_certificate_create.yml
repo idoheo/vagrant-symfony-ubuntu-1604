@@ -1,0 +1,69 @@
+---
+###
+# ../../../../../package/openssl/actions/tasks/ssl_certificate/ssl_certificate_create.yml
+###
+#
+# Create SSL certificate
+#
+###
+#   Configuration parameter:
+#   ------------------------
+#
+#   package__openssl__ssl_certificate__ssl_certificate_create:
+#       title: <string:'Creating SSL certificates'> # Title to display
+#       certificates:                               # array of packages to install
+#           - ssl_file:          <string>
+#             key_file:          <string>
+#             owner:             <string>
+#             group:             <string>
+#             overwrite:         <bool:false>
+#             country_code:      <string:"GB">
+#             state:             <string:"London">
+#             location:          <string:"London">
+#             organization:      <string:"Development">
+#             organization_unit: <string:"Development">
+#             common_name:       <string:"localhost">
+#
+###
+- name: "{{ package__openssl__ssl_certificate__ssl_certificate_create.title | default('Creating SSL certificates') }} (Checking file existence for SSL files)"
+  stat: path="{{ item[1].ssl_file | mandatory }}"
+  become: true
+  with_indexed_items: "{{ package__openssl__ssl_certificate__ssl_certificate_create.certificates }}"
+  register: result__package__openssl__actions__ssl_certificate__create__ssl_file_exists
+
+- name: "{{ package__openssl__ssl_certificate__ssl_certificate_create.title | default('Creating SSL certificates') }} (Checking file existence for SSL key files)"
+  stat: path="{{ item[1].key_file | mandatory }}"
+  become: true
+  with_indexed_items: "{{ package__openssl__ssl_certificate__ssl_certificate_create.certificates }}"
+  register: result__package__openssl__actions__ssl_certificate__create__key_file_exists
+
+- name: "{{ package__openssl__ssl_certificate__ssl_certificate_create.title | default('Creating SSL certificates') }}"
+  shell: 'openssl req -new -newkey rsa:4096 -days 3652 -nodes -x509 -subj  "/C={{ item[1].country_code | default("GB") }}/ST={{ item[1].state | default("London") }}/L={{ item[1].location | default("London") }}/O={{ item[1].organization | default("Development") }}/OU={{ item[1].organization_unit | default("Development") }}/CN={{ item[1].common_name | default("localhost") }}" -keyout {{ item[1].key_file | mandatory | quote }} -out {{ item[1].ssl_file | mandatory | quote }}'
+  become: true
+  with_indexed_items: "{{ package__openssl__ssl_certificate__ssl_certificate_create.certificates }}"
+  when: item[1].overwrite | default(false) | bool
+        or not (
+                  result__package__openssl__actions__ssl_certificate__create__ssl_file_exists.results[item[0]].stat.exists
+          and not result__package__openssl__actions__ssl_certificate__create__ssl_file_exists.results[item[0]].stat.isdir
+          and     result__package__openssl__actions__ssl_certificate__create__key_file_exists.results[item[0]].stat.exists
+          and not result__package__openssl__actions__ssl_certificate__create__key_file_exists.results[item[0]].stat.isdir
+        )
+  register: result__package__openssl__actions__ssl_certificate__generate
+
+- name: "{{ package__openssl__ssl_certificate__ssl_certificate_create.title | default('Creating SSL certificates') }} (Setting file permissions for SSL files)"
+  file: path="{{ item[1].ssl_file }}"
+        owner="{{ item[1].owner | mandatory }}"
+        group="{{ item[1].group | mandatory }}"
+        mode="0644"
+  become: true
+  with_indexed_items: "{{ package__openssl__ssl_certificate__ssl_certificate_create.certificates }}"
+  when: result__package__openssl__actions__ssl_certificate__generate.changed
+  
+- name: "{{ package__openssl__ssl_certificate__ssl_certificate_create.title | default('Creating SSL certificates') }} (Setting file permissions for KEY files)"
+  file: path="{{ item[1].key_file }}"
+        owner="{{ item[1].owner | mandatory }}"
+        group="{{ item[1].group | mandatory }}"
+        mode="0644"
+  become: true
+  with_indexed_items: "{{ package__openssl__ssl_certificate__ssl_certificate_create.certificates }}"
+  when: result__package__openssl__actions__ssl_certificate__generate.changed

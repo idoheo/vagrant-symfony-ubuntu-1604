@@ -1,0 +1,13 @@
+---
+- name: Normalzing final PHP modules ini files (Reading modules list)
+  shell: "(php <<< '<?php foreach(get_loaded_extensions() as $e) { echo sprintf(\"%s\n\", $e); }' && {{ fact_php.php_query }} -v {{ fact_php.version | float }} -M) | sort | uniq --repeated"
+  register: result__package__php__package__handler__modules
+  args:
+    executable: "/bin/bash"
+
+- name: Normalzing final PHP modules ini files (Normalizing files)
+  script: ./../files/setup_ini_file.sh {{ item.1 }} {{ fact_php.mods_dir }}/{{ item.1 }}.ini
+  with_indexed_items: result__package__php__package__handler__modules.stdout_lines
+  become: true
+  args:
+    executable: "/bin/bash"

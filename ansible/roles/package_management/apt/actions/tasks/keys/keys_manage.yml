@@ -1,0 +1,31 @@
+###
+# ../../../../../package_management/apt/actions/tasks/keys/keys_manage.yml
+###
+#
+# Manage APT keys
+#
+###
+#
+# keys__apt__keys__keys_manage:
+#   title <string>                - Title of the operation
+#   state <string:absent|present> - State of keys
+#   apt_keys:                     - keys to manage
+#    - data <string|omit> [omit]      - Key data
+#      file <string|omit> [omit]      - File containing key
+#      url <string|url> [omit]        - Url to retrieve key from
+#      validate_certs <bool> [true]   - Validate URL SSL certs
+#      id <string|omit> [omit]        - identifier of key. Including this allows checking correctly of changed state.
+#      keyserver <string|omit> [omit] - keyserver to retrieve key from
+#
+###
+
+- name: "{{ keys__apt__keys__keys_manage.title | mandatory }}"
+  apt_key: data="{{ item.1.data | default(omit) }}"
+           file="{{ item.1.file | default(omit) }}"
+           url="{{ item.1.url | default(omit) }}"   
+           validate_certs="{{ item.1.url | default(true) | bool }}"   
+           id="{{ item.1.id | default(omit) }}"
+           state="{{ keys__apt__keys__keys_manage.state | mandatory }}"
+           keyserver="{{ item.1.keyserver | default(omit) }}"
+  with_indexed_items: keys__apt__keys__keys_manage.apt_keys | mandatory
+  become: true

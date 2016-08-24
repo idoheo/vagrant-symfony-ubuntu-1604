@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_intl__module__module_configure:
+      title: "Configuring PHP intl module - as specified by playbook"
+      config: "{{ package__php_intl__setup__config }}"

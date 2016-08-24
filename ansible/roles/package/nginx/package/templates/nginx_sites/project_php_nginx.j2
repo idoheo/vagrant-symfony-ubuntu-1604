@@ -1,0 +1,8 @@
+server {
+    listen 80 default_server;
+
+    {% include 'common/website_config_php_fpm_common.j2' %}
+
+    access_log {{ project__web__package__access_log }};
+    error_log {{ project__web__package__error_log }};
+}

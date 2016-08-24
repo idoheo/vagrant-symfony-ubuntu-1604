@@ -1,0 +1,12 @@
+---
+- name: Checking host name
+  shell: hostname
+  register: result__system__hosts__package__hostname
+  failed_when: result__system__hosts__package__hostname.rc != 0 or result__system__hosts__package__hostname.stdout | trim == ''
+
+- name: Updating file in hosts
+  lineinfile: dest="/etc/hosts"
+              line="127.0.0.1 {{ result__system__hosts__package__hostname.stdout | trim }} {{ '#' }} Ansible Hosts"
+              regexp="# Ansible Hosts"
+              state="present"
+  become: true

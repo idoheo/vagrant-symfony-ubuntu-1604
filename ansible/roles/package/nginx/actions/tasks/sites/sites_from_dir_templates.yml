@@ -1,0 +1,38 @@
+---
+###
+# ../../../../../package/nginx/actions/tasks/sites/sites_from_dir_templates.yml
+###
+#
+# Copy nginx sites from dir templates
+#
+###
+#   Configuration parameter:
+#   ------------------------
+#
+#   package__nginx__sites__sites_from_dir_templates:
+#       dir <string>                             - path to directory with site templates
+#       title <string> ['Copying Nginx sites']   - Title to display
+#       enable: <boolean> [true]                 - Should these sites be automaticly enabled
+#
+###
+- name: "{{ package__nginx__sites__sites_from_dir_templates.title | default('Copying Nginx sites from directory templates') }} (Copying Nginx sites config)"
+  template: src="{{ item }}"
+            dest="{{ package__nginx__package__nginx_sites_available_folder ~ "/" ~(item[:(item|length-3)]|basename) }}"
+            owner="root"
+            group="root"
+            mode=0644
+  with_fileglob:
+    - "{{ package__nginx__sites__sites_from_dir_templates.dir | mandatory }}/*.j2"
+  become: true
+
+- name: "{{ package__nginx__sites__sites_from_dir_templates.title | default('Copying Nginx sites from directory templates') }} (Enabling added Nginx sites)"
+  file: src="{{ package__nginx__package__nginx_sites_available_folder ~ "/" ~(item[:(item|length-3)]|basename) }}"
+        dest="{{ package__nginx__package__nginx_sites_enabled_folder ~ "/" ~(item[:(item|length-3)]|basename) }}"
+        owner="root"
+        group="root"
+        mode=0777
+        state=link
+  with_fileglob:
+    - "{{ package__nginx__sites__sites_from_dir_templates.dir }}/*.j2"
+  become: true
+  when: "{{ package__nginx__sites__sites_from_dir_templates.enable | default(true) }}"

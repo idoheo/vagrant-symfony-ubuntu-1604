@@ -1,0 +1,5 @@
+---
+- name: "Writing ElasticSearch config"
+  template: dest="{{ package__elasticsearch__package__elasticsearch_yml }}"
+            src="../../templates/elasticsearch.yml.j2"
+  become: true  

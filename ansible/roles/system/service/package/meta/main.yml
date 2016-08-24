@@ -1,0 +1,6 @@
+---
+dependencies:
+- role: package_management/apt/actions
+- role: facts/os/install
+- role: package/jq/install
+- role: system/logs/install

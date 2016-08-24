@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: project/composer/setup
+- role: project/symfony/actions

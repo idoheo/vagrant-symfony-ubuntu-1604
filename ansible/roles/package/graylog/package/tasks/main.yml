@@ -1,0 +1,5 @@
+---
+- include: main/stop_service.yml
+- include: main/add_repository.yml
+- include: main/install_package.yml
+- include: main/handle_service.yml

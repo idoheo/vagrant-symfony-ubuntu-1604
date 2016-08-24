@@ -1,0 +1,20 @@
+###
+#
+# package__rabbitmq__users__users_add:
+#   title <string> ["Adding RabbitMQ users"] - Title of the operation
+#   users:
+#    - username <string>                   - Username
+#      password <string|omit> [omit]       - Password of user (will use username if not specified)
+#      vhost <string|omit> ["/"]           - vhost of RabbitMQ
+#      priv <stirng> ['.*']                - Privilages. Privilages to grant for configure/read/write unless specified otherwise
+#      configure_priv <string|omit> [omit] - Configure privilages
+#      read_priv <string|omit> [omit]      - Read privilages
+#      write_priv <string|omit> [omit]     - Write privilages 
+#      tags <string|omit> [omit]           - Comma separated user tags
+#
+###
+- include: ../../../actions/tasks/users/users_add.yml
+  vars:
+    package__rabbitmq__users__users_add:
+      title: "Adding RabbitMQ users - as specified by playbook"
+      users: "{{ package__rabbitmq__setup__users__add | mandatory }}"

@@ -1,0 +1,24 @@
+---
+- name: Checking current ElasticSearch version
+  script: "../../files/elasticsearch_version.sh {{ package__elasticsearch__package__elasticsearch_bin | quote }}"
+  become: true
+  register: result__package__elasticsearch__package__uninstall_version
+
+- include: ../../../../../package_management/apt/actions/tasks/packages/packages_remove.yml
+  vars:
+    packages__apt__packages__packages_remove:
+      title: Removing ElasticSearch
+      packages:
+        - name: elasticsearch
+  when:     result__package__elasticsearch__package__uninstall_version.stdout | int != 0
+        and result__package__elasticsearch__package__uninstall_version.stdout | int != package__elasticsearch__package__elasticsearch_version
+
+- include: ../../../../../package_management/apt/actions/tasks/repositories/repositories_remove.yml
+  vars:
+    repositories__apt__repositories__repositories_remove:
+      title: Removing ElasticSearch APT repositories
+      repositories:
+        - repo: "deb https://packages.elastic.co/elasticsearch/{{ result__package__elasticsearch__package__uninstall_version.stdout | int }}.x/debian stable main"
+  when:     result__package__elasticsearch__package__uninstall_version.stdout | int != 0
+        and result__package__elasticsearch__package__uninstall_version.stdout | int != package__elasticsearch__package__elasticsearch_version
+

@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_sqlite3__module__module_configure:
+      title: "Configuring PHP sqlite3 module - as specified by playbook"
+      config: "{{ package__php_sqlite3__setup__config }}"

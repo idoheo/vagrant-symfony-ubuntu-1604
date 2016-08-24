@@ -1,0 +1,17 @@
+###
+#
+# package__mysql_server__databases__databases_create_and_load:
+#   title <string> ["Managing MySQL databases"] - Title of the operation
+#   databases:
+#    - database <string>                    - database name
+#      collation <string> [utf8_unicode_ci] - database collation
+#      encoding <string> [utf8]             - database encoding
+#      file <string|omit> [omit]                       - target file for load
+#
+###
+- include: ../../../actions/tasks/databases/databases_create_and_load.yml
+  vars:
+    package__mysql_server__databases__databases_create_and_load:
+      title: "Creating and loading MySQL databases - as specified by playbook"
+      databases: "{{ package__mysql_server__setup__databases__create_and_load }}"
+

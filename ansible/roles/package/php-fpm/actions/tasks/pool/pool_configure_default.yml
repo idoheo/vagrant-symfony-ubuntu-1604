@@ -1,0 +1,82 @@
+---
+###
+# ../../../../../package/php-fpm/actions/tasks/pool/pool_configure_default.yml
+###
+#
+# Config PHP Fpm pools with default options
+#
+###
+#   Configuration parameter:
+#   ------------------------
+#
+#   package__php_fpm__pool__pool_configure_default:
+#     title <string> ['Configuring Php FPM pool with default options'] - Title to display
+#     pool <string>                               - Pool to configure
+#     settings: <string>                       - name of the module
+#       - listen_path: <string>                - path to socket file
+#         listen_user: <string:'www-data'>     - owner user of socket file
+#         listen_group: <string: .listen_user> - owner group of socket file
+#         listen_mode: <string:'0660'>         - mode of socket file
+#         socket_user: <string>
+#         socket_group: <string>
+#
+###
+- include: pool_configure.yml
+  vars:
+    package__php_fpm__pool__pool_configure:
+      title: "{{ package__php_fpm__pool__pool_configure_default.title | default('Configuring Php FPM pool with default options') }}"
+      pool: "{{ package__php_fpm__pool__pool_configure_default.pool | mandatory }}"
+      config:
+        - option: "listen"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.listen_path | default('/var/run/php-fpm-' ~ package__php_fpm__pool__pool_configure_default.pool | mandatory ~ '.sock') }}"
+        - option: "listen.owner"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.listen_user | default('www-data') }}"
+        - option: "listen.group"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.listen_group | default( package__php_fpm__pool__pool_configure_default.settings.listen_user | default('www-data') ) }}"
+        - option: "listen.mode"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.listen_mode | default(660) }}"
+        - option: "user"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.socket_user | default(omit) }}"
+        - option: "group"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.socket_group | default( package__php_fpm__pool__pool_configure_default.settings.socket_user | default(omit)) }}"
+        - option: "request_terminate_timeout"
+          value: "{{ package__php_fpm__pool__pool_configure_default.settings.request_terminate_timeout  | default(0) | int }}"
+        - option: "listen.backlog"
+          value: -1
+        - option: "listen.allowed_clients"
+          value: "any"
+        - option: "priority"
+        - option: "pm"
+          value: "dynamic"
+        - option: "pm.max_children"
+          value: 5
+        - option: "pm.start_servers"
+          value: 2
+        - option: "pm.min_spare_servers"
+          value: 1
+        - option: "pm.max_spare_servers"
+          value: 3
+        - option: "pm.process_idle_timeout"
+          value: "10s"
+        - option: "pm.max_requests"
+          value: 0
+        - option: "pm.status_path"
+        - option: "ping.path"
+        - option: "ping.response"
+          value: "pong"
+        - option: "access.log"
+        - option: "access.format"
+          value: "%R - %u %t \\\"%m %r\\\" %s"
+        - option: "slowlog"
+        - option: "request_slowlog_timeout"
+          value: 0
+        - option: "rlimit_files"
+        - option: "rlimit_core"
+        - option: "chroot"
+        - option: "chdir"
+          value: "/"
+        - option: "catch_workers_output"
+          value: "no"
+        - option: "security.limit_extensions"
+          value: ".php"
+

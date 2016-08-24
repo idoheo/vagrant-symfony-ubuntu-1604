@@ -1,0 +1,24 @@
+- name: Checking if composer needs update
+  script: "../../files/update_composer_info.sh /usr/local/bin/composer.phar 2592000"
+  register: result__package__composer__package__update_composer
+  changed_when: false
+  failed_when: result__package__composer__package__update_composer.rc != 0 and result__package__composer__package__update_composer.rc != 10
+
+- include: ../../../../../helper/download/actions/tasks/download/download.yml
+  vars:
+    helper__download__download__download:
+      title: Downloading Composer.phar
+      files:
+        - source:
+            url: "https://getcomposer.org/composer.phar"
+            username: "{{ omit }}"
+            password: "{{ omit }}"
+            force: "{{ result__package__composer__package__update_composer.rc != 0 }}"
+            use_proxy: "{{ true }}"
+            validate_certs: "{{ true }}"
+            timeout: 10
+          target:
+            path: "/usr/local/bin/composer.phar"
+            owner: "root"
+            group: "root"
+            mode: "755"

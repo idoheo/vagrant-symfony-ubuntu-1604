@@ -1,0 +1,14 @@
+---
+- name: "Setting up MySQL bind address to 0.0.0.0 (Removing old setting)"
+  lineinfile: dest="{{ package__mysql_server__package__conf_mysqld }}"
+              regexp="^([\s\ ]*)bind-address([\s]*)="
+              state=absent
+  become: true
+
+- name: "Setting up MySQL bind address to 0.0.0.0 (Creating new setting)"
+  lineinfile: dest="{{ package__mysql_server__package__conf_mysqld }}"
+              insertafter="\[mysqld\]"
+              line="bind-address = 0.0.0.0"
+              state=present
+  become: true
+  

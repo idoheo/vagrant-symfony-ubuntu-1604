@@ -1,0 +1,69 @@
+###
+# ../../../../../project/symfony/actions/tasks/symfony/symfony_parameters.yml
+###
+#
+# Call symfony calls in project
+#
+###
+#
+# project__symfony__symfony__symfony_parameters:
+#   title <string> ["Running symfony calls in project"]    - Title of the operation
+#   parameters: {}
+#
+###
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Checking if parameters.yml exists)"
+  stat: "path={{ fact_project.project_source_folder }}/app/config/parameters.yml"
+  register: project__symfony__symfony__symfony_parameters__parameters_yml_stat
+  become: true
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Checking if parameters.yml.dist exists)"
+  stat: "path={{ fact_project.project_source_folder }}/app/config/parameters.yml.dist"
+  register: project__symfony__symfony__symfony_parameters__parameters_yml__dist_stat
+  become: true
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Copying parameters.yml)"
+  shell: cp "{{ project__symfony__symfony__symfony_parameters__parameters_yml__dist_stat.stat.path | quote }} {{ project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.path | quote }}"
+  args:
+    executable: "/bin/bash"
+  when:     not project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.exists
+        and     project__symfony__symfony__symfony_parameters__parameters_yml__dist_stat.stat.exists
+        and not project__symfony__symfony__symfony_parameters__parameters_yml__dist_stat.stat.isdir
+        and not project__symfony__symfony__symfony_parameters__parameters_yml__dist_stat.stat.islnk
+  become: true
+  become_user: "{{ fact_project.owner }}"
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Checking if parameters.yml exists)"
+  stat: "path={{ fact_project.project_source_folder }}/app/config/parameters.yml"
+  register: project__symfony__symfony__symfony_parameters__parameters_yml_stat
+  become: true
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Reading parameters.yml)"
+  shell: "cat {{ project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.path | quote }}"
+  register: project__symfony__symfony__symfony_parameters__parameters_yml_read
+  become: true
+  become_user: "{{ fact_project.owner }}"
+  when: project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.exists and not project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.isdir
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Parsing parameters.yml)"
+  set_fact:
+    fact__symfony__parameters_yml: "{{ (project__symfony__symfony__symfony_parameters__parameters_yml_read.stdout | from_yaml).parameters | default({}) }}"
+  become: true
+  become_user: "{{ fact_project.owner }}"
+  when: project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.exists and not project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.isdir
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Setting parameters.yml)"
+  set_fact:
+    fact__symfony__parameters_yml: "{{ fact__symfony__parameters_yml.update( project__symfony__symfony__symfony_parameters.parameters | default({}) ) }}{{ fact__symfony__parameters_yml }}"
+  become: true
+  become_user: "{{ fact_project.owner }}"
+  when: project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.exists and not project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.isdir
+
+- name: "{{ project__symfony__symfony__symfony_parameters.title | default('Updating Symfony project parameters.yml') }} (Writting parameters.yml)"
+  template: dest="{{ project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.path }}"
+            force="{{ true }}"
+            group="{{ fact_project.group }}"
+            owner="{{ fact_project.owner }}"
+            src="../../templates/parameters.yml.j2"
+  become: true
+  become_user: "{{ fact_project.owner }}"
+  when: project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.exists and not project__symfony__symfony__symfony_parameters__parameters_yml_stat.stat.isdir

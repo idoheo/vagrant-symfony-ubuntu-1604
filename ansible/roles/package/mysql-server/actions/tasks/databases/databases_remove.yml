@@ -1,0 +1,21 @@
+###
+# ../../../../../package/mysql-server/actions/tasks/databases/databases_remove.yml
+###
+#
+# Remove MySQL databases
+#
+###
+#
+# package__mysql_server__databases__databases_remove:
+#   title <string> ["Removeing MySQL databases"] - Title of the operation
+#   databases:
+#    - database <string>                     - database name
+#
+###
+- include: databases_manage.yml
+  vars:
+    package__mysql_server__databases__databases_manage:
+      title: "{{ package__mysql_server__databases__databases_remove.title | default('Removeing MySQL databases') }}"
+      state: absent
+      databases: "{{ package__mysql_server__databases__databases_remove.databases | default([]) }}"
+

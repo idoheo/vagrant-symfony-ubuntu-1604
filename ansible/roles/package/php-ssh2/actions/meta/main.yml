@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: package/php-ssh2/install
+- role: package/php/actions

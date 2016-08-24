@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_dom__module__module_configure:
+      title: "Configuring PHP dom module - as specified by playbook"
+      config: "{{ package__php_dom__setup__config }}"

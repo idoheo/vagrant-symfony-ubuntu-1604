@@ -1,0 +1,23 @@
+###
+# ../../../../../package/php-json/actions/tasks/module/module_state.yml
+###
+#
+# Enable or disable PHP json module
+#
+###
+#
+# package__php_json__module__module_state:
+#   title <string:"Setting PHP json state"> - Title of the operation
+#   state <"enabled"|"disabled">              - State of a module
+#   modules:
+#     - module <string> - module name
+#
+###
+
+- include: ../../../../../package/php/actions/tasks/module/module_state.yml
+  vars:
+    package__php__module__module_state:
+      title: "{{ package__php_json__module__module_state.title | default('Setting PHP json state') }}"
+      state: "{{ package__php_json__module__module_state.state | mandatory }}"
+      modules:
+        - module: json

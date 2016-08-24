@@ -1,0 +1,23 @@
+###
+# ../../../../../package_management/apt/actions/tasks/packages/packages_remove.yml
+###
+#
+# Remove APT Packages
+#
+###
+#
+# packages__apt__packages__packages_remove:
+#   title <string> ['Removing APT packages'] - Title of the operation
+#   package_prefix <string> [""]             - Package prefix for all packages
+#   packages:                                  - Packages to remove
+#    - name <string>                        - Name of a package
+#      force <bool:true|false} [true]       - Force remove
+#
+###
+- include: packages_manage.yml
+  vars:
+    packages__apt__packages__packages_manage:
+      title: "{{ packages__apt__packages__packages_remove.title | default('Removing APT packages') }}"
+      state: "absent"
+      package_prefix: "{{ packages__apt__packages__packages_remove.package_prefix | default('') | trim }}"
+      packages: "{{ packages__apt__packages__packages_remove.packages | mandatory }}"

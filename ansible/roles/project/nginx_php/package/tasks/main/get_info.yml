@@ -1,0 +1,19 @@
+---
+- name: Updating project fact
+  set_fact:
+    fact_project: "{{ fact_project.update ({
+                    'log_http_access'  : fact_project.logs_folder ~ '/' ~ project__nginx_php__package__logs__http__access,
+                    'log_http_error'   : fact_project.logs_folder ~ '/' ~ project__nginx_php__package__logs__http__error,
+                    'log_https_access' : fact_project.logs_folder ~ '/' ~ project__nginx_php__package__logs__https__access,
+                    'log_https_error'  : fact_project.logs_folder ~ '/' ~ project__nginx_php__package__logs__https__error,
+                    'ssl_folder' : project__nginx_php__package__ssl_folder, 
+                    'ssl_source_folder' : fact_assets_dir.assets_folder,
+                    'ssl_cert_key_file' : project__nginx_php__package__ssl_key_file,
+                    'ssl_cert_ssl_file' : project__nginx_php__package__ssl_ssl_file,
+                    'web_folder' : fact_project.project_source_folder ~ '/' ~ project__nginx_php__package__web_root,
+                    'nginx_includes_folder' : fact_project.project_folder ~ '/' ~ project__nginx_php__package__nginx_includes,
+                    'nginx_site_config' : fact_project.project_folder ~ '/nginx_site',
+                    'php_socket_folder' : fact_project.project_folder ~ '/php_socket',
+                    'php_socket_file' : fact_project.project_folder ~ '/php_socket/php.sock',
+                  }) }}{{ fact_project }}"
+

@@ -1,0 +1,24 @@
+###
+# ../../../../../package/php-bcmath/actions/tasks/module/module_configure.yml
+###
+#
+# Configures PHP bcmath module
+#
+###
+#
+# package__php_bcmath__module__module_configure:
+#   title <string:"Configuring PHP bcmath module"> - Title of the operation
+#   module <string>                                - Name of a module
+#   config:
+#     - option <string>    - Option name
+#       value <mixed:omit> - Value to set. {{ omit }} deletes entry
+#
+###
+- include: ../../../../../package/php/actions/tasks/module/module_configure.yml
+  vars:
+    package__php__module__module_configure:
+      title: "{{ package__php_bcmath__module__module_configure.title | default('Configuring PHP bcmath module') }}"
+      module: "bcmath"
+      data:
+        module_as_option_prefix: true
+        entries: "{{ package__php_bcmath__module__module_configure.config | default([]) }}"

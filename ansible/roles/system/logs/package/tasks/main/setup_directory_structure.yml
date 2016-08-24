@@ -1,0 +1,24 @@
+---
+- name: Creating logs directory structure
+  file: path="{{ item.1.name | mandatory }}"
+        state="{{ item.1.state | mandatory }}"
+        owner="{{ item.1.owner | mandatory }}"
+        group="{{ item.1.group | mandatory }}"
+        mode="{{ item.1.mode | mandatory }}"
+  with_indexed_items:
+    - name: "{{ system__logs__package__logs_dir }}"
+      owner: root
+      group: root
+      mode: 755
+      state: directory
+    - name: "{{ system__logs__package__logs_conf }}"
+      owner: root
+      group: root
+      mode: 644
+      state: touch
+  become: true
+
+- name: Creating defualt logs file
+  template: dest="{{ system__logs__package__logs_conf }}"
+            src="./../../templates/logs.json.j2"
+  become: true

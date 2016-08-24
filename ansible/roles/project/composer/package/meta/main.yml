@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: project/nginx_php/install
+- role: package/composer/install

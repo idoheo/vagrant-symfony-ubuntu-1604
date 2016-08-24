@@ -1,0 +1,28 @@
+###
+# ../../../../../project/composer/actions/tasks/composer/composer_calls.yml
+###
+#
+# Call composer calls in project
+#
+###
+#
+# project__composer__composer__composer_calls:
+#   title <string> ["Running composer calls in project"]    - Title of the operation
+#   calls:
+#     - call <string> "Composer call"
+#
+###
+- name: "{{ project__composer__composer__composer_calls.title | default('Running composer calls in project') }} (Checking if composer.json exists)"
+  stat: path="{{ fact_project.project_source_folder }}/composer.json"
+  become: true
+  register: result__project__composer__setup__composer_json_exists
+
+- name: "{{ project__composer__composer__composer_calls.title | default('Running composer calls in project') }}"
+  shell: "composer.phar {{ item.1.call }}"
+  args: 
+    executable: "/bin/bash"
+    chdir: "{{ fact_project.project_source_folder }}"
+  become: true
+  become_user: "{{ fact_project.owner }}"
+  with_indexed_items: project__composer__composer__composer_calls.calls | default([])
+  when: result__project__composer__setup__composer_json_exists.stat.exists

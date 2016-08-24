@@ -1,0 +1,17 @@
+###
+# ../../../../../package_management/apt/actions/tasks/update/update_packages.yml
+###
+#
+# Update APT packages
+#
+###
+#
+# packages__apt__update__update_packages:
+#   title <string> ['Updating APT packages']- Title of the operation
+#
+###
+- include: ../../../actions/tasks/update/update_packages.yml
+  vars:
+    packages__apt__update__update_packages:
+      title: Updating APT packages - as specified by playbook
+  when: package_management__apt__setup__update_packages | bool

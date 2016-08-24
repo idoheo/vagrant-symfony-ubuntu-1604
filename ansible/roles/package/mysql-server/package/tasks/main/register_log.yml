@@ -1,0 +1,9 @@
+---
+- include: ../../../../../system/logs/actions/tasks/logs/logs_register_log.yml
+  vars:
+    system__logs__logs__logs_register_logs:
+      title: "Registring MySQL server logs"
+      logs:
+        - name: mysql_error
+          title: MySQL error
+          path: "{{ package__mysql_server__package__log__error }}"

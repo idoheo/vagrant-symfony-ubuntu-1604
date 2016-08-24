@@ -1,0 +1,9 @@
+- name: "{{ system__service__service_simple__service_simple_create.title }} (Creating upstart service)"
+  template: src="../../../templates/upstart.conf.j2"
+            dest="/etc/init/{{ system__service__service_simple__service_simple_create.service.name | mandatory }}.conf"
+            owner="root"
+            group="root"
+            mode="644"
+  with_items:
+    - "{{ system__service__service_simple__service_simple_create.service | mandatory }}"
+  become: true

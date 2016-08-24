@@ -1,0 +1,4 @@
+---
+system__logs__package__logs_dir: "/opt/ansible-logs"
+system__logs__package__logs_conf: "{{ system__logs__package__logs_dir }}/logs.json"
+system__logs__package__logs: {}

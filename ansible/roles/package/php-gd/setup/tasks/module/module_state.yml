@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_gd__module__module_state:
+      title: "Setting PHP gd state - as specified by playbook"
+      state: "{{ package__php_gd__setup__state }}"

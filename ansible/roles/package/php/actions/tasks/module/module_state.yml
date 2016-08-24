@@ -1,0 +1,29 @@
+###
+# ../../../../../package/php/actions/tasks/module/module_state.yml
+###
+#
+# Enable or disable PHP module
+#
+###
+#
+# package__php__module__module_state:
+#   title <string:"Setting PHP module state"> - Title of the operation
+#   state <"enabled"|"disabled">              - State of a module
+#   modules:
+#     - module <string> - module name
+#
+###
+- name: "{{ package__php__module__module_state.title | default('Setting PHP module state') }} (Checking if PHP modules exist)"
+  stat: path="{{ fact_php.mods_dir }}/{{ item.1.module }}.ini"
+  register: result__package__php__actions__module__module_state__exists
+  failed_when:     not result__package__php__actions__module__module_state__exists.stat.exists
+                or     result__package__php__actions__module__module_state__exists.stat.isdir
+                or     result__package__php__actions__module__module_state__exists.stat.islnk
+  with_indexed_items: "{{ package__php__module__module_state.modules | default([]) }}"
+  become: true
+
+- name: "{{ package__php__module__module_state.title | default('Configuring PHP module') }} (Updating PHP modules state)"
+  shell: "{% if package__php__module__module_state.state | mandatory in ['enabled', 'disabled'] %}{% if package__php__module__module_state.state == 'enabled' %}phpenmod{% else %}phpdismod{% endif %} {{ item.1.module }}{% else %}echo \"Unknown state\"; exit 1;{% endif %}"  
+  with_indexed_items: "{{ package__php__module__module_state.modules | default([]) }}"
+  become: true
+  register: test

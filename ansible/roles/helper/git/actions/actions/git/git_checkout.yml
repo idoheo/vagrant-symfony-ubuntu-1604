@@ -1,0 +1,25 @@
+---
+
+
+- name: Create target directory
+
+- name: Get versions
+
+- name: Checkout
+  git: accept_hostkey="{{ item.1.accept_hostkey }}"
+       bare="{{ false }}"
+       clone="{{ true }}"
+       depth="{{ omit }}"
+       dest="{{ item.1.target }}"
+       force="{{ item.1.force | default(true) | bool }}"
+       key_file="{{ item.1.key_file | default(omit) }}"
+       recursive="{{ item.1.recursive | default(true) | bool }}"
+       reference="{{ item.1.reference | default(omit) }}"
+       refspec="{{ item.1.refspec | default(omit) }}"
+       remote="{{ item.1.remote | default('origin') | string }}"
+       repo="{{ item.1.repository | mandatory }}"
+       ssh_opts="{{ item.1.ssh_opts | default(omit) }}"
+       track_submodules="{{ false }}"
+       update="{{ true }}"
+       version="{{ item.1.version | default('HEAD') }}"
+

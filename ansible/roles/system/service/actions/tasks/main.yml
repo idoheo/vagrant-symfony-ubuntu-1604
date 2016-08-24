@@ -1,0 +1,2 @@
+---
+- include: main/setup_service_restart.yml

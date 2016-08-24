@@ -1,0 +1,14 @@
+###
+#
+# package__rabbitmq__plugins__plugins_enable:
+#   title <string> ["Enabling RabbitMQ plugins"] - Title of the operation
+#   state: <string:"enabled"|"enabled">         - State of plugin
+#   plugins:
+#    - name <string>                   - Plugin name
+#
+###
+- include: ../../../actions/tasks/plugins/plugins_enable.yml
+  vars:
+    package__rabbitmq__plugins__plugins_enable:
+      title: "Enabling RabbitMQ plugins - as specified by playbook"
+      plugins: "{{ package__rabbitmq__setup__plugins__enable }}"

@@ -1,0 +1,2 @@
+- include: module/module_configure.yml
+- include: module/module_state.yml

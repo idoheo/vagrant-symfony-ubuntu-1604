@@ -1,0 +1,19 @@
+###
+# ../../../../../project/symfony/actions/tasks/symfony/symfony_parameters.yml
+###
+#
+# Call symfony calls in project
+#
+###
+#
+# project__symfony__symfony__symfony_parameters:
+#   title <string> ["Running symfony calls in project"]    - Title of the operation
+#   parameters:
+#
+###
+- include: ../../../actions/tasks/symfony/symfony_parameters.yml
+  vars:
+    project__symfony__symfony__symfony_parameters:
+      title: "Running symfony calls in project - as specified in playbook"
+      parameters: "{{ setup__project__symfony__symfony_parameters }}"
+

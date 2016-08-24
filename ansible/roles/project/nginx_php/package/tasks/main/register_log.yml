@@ -1,0 +1,18 @@
+---
+- include: ../../../../../system/logs/actions/tasks/logs/logs_register_log.yml
+  vars:
+    system__logs__logs__logs_register_logs:
+      title: "Registring Nginx-Php project logs"
+      logs:
+        - name: nginx_php_http_access
+          title: Http Access
+          path: "{{ fact_project.log_http_access }}"
+        - name: nginx_php_http_error
+          title: Http Error
+          path: "{{ fact_project.log_http_error }}"
+        - name: nginx_php_https_access
+          title: Https Access
+          path: "{{ fact_project.log_https_access }}"
+        - name: nginx_php_https_error
+          title: Https Error
+          path: "{{ fact_project.log_https_error }}"

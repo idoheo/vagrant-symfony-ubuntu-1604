@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_ssh2__module__module_state:
+      title: "Setting PHP ssh2 state - as specified by playbook"
+      state: "{{ package__php_ssh2__setup__state }}"

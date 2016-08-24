@@ -1,0 +1,10 @@
+[Unit]
+Description={{ item.title | default( item.name | mandatory ) }}
+
+[Service]
+Type=simple
+ExecStart={{ system__service__package__service_dir__script | quote }} {{ item.name | mandatory | quote }}
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

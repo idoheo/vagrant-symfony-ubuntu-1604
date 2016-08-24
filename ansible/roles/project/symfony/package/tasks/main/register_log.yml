@@ -1,0 +1,24 @@
+---
+- include: ../../../../../system/logs/actions/tasks/logs/logs_register_log.yml
+  vars:
+    system__logs__logs__logs_register_logs:
+      title: "Registring Symfony project logs"
+      logs:
+        - name: symfony2_prod
+          title: Symfony 2 (prod)
+          path: "{{ fact_project.project_source_folder }}/app/logs/prod.log"
+        - name: symfony2_dev
+          title: Symfony 2 (dev)
+          path: "{{ fact_project.project_source_folder }}/app/logs/dev.log"
+        - name: symfony2_test
+          title: Symfony 2 (test)
+          path: "{{ fact_project.project_source_folder }}/app/logs/test.log"
+        - name: symfony3_prod
+          title: Symfony 3 (prod)
+          path: "{{ fact_project.project_source_folder }}/var/logs/prod.log"
+        - name: symfony3_dev
+          title: Symfony 3 (dev)
+          path: "{{ fact_project.project_source_folder }}/var/logs/dev.log"
+        - name: symfony3_test
+          title: Symfony 3 (test)
+          path: "{{ fact_project.project_source_folder }}/var/logs/test.log"

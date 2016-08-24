@@ -1,0 +1,15 @@
+###
+#
+# package__mysql_server__users__users_remove:
+#   title <string> ["removeing MySQL users"] - Title of the operation
+#   users:
+#    - username <string>             - Username
+#      password <string|omit> [omit] - Password of user (will use username if not specified)
+#      host <string|omit> ["%"]      - Host part of mysql username
+#
+###
+- include: ../../../actions/tasks/users/users_remove.yml
+  vars: 
+    package__mysql_server__users__users_remove:
+      title: "Removing MySQL users - as specified by playbook"
+      users: "{{ package__mysql_server__setup__users__remove }}"

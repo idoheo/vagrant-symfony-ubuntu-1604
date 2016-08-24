@@ -1,0 +1,7 @@
+---
+dependencies:
+- role: package/php-cli/install
+- role: package/git/install
+- role: package/subversion/install
+- role: package/bazaar/install
+- role: package/unzip/install

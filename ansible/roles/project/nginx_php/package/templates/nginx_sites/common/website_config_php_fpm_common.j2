@@ -1,0 +1,6 @@
+    
+    server_name localhost;
+    root {{ fact_project.web_folder }};
+    
+    include {{ fact_project.nginx_includes_folder }}/*;
+    include {{ fact_project.nginx_site_config }};

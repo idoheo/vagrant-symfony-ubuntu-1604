@@ -1,0 +1,6 @@
+---
+project__base__package__project_folder: "/opt/dev-project"
+project__base__package__project_source_share: "{{ project__base__package__project_folder }}/source"
+project__base__package__project_logs: "{{ project__base__package__project_folder }}/logs"
+
+

@@ -1,0 +1,15 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/keys/keys_add.yml
+  vars:
+    keys__apt__keys__keys_add:
+      title: Adding ElasticSearch APT keys
+      apt_keys:
+        - id: "D88E42B4"
+          url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+
+- include: ../../../../../package_management/apt/actions/tasks/repositories/repositories_add.yml
+  vars:
+    repositories__apt__repositories__repositories_add:
+      title: Adding ElasticSearch APT repositories
+      repositories:
+        - repo: "deb https://packages.elastic.co/elasticsearch/{{ package__elasticsearch__package__elasticsearch_version }}.x/debian stable main"

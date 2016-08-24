@@ -1,0 +1,92 @@
+---
+###############
+# Common vars #
+###############
+common_application_database_name: application
+common_application_database_collation: utf8_unicode_ci
+common_application_database_encoding: utf8
+common_application_database_import: "{{ omit }}"
+common_mssql_server: "mssql.localdomain"
+
+################
+# MySQL server #
+################
+
+package__mysql_server__setup__users__remove:
+  - username: "{{ common_admin_user_name }}"
+    host: "%"
+  - username: "{{ common_reader_user_name }}"
+    host: "%"
+
+package__mysql_server__setup__users__add:
+
+  - username: "{{ common_admin_user_name }}"
+    password: "{{ common_admin_user_pass }}"
+    host: "%"
+    priv: "*.*:ALL/user_*.*:ALL"
+
+  - username: "{{ common_reader_user_name }}"
+    password: "{{ common_reader_user_pass }}"
+    host: "%"
+    priv: "{{ common_application_database_name }}.*:SELECT/{{ common_application_database_name }}_%.*:SELECT"
+
+  - username: "{{ common_application_user_name }}"
+    password: "{{ common_application_user_pass }}"
+    host: "localhost"
+    priv: "{{ common_application_database_name }}.*:ALL/{{ common_application_database_name }}_%.*:ALL"
+
+
+package__mysql_server__setup__databases__remove:
+  - database: "{{ common_application_database_name }}"
+
+package__mysql_server__setup__databases__create_and_load:
+
+  - database: "{{ common_application_database_name }}"
+    encoding: "{{ common_application_database_encoding }}"
+    collation: "{{ common_application_database_collation }}"
+    file: "{{ common_application_database_import }}"
+
+  - database: "{{ common_application_database_name }}_prod"
+    encoding: "{{ common_application_database_encoding }}"
+    collation: "{{ common_application_database_collation }}"
+    file: "{{ common_application_database_import }}"
+
+  - database: "{{ common_application_database_name }}_dev"
+    encoding: "{{ common_application_database_encoding }}"
+    collation: "{{ common_application_database_collation }}"
+    file: "{{ common_application_database_import }}"
+
+  - database: "{{ common_application_database_name }}_test"
+    encoding: "{{ common_application_database_encoding }}"
+    collation: "{{ common_application_database_collation }}"
+    file: "{{ common_application_database_import }}"
+    
+package__mysql_server__setup__databases__add:
+  - database: "{{ common_application_database_name }}"
+  - database: "{{ common_application_database_name }}_prod"
+  - database: "{{ common_application_database_name }}_dev"
+  - database: "{{ common_application_database_name }}_test"
+
+###################
+# FreeTDS (MSSql) #
+###################
+package__freetds__setup__databases__manage:
+  - name: MSSql_7
+    tds_version: 7.0
+    host: "{{ common_mssql_server }}"
+
+  - name: MSSql_2000
+    tds_version: 7.1
+    host: "{{ common_mssql_server }}"
+
+  - name: MSSql_2005
+    tds_version: 7.2
+    host: "{{ common_mssql_server }}"
+
+  - name: MSSql_2008
+    tds_version: 7.3
+    host: "{{ common_mssql_server }}"
+
+  - name: MSSql_2012
+    tds_version: 7.4
+    host: "{{ common_mssql_server }}"

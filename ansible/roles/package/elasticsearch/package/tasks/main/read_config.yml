@@ -1,0 +1,22 @@
+---
+- name: "Reading ElasticSearch config"
+  shell: "cat {{ package__elasticsearch__package__elasticsearch_yml | quote }}"
+  register: result__package__elasticsearch__package__bind__config
+  become: true
+
+- name: "Parsing ElasticSearch config"
+  set_fact:
+    result__package__elasticsearch__package__bind__config: "{{ result__package__elasticsearch__package__bind__config.stdout | from_yaml }}"
+
+- name: "Correcting ElasticSearch config"
+  set_fact:
+    result__package__elasticsearch__package__bind__config: "{{ {} }}"
+  when: result__package__elasticsearch__package__bind__config is not mapping
+
+- name: "Updating elastic search fact"
+  set_fact:
+    elastic_search:
+      config_path: "{{ package__elasticsearch__package__elasticsearch_yml }}"
+      config: "{{ result__package__elasticsearch__package__bind__config }}"
+
+  

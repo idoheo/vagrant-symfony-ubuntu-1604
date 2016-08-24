@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: project/base/setup
+- role: project/composer/actions

@@ -1,0 +1,20 @@
+###
+# ../../../../../package_management/apt/actions/tasks/repositories/repositories_remove.yml
+###
+#
+# Remove APT repositories
+#
+###
+#
+# repositories__apt__repositories__repositories_remove:
+#   title <string> ['Removing APT repositories'] - Title of the operation
+#   repositories:
+#    - repo <string|omit> [omit]    - repository
+#
+###
+- include: repositories_manage.yml
+  vars:
+    repositories__apt__repositories__repositories_manage:
+      title: "{{ repositories__apt__repositories__repositories_remove.title | default('Removing APT repositories') }}"
+      state: "absent"
+      repositories: "{{ repositories__apt__repositories__repositories_remove.repositories | default([]) }}"

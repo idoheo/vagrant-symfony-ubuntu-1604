@@ -1,0 +1,5 @@
+---
+dependencies:
+- role: package/curl/install
+- role: package/php/install
+- role: package_management/apt/actions

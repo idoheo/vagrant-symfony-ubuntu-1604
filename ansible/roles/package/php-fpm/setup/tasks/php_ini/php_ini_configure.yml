@@ -1,0 +1,6 @@
+- include: ../../../actions/tasks/php_ini/php_ini_configure.yml
+  vars:
+    package__php_fpm__php_ini__php_ini_configure:
+      title: "Configuring PHP FPM ini file - as specified by playbook"
+      data:
+        sections: "{{ package__php_fpm__setup__php_ini }}"

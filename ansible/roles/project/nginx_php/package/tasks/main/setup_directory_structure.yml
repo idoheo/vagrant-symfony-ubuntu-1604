@@ -1,0 +1,21 @@
+---
+- name: Updating base project directory ownerships
+  file: path="{{ item.1.name | mandatory }}"
+        state="{{ item.1.state | mandatory }}"
+        mode="{{ item.1.mode | mandatory }}"
+        owner="{{ fact_project.owner }}"
+        group="{{ fact_project.group }}"
+  with_indexed_items:
+    - name: "{{ fact_project.ssl_folder }}"
+      state: "directory"
+      mode: 755
+#    - name: "{{ fact_project.web_folder }}"
+#      state: "directory"
+#      mode: 755
+    - name: "{{ fact_project.nginx_includes_folder }}"
+      state: "directory"
+      mode: 755
+    - name: "{{ fact_project.php_socket_folder }}"
+      state: "directory"
+      mode: 755
+  become: true

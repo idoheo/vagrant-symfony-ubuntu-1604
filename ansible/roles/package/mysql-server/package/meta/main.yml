@@ -1,0 +1,7 @@
+---
+dependencies:
+- role: package_management/apt/actions
+- role: system/logs/actions
+- role: system/service/actions
+- role: package/mysql-client/install
+

@@ -1,0 +1,3 @@
+---
+- include: main/update_hosts_file.yml
+

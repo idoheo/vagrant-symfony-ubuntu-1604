@@ -1,0 +1,13 @@
+---
+dependencies:
+- role: package_management/apt/actions
+- role: system/php_app/actions
+- role: package/mysql-server/install
+- role: package/php-gd/install
+- role: package/php-mbstring/install
+- role: package/php-mcrypt/install
+- role: package/php-mysql/install
+- role: package/php-tcpdf/install
+- role: package/php-gmp/install
+- role: package/php-phpseclib/install
+- role: package/php-gettext/install

@@ -1,0 +1,22 @@
+###
+# ../../../../../package_management/npm/actions/tasks/packages/packages_install.yml
+###
+#
+# Manage APT Packages
+#
+###
+#
+# packages__npm__setup__packages_install:
+#   - name <string>                 - Name of a package
+#     ignore_scripts <bool> [false] - Use the --ignore-scripts flag when installing
+#     production <bool> [true]      - Install dependencies in production mode, excluding devDependencies
+#     registry <string|omit> [omit] - The registry to install modules from.
+#     version <string|omit> [omit]  - The version to be installed
+#
+###
+- include: ../../../actions/tasks/packages/packages_install.yml
+  vars:
+    packages__npm__packages__packages_install:
+      title: "Installing NPM packages as specified by playbook"
+      latest: true
+      packages: "{{ package_management__npm__setup__packages_install | mandatory }}"

@@ -1,0 +1,33 @@
+###
+# ../../../../../package_management/npm/actions/tasks/packages/packages_manage.yml
+###
+#
+# Manage NPM Packages
+#
+###
+#
+# packages__npm__packages__packages_manage:
+#   title <string>                                 - Title of the operation
+#   state <string:latest|absent|present|build-dep> - State of packages
+#   packages:                                      - Packages to manage
+#    - name <string>                 - Name of a package
+#      ignore_scripts <bool> [false] - Use the --ignore-scripts flag when installing
+#      production <bool> [true]      - Install dependencies in production mode, excluding devDependencies
+#      registry <string|omit> [omit] - The registry to install modules from.
+#      version <string|omit> [omit]  - The version to be installed
+#
+###
+
+- name: "{{ packages__npm__packages__packages_manage.title | mandatory }}"
+  npm:
+    executable: "{{ omit }}"
+    global: "{{ true }}"
+    ignore_scripts: "{{ item.1.ignore_scripts | default(false) | bool }}"
+    name: "{{ item.1.name | mandatory }}"
+    path: "{{ omit }}"
+    production: "{{ item.1.production | default(true) | bool }}"
+    registry: "{{ item.1.registry | default(omit) }}"
+    state: "{{ packages__npm__packages__packages_manage.state | mandatory }}"
+    version: "{{ item.1.version | default(omit) }}"
+  with_indexed_items: packages__npm__packages__packages_manage.packages | mandatory
+  become: true

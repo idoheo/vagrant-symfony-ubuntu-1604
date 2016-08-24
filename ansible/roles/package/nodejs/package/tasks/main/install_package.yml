@@ -1,0 +1,9 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/packages/packages_install.yml
+  vars:
+    packages__apt__packages__packages_install:
+      title: Installing Node.js
+      latest: "{{ true }}"
+      packages:
+        - name: nodejs
+        - name: nodejs-legacy

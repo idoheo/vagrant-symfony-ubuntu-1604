@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_mbstring__module__module_state:
+      title: "Setting PHP mbstring state - as specified by playbook"
+      state: "{{ package__php_mbstring__setup__state }}"

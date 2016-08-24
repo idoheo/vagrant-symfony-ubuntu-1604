@@ -1,0 +1,5 @@
+---
+- name: "Updating APT cache"
+  apt: cache_valid_time="{{ 60 * 60 * 1 }}"
+       update_cache="{{ true }}"
+  become: true

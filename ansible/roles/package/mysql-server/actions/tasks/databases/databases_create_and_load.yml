@@ -1,0 +1,35 @@
+###
+# ../../../../../package/mysql-server/actions/tasks/databases/databases_create_and_load.yml
+###
+#
+# Create MySQL databases and loades file if created
+#
+###
+#
+# package__mysql_server__databases__databases_create_and_load:
+#   title <string> ["Managing MySQL databases"] - Title of the operation
+#   databases:
+#    - database <string>                    - database name
+#      collation <string> [utf8_unicode_ci] - database collation
+#      encoding <string> [utf8]             - database encoding
+#      file <string|omit> [omit]                       - target file for load
+#
+###
+- name: "{{ package__mysql_server__databases__databases_create_and_load.title | default('Creating MySQL databases') }} (Creating MySQL databases)"
+  mysql_db: name="{{ item.1.database | mandatory }}"
+            state="present"
+            collation="{{ item.1.collation | default('utf8_unicode_ci') }}"
+            encoding="{{ item.1.encoding | default('utf8') }}"
+            target="{{ item.1.file | default(omit) }}"
+  with_indexed_items: "{{ package__mysql_server__databases__databases_create_and_load.databases | default([]) }}"
+  register: result__package__mysql_server__databases__databases_create_and_load__created
+  when: item.1.database | mandatory not in ['information_schema','mysql','preformance_schema', 'sys']
+  become: true
+
+- name: "{{ package__mysql_server__databases__databases_create_and_load.title | default('Creating MySQL databases') }} (Loading MySQL databases)"
+  mysql_db: name="{{ item.1.database | mandatory }}"
+            state="import"
+            target="{{ item.1.file | default(omit) }}"
+  with_indexed_items: "{{ package__mysql_server__databases__databases_create_and_load.databases | default([]) }}"
+  when: (result__package__mysql_server__databases__databases_create_and_load__created.results[item.0].changed) and (item.1.file | default(omit) != omit)
+  become: true

@@ -1,0 +1,6 @@
+- include: ../../../../../package/rabbitmq/actions/tasks/plugins/plugins_enable.yml
+  vars:
+    package__rabbitmq__plugins__plugins_enable:
+      title: "Enabling RabbitMQ management"
+      plugins:
+        - name: rabbitmq_management

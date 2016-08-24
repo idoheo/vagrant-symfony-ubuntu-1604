@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/databases/databases_manage.yml
+  vars:
+    package__freetds__databases__databases_manage:
+      title: "Managing FreeTDS databases - as specified by playbook"
+      databases: "{{ package__freetds__setup__databases__manage }}"

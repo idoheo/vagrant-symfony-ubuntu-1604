@@ -1,0 +1,15 @@
+---
+- include: ../../../../../package_management/apt/actions/tasks/keys/keys_add.yml
+  vars:
+    keys__apt__keys__keys_add:
+      title: Adding Gitlab CI multi runner APT keys
+      apt_keys:
+        - url: "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/gpgkey"
+
+- include: ../../../../../package_management/apt/actions/tasks/repositories/repositories_add.yml
+  vars:
+    repositories__apt__repositories__repositories_add:
+      title: Adding Gitlab CI multi runner APT repositories
+      repositories:
+        - repo: "deb https://packages.gitlab.com/runner/gitlab-ci-multi-runner/{{ fact_os.distributor | lower }}/ {{ fact_os.codename | lower }} main"
+        - repo: "deb-src https://packages.gitlab.com/runner/gitlab-ci-multi-runner/{{ fact_os.distributor | lower }}/ {{ fact_os.codename | lower }} main"

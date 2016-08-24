@@ -1,0 +1,8 @@
+description "{{ item.title | default( item.name | mandatory ) }}"
+
+{% if item.start_on | default('runlevel [23456]') | string | trim | length > 0 %}start on {{ item.start_on | default('runlevel [23456]') }}{% endif %}
+{% if item.stop_on | default('runlevel ![23456]') | string | trim | length > 0 %}start on {{ item.stop_on | default('runlevel ![23456]') }}{% endif %}
+
+respawn
+
+exec {{ system__service__package__service_dir__script | quote }} {{ item.name | mandatory | quote }}

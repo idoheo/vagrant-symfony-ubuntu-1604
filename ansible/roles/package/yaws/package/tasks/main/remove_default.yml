@@ -1,0 +1,8 @@
+---
+- name: Removing default sites for Yaws
+  file: path="{{ item.0 }}/{{ item.1 }}"
+        state="absent"
+  with_nested:
+    - [ "{{ package__yaws__package__conf_d_dir }}", "{{ package__yaws__package__conf_avail_dir }}" ]
+    - [ "localhost.conf", "localhost-ssl.conf" ]
+  become: true

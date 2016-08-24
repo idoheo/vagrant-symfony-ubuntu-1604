@@ -1,0 +1,6 @@
+---
+- include: users/users_remove.yml
+- include: users/users_add.yml
+- include: databases/databases_remove.yml
+- include: databases/databases_create_and_load.yml
+- include: databases/databases_add.yml

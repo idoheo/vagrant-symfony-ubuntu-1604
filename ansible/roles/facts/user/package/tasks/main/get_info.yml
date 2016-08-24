@@ -1,0 +1,36 @@
+---
+- name: "Checking user name"
+  shell: "id --real --user --name {{ result__facts__user__package__user }}"
+  register: result__facts__user__package__user_name
+  changed_when: false
+
+- name: "Checking group name"
+  shell: "id --real --group --name {{ result__facts__user__package__user }}"
+  register: result__facts__user__package__group_name
+  changed_when: false
+
+- name: "Checking user id"
+  shell: "id --real --user {{ result__facts__user__package__user }}"
+  register: result__facts__user__package__user_id
+  changed_when: false
+
+- name: "Checking group id"
+  shell: "id --real --group {{ result__facts__user__package__user }}"
+  register: result__facts__user__package__group_id
+  changed_when: false
+
+- name: "Checking users home dir"
+  shell: "cd ~ && pwd"
+  register: result__facts__user__package__home_dir
+  changed_when: false
+  become: true
+  become_user: "{{ result__facts__user__package__user }}"
+
+- name: "Setting User environment variable"
+  set_fact:
+    fact_user:
+      user: "{{ result__facts__user__package__user_name.stdout }}"
+      group: "{{ result__facts__user__package__group_name.stdout }}"
+      user_id: "{{ result__facts__user__package__user_id.stdout }}"
+      group_id: "{{ result__facts__user__package__group_id.stdout }}"
+      homedir: "{{ result__facts__user__package__home_dir.stdout }}"

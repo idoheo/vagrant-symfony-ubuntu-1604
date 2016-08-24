@@ -1,0 +1,8 @@
+<server php_app_{{ item.1.name | mandatory }}>
+	port = {{ item.1.port | mandatory | int }}
+	listen = {{ item.1.host | default('0.0.0.0') }}
+	docroot = {{ item.1.doc_root | mandatory }}
+        allowed_scripts = php
+        access_log = false
+        dir_listings = false
+</server>

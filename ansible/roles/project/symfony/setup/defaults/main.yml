@@ -1,0 +1,3 @@
+setup__project__symfony__symfony_parameters: "{{ {} }}"
+setup__project__symfony__symfony_console_bin: "bin/console"
+setup__project__symfony__symfony_calls: "{{ [] }}"

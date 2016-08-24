@@ -1,0 +1,21 @@
+###
+# ../../../../../package/rabbitmq/actions/tasks/plugins/plugins_manage.yml
+###
+#
+# Manage RabbitMQ plugins
+#
+###
+#
+# package__rabbitmq__plugins__plugins_manage:
+#   title <string> ["Managing RabbitMQ plugins"] - Title of the operation
+#   state: <string:"enabled"|"disabled">         - State of user
+#   plugins:
+#    - name <string>                   - Plugin name
+#
+###
+- name: "{{ package__rabbitmq__plugins__plugins_manage.title | default('Managing RabbitMQ plugins') }}"
+  rabbitmq_plugin: names="{{ item.1.name }}"
+                   new_only="{{ true }}"
+                   state="{{ package__rabbitmq__plugins__plugins_manage.state | mandatory }}"
+  with_indexed_items: "{{ package__rabbitmq__plugins__plugins_manage.plugins | default([]) }}"
+  become: true

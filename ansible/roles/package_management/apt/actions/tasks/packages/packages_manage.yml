@@ -1,0 +1,35 @@
+###
+# ../../../../../package_management/apt/actions/tasks/packages/packages_manage.yml
+###
+#
+# Manage APT Packages
+#
+###
+#
+# packages__apt__packages__packages_manage:
+#   title <string>                                 - Title of the operation
+#   state <string:latest|absent|present|build-dep> - State of packages
+#   package_prefix <string> [""]                   - Package prefix for all packages
+#   packages:                                      - Packages to manage
+#    - name <string>                        - Name of a package
+#      deb <string|omit> [omit]             - Debian package file
+#      default_release <string|omit> [omit] - Default release string
+#      force <bool> [true]                  - Force install/remove
+#      install_recommends <bool> [false]    - Should recommended packages be installed
+#      purge <bool> [true]                  - Should config files be purged on removal
+#
+###
+
+- name: "{{ packages__apt__packages__packages_manage.title | mandatory }}"
+  apt:
+    deb: "{{ item.1.deb | default(omit) }}"
+    default_release: "{{ item.1.default_release | default(omit) }}"
+    dpkg_options: "{{ item.1.dpkg_option | default('force-confdef,force-confold') }}"
+    force: "{{ item.1.force | default(true) | bool }}"
+    install_recommends: "{{ item.1.install_recommends | default(false) | bool }}"
+    name: "{{ packages__apt__packages__packages_manage.package_prefix | default('') | trim }}{{ item.1.name | mandatory }}"
+    purge: "{{ item.1.purge | default(true) | bool }}"
+    state: "{{ packages__apt__packages__packages_manage.state | mandatory }}"
+    upgrade: "{{ omit }}"
+  with_indexed_items: packages__apt__packages__packages_manage.packages | mandatory
+  become: true

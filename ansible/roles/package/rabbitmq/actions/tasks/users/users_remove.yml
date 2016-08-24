@@ -1,0 +1,20 @@
+###
+# ../../../../../package/rabbitmq/actions/tasks/users/users_remove.yml
+###
+#
+# Remove RabbitMQ users
+#
+###
+#
+# package__rabbitmq__users__users_remove:
+#   title <string> ["Removing RabbitMQ users"] - Title of the operation
+#   users:
+#    - username <string>                   - Username
+#
+###
+- include: users_manage.yml
+  vars:
+    package__rabbitmq__users__users_manage:
+      title: "{{ package__rabbitmq__users__users_remove.title | default('Removing RabbitMQ users') }}"
+      state: "absent"
+      users: "{{ package__rabbitmq__users__users_remove.users | default([]) }}"

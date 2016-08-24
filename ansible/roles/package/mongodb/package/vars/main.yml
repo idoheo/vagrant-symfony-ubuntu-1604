@@ -1,0 +1,4 @@
+---
+package__mongodb__package__mongodb_bin: /usr/bin/mongo
+package__mongodb__package__mongodb_yml: /etc/mongod.conf
+package__mongodb__package__mongodb_version: 3.2

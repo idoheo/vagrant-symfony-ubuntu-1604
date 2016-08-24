@@ -1,0 +1,41 @@
+---
+- name: Preparing PHP fact variable
+  set_fact:
+    fact_php: {}
+
+- name: Checking PHP Version
+  shell: 'php --version |  egrep "^PHP ([0-9]+)(\.[0-9]+)*" -o | egrep "([0-9]+)(\.[0-9]+)?" -o | head -n 1'
+  register: result__package__php__package__version
+
+- name: Getting PHP Folder
+  shell: 'dirname $(php --ini | egrep "Configuration[^:]+File[^:]+Path[^:]*:" | egrep ":.*" -o | egrep "[^:].+" -o)'
+  register: result__package__php__package__folder
+  failed_when: result__package__php__package__folder.rc != 0 or result__package__php__package__folder.stdout | trim == ''
+
+- name: Checking for php query command
+  shell: "which {{ item.1 | quote }}"
+  with_indexed_items:
+    - "phpquery"
+    - "php{{ result__package__php__package__version.stdout | int }}query"
+  register: result__package__php__package__php_query
+  failed_when: false
+  changed_when: result__package__php__package__php_query.rc == 0 and result__package__php__package__php_query.stdout | trim != ''
+
+- name: Selecting PHP query command
+  set_fact:
+    fact_php: "{% for item in result__package__php__package__php_query.results %}{% if item.changed %}{{ fact_php.update({
+                     'php_query': item.stdout
+                  })}}{% endif %}{% endfor %}{{ fact_php }}"
+
+- name: "Setting PHP variable (base settings)"
+  set_fact:
+    fact_php: "{{ fact_php.update({
+                  'version': result__package__php__package__version.stdout,
+                  'php_dir': result__package__php__package__folder.stdout
+                }) }}{{ fact_php }}"
+
+- name: "Setting PHP variable (additional settings)"
+  set_fact:
+    fact_php: "{{ fact_php.update({
+                  'mods_dir': fact_php.php_dir ~ '/mods-available'
+                }) }}{{ fact_php }}"

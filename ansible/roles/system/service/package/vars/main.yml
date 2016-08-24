@@ -1,0 +1,6 @@
+---
+system__service__package__service_dir: "/opt/ansible-services"
+system__service__package__service_dir__config_dir: "{{ system__service__package__service_dir }}/conf"
+system__service__package__service_dir__systemd_dir: "{{ system__service__package__service_dir }}/systemd"
+system__service__package__service_dir__script: "{{ system__service__package__service_dir }}/service.sh"
+system__service__package__service_prefix: "ansible_"

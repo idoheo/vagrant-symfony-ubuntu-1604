@@ -1,0 +1,19 @@
+---
+- name: "Checking APT requirements"
+  shell: "dpkg-query -s {{ item.1 }} | grep -e '^Status:' | head -n 1 | cut -d ':' -f2 | xargs | grep -e 'install ok installed' -c"
+  register: result__packages__apt__package__requirements
+  changed_when: false
+  failed_when: result__packages__apt__package__requirements.stdout != "0" and result__packages__apt__package__requirements.stdout != "1"
+  with_indexed_items:
+    - python-apt
+    - aptitude
+    - apt-transport-https
+
+- name: "Installing APT requirements"
+  shell: "apt-get install {{ item.1 }} -q -y"
+  when: result__packages__apt__package__requirements.results[item.0].stdout == "0"
+  with_indexed_items:
+    - python-apt
+    - aptitude
+    - apt-transport-https
+  become: true

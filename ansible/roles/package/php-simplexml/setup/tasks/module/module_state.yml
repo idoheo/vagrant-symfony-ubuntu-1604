@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_simplexml__module__module_state:
+      title: "Setting PHP simplexml state - as specified by playbook"
+      state: "{{ package__php_simplexml__setup__state }}"

@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_json__module__module_state:
+      title: "Setting PHP json state - as specified by playbook"
+      state: "{{ package__php_json__setup__state }}"

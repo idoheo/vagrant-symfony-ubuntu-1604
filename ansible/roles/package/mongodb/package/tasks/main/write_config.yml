@@ -1,0 +1,5 @@
+---
+- name: "Writing MongoDB config"
+  template: dest="{{ package__mongodb__package__mongodb_yml }}"
+            src="../../templates/mongod.conf.j2"
+  become: true  

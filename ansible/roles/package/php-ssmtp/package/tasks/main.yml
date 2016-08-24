@@ -1,0 +1,3 @@
+---
+- include: main/create_module.yml
+- include: main/enable_module.yml

@@ -1,0 +1,29 @@
+###
+# ../../../../../project/symfony/actions/tasks/symfony/symfony_calls.yml
+###
+#
+# Call symfony calls in project
+#
+###
+#
+# project__symfony__symfony__symfony_calls:
+#   title <string> ["Running symfony calls in project"]    - Title of the operation
+#   console_bin <string> ['bin/console']                   - console binary path
+#   calls:
+#     - call <string> "Symfony call"
+#
+###
+- name: "{{ project__symfony__symfony__symfony_calls.title | default('Running symfony calls in project') }} (Checking if symfony console binary exists)"
+  stat: path="{{ fact_project.project_source_folder }}/{{ project__symfony__symfony__symfony_calls.console_bin | default('bin/console') }}"
+  become: true
+  register: result__project__symfony__setup__symfony_console_exists
+
+- name: "{{ project__symfony__symfony__symfony_calls.title | default('Running symfony calls in project') }}"
+  shell: "{{ project__symfony__symfony__symfony_calls.console_bin | default('bin/console') | quote }} {{ item.1.call }}"
+  args: 
+    executable: "/bin/bash"
+    chdir: "{{ fact_project.project_source_folder }}"
+  become: true
+  become_user: "{{ fact_project.owner }}"
+  with_indexed_items: project__symfony__symfony__symfony_calls.calls | default([])
+  when: result__project__symfony__setup__symfony_console_exists.stat.exists

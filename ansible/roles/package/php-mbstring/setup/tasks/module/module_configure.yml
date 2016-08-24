@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_mbstring__module__module_configure:
+      title: "Configuring PHP mbstring module - as specified by playbook"
+      config: "{{ package__php_mbstring__setup__config }}"

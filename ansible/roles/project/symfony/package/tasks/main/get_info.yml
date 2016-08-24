@@ -1,0 +1,18 @@
+---
+- name: "Checking for timezone candidates for symfony"
+  shell: "{{ item.1 }}"
+  args:
+    executable: "/bin/bash"
+  register: result__project__symfony__package__get_timezone
+  changed_when: false
+  with_indexed_items:
+    - 'echo "UTC"'
+    - "php <<< '<?php echo date_default_timezone_get();'"
+    - "((php <<< '<?php foreach(timezone_identifiers_list() as $x) echo $x.\"\n\";') && cat /etc/timezone && cat /etc/timezone | egrep '/[^/]*$' -o | egrep '[^/]*$' -o ) | sort | uniq -d | head -n 1"
+
+- name: "Setting Symfony fact"
+  set_fact:
+    fact_symfony:
+      timezone: "{{ item.1.stdout }}"
+  with_indexed_items: result__project__symfony__package__get_timezone.results
+  when: item.1.stdout | trim != "" and item.1.rc == 0

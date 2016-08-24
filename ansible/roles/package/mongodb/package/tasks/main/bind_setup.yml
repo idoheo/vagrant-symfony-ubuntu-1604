@@ -1,0 +1,8 @@
+---
+- name: "Ensuring MongoDB settings has net section"
+  set_fact:
+    mongodb: "{{ mongodb.config.update({'net' : mongodb.config.net | default({}) }) }}{{ mongodb }}"
+
+- name: "Setting MongoDB settings net.bindIp to 0.0.0.0"
+  set_fact:
+    mongodb: "{{ mongodb.config.net.update({'bindIp' : '0.0.0.0' }) }}{{ mongodb }}"

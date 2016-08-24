@@ -1,0 +1,596 @@
+---
+###########################
+# PHP Interpreters common #
+###########################
+php_interpreter_common:
+  - section: "PHP"
+    option_name_prefix: "cgi."
+    entries:
+      - option: "force_redirect"
+        value: 0
+
+###########
+# PHP CGI #
+###########
+package__php_cgi__setup__php_ini: "{{ php_interpreter_common }}"
+
+###########
+# PHP FPM #
+###########
+package__php_fpm__setup__php_ini: "{{ php_interpreter_common }}"
+
+###########
+# PHP Cli #
+###########
+package__php_cli__setup__php_ini: "{{ php_interpreter_common }}"
+
+##############
+# PHP bcmath #
+##############
+
+package__php_bcmath__setup__config:
+  - option: "scale"
+#    value: 0
+
+package__php_bcmath__setup__state: "enabled"
+
+###########
+# PHP bz2 #
+###########
+
+package__php_bz2__setup__config: []
+
+package__php_bz2__setup__state: "enabled"
+
+#############
+# PHP ctype #
+#############
+
+package__php_ctype__setup__config: []
+
+package__php_ctype__setup__state: "enabled"
+
+############
+# PHP curl #
+############
+
+package__php_curl__setup__config:
+  - option: "cainfo"
+#    value: ""
+
+package__php_curl__setup__state: "enabled"
+
+###########
+# PHP dom #
+###########
+
+package__php_dom__setup__config: []
+
+package__php_dom__setup__state: "enabled"
+
+##########
+# PHP GD #
+##########
+
+package__php_gd__setup__config:
+  - option: "jpeg_ignore_warning"
+#    value: 0
+
+package__php_gd__setup__state: "enabled"
+
+###############
+# PHP gettext #
+###############
+
+package__php_gettext__setup__config: []
+
+package__php_gettext__setup__state: "enabled"
+
+###########
+# PHP gmp #
+###########
+
+package__php_gmp__setup__config: []
+
+package__php_gmp__setup__state: "enabled"
+
+#############
+# PHP iconv #
+#############
+
+package__php_iconv__setup__config:
+  - option: "input_encoding"
+#    value: ""
+  - option: "internal_encoding"
+#    value: ""
+  - option: "output_encoding"
+#    value: ""
+
+package__php_iconv__setup__state: "enabled"
+
+###############
+# PHP imagick #
+###############
+
+package__php_imagick__setup__config: []
+
+package__php_imagick__setup__state: "enabled"
+
+############
+# PHP imap #
+############
+
+package__php_imap__setup__config: []
+
+package__php_imap__setup__state: "enabled"
+
+############
+# PHP intl #
+############
+
+package__php_intl__setup__config:
+  - option: "default_locale"
+#    value: "{{ omit }}"
+  - option: "error_level"
+#    value: 0
+  - option: "use_exceptions"
+#    value: 0
+     
+
+package__php_intl__setup__state: "enabled"
+
+############
+# PHP json #
+############
+
+package__php_json__setup__config: []
+
+package__php_json__setup__state: "enabled"
+
+############
+# PHP ldap #
+############
+
+package__php_ldap__setup__config:
+  - option: "max_links"
+#    value: -1
+
+package__php_ldap__setup__state: "enabled"
+
+################
+# PHP mbstring #
+################
+
+package__php_mbstring__setup__config:
+  - option: "detect_order"
+#    value: "{{ omit }}"
+  - option: "encoding_translation"
+#    value: 0
+  - option: "func_overload"
+#    value: 0
+  - option: "http_input"
+#    value: "{{ omit }}"
+  - option: "http_output"
+#    value: "{{ omit }}"
+  - option: "http_output_conv_mimetypes"
+#    value: "^(text/|application/xhtml\\+xml)"
+  - option: "internal_encoding"
+#    value: "{{ omit }}"
+  - option: "language"
+#    value: "neutral"
+  - option: "strict_detection"
+#    value: 0
+  - option: "substitute_character"
+#    value: "{{ omit }}"
+
+package__php_mbstring__setup__state: "enabled"
+
+##############
+# PHP mcrypt #
+##############
+
+package__php_mcrypt__setup__config:
+  - option: "algorithms_dir"
+#    value: "{{ omit }}"
+  - option: "modes_dir"
+#    value: "{{ omit }}"
+
+package__php_mcrypt__setup__state: "enabled"
+
+##############
+# PHP MongDB #
+##############
+
+package__php_mongodb__setup__config:
+  - option: "debug"
+#    value: ""
+
+package__php_mcrypt__setup__state: "enabled"
+
+##############
+# PHP MySQLi #
+##############
+
+package__php_mysqli__setup__config:
+  - option: "allow_local_in_file"
+#    value: 1
+  - option: "allow_persistent"
+#    value: 1
+  - option: "default_host"
+#    value: ""
+  - option: "default_port"
+#    value: 3306
+  - option: "default_pw"
+#    value: ""
+  - option: "default_socket"
+#    value: "{{ omit }}"
+  - option: "default_user"
+#    value: ""
+  - option: "max_links"
+#    value: "-1"
+  - option: "max_persistent"
+#    value: "-1"
+  - option: "reconnect"
+#    value: ""
+  - option: "rollback_on_cached_plink"
+#    value: 0
+
+package__php_mysqli__setup__state: "enabled"
+
+
+###############
+# PHP MySQLnd #
+###############
+
+package__php_mysqlnd__setup__config:
+  - option: "collect_memory_statistics"
+#    value: ""
+  - option: "collect_statistics"
+#    value: 1
+  - option: "debug"
+#    value: "{{ omit }}"
+  - option: "fetch_data_copy"
+#    value: 0
+  - option: "log_mask"
+#    value: 0
+  - option: "mempool_default_size"
+#    value: 16000
+  - option: "net_cmd_buffer_size"
+#    value: 4096
+  - option: "net_read_buffer_size"
+#    value: 32768
+  - option: "net_read_timeout"
+#    value: 31536000
+  - option: "sha256_server_public_key"
+#    value: "{{ omit }}"
+  - option: "trace_alloc"
+#    value: "{{ omit }}"
+
+package__php_mysqlnd__setup__state: "enabled"
+
+############
+# PHP ODBC #
+############
+
+package__php_odbc__setup__config:
+  - option: "allow_persistent"
+#    value: 1
+  - option: "check_persistent"
+#    value: 1
+  - option: "default_cursortype"
+#    value: 3
+  - option: "default_db"
+#    value: "{{ omit }}"
+  - option: "default_pw"
+#    value: "{{ omit }}"
+  - option: "default_user"
+#    value: "{{ omit }}"
+  - option: "defaultbinmode"
+#    value: 1
+  - option: "defaultlrl"
+#    value: 4096
+  - option: "max_links"
+#    value: -1
+  - option: "max_presist"
+#    value: -1
+
+package__php_odbc__setup__state: "enabled"
+
+###############
+# PHP OPcache #
+###############
+
+package__php_opcache__setup__config: []
+
+package__php_opcache__setup__state: "enabled"
+
+#################
+# PHP Pdo MySQL #
+#################
+
+package__php_pdo_mysql__setup__config:
+  - option: "default_socket"
+#    value: "/var/run/mysqld/mysqld.sock"
+
+package__php_pdo_mysql__setup__state: "enabled"
+
+#############
+# PHP pgsql #
+#############
+
+package__php_pgsql__setup__config:
+  - option: "allow_persistent"
+#    value: 1
+  - option: "auto_reset_persistent"
+#    value: ""
+  - option: "ignore_notice"
+#    value: 0
+  - option: "log_notice"
+#    value: 0
+  - option: "max_links"
+#    value: -1
+  - option: "max_persistent"
+#    value: -1
+
+package__php_pgsql__setup__state: "enabled"
+
+#############
+# PHP posix #
+#############
+
+package__php_posix__setup__config: []
+
+package__php_posix__setup__state: "enabled"
+
+##############
+# PHP recode #
+##############
+
+package__php_recode__setup__config: []
+
+package__php_recode__setup__state: "enabled"
+
+#################
+# PHP simplexml #
+#################
+
+package__php_simplexml__setup__config: []
+
+package__php_simplexml__setup__state: "enabled"
+
+############
+# PHP soap #
+############
+
+package__php_soap__setup__config:
+  - option: "wsdl_cache"
+#    value: 1
+  - option: "wsdl_cache_dir"
+#    value: "/tmp"
+  - option: "wsdl_cache_enabled"
+#    value: 1
+  - option: "wsdl_cache_limit"
+#    value: 5
+  - option: "wsdl_cache_ttl"
+#    value: 86400
+
+package__php_soap__setup__state: "enabled"
+
+###############
+# PHP sqlite3 #
+###############
+
+package__php_sqlite3__setup__config:
+  - option: "extension_dir"
+#    value: "{{ omit }}"
+
+package__php_sqlite3__setup__state: "enabled"
+
+############
+# PHP ssh2 #
+############
+
+package__php_ssh2__setup__config: []
+
+package__php_ssh2__setup__state: "enabled"
+
+##############
+# PHP sybase #
+##############
+
+package__php_sybase__setup__config: []
+
+package__php_sybase__setup__state: "enabled"
+
+#################
+# PHP tokenizer #
+#################
+
+package__php_tokenizer__setup__config: []
+
+package__php_tokenizer__setup__state: "enabled"
+
+############
+# PHP wddx #
+############
+
+package__php_wddx__setup__config: []
+
+package__php_wddx__setup__state: "enabled"
+
+##############
+# PHP Xdebug #
+##############
+
+package__php_xdebug__setup__config:
+  - option: "auto_trace"
+#    value: 0
+  - option: "cli_color"
+#    value: 0
+    value: 1
+  - option: "collect_assignments"
+#    value: 0
+  - option: "collect_includes"
+#    value: 1
+  - option: "collect_params"
+#    value: 0
+  - option: "collect_return"
+#    value: 0
+  - option: "collect_vars"
+#    value: 0
+  - option: "coverage_enable"
+#    value: 1
+  - option: "default_enable"
+#    value: 1
+  - option: "dump.COOKIE"
+#    value: "{{ omit }}"
+  - option: "dump.ENV"
+#    value: "{{ omit }}"
+  - option: "dump.FILES"
+#    value: "{{ omit }}"
+  - option: "dump.GET"
+#    value: "{{ omit }}"
+  - option: "dump.POST"
+#    value: "{{ omit }}"
+  - option: "dump.REQUEST"
+#    value: "{{ omit }}"
+  - option: "dump.SERVER"
+#    value: "{{ omit }}"
+  - option: "dump.SESSION"
+#    value: "{{ omit }}"
+  - option: "dump_globals"
+#    value: 1
+  - option: "dump_once"
+#    value: 1
+  - option: "dump_undefined"
+#    value: 0
+  - option: "extended_info"
+#    value: 1
+  - option: "file_link_format"
+#    value: ""
+  - option: "force_display_errors"
+#    value: 0
+  - option: "force_error_reporting"
+#    value: 0
+  - option: "halt_level"
+#    value: 0
+  - option: "idekey"
+#    value: ""
+  - option: "max_nesting_level"
+#    value: 256
+  - option: "max_stack_frames"
+#    value: -1
+  - option: "overload_var_dump"
+#    value: 2
+  - option: "profiler_aggregate"
+#    value: 0
+  - option: "profiler_append"
+#    value: 0
+  - option: "profiler_enable"
+#    value: 0
+  - option: "profiler_enable_trigger"
+#    value: 0
+  - option: "profiler_trigger_value"
+#    value: 0
+  - option: "profiler_output_dir"
+#    value: "/tmp"
+  - option: "profiler_output_name"
+#    value: "cachegrind.out.%p"
+  - option: "remote_addr_header"
+#    value: ""
+  - option: "remote_autostart"
+#    value: 0
+  - option: "remote_connect_back"
+#    value: 0
+  - option: "remote_cookie_expire_time"
+#    value: 3600
+  - option: "remote_enable"
+#    value: 0
+  - option: "remote_handler"
+#    value: "dbgp"
+  - option: "remote_host"
+#    value: "localhost"
+  - option: "remote_log"
+#    value: ""
+  - option: "remote_mode"
+#    value: "req"
+  - option: "remote_port"
+#    value: 9000
+  - option: "scream"
+#    value: 0
+  - option: "show_error_trace"
+#    value: 0
+  - option: "show_exception_trace"
+#    value: 0
+  - option: "show_local_vars"
+#    value: 0
+  - option: "show_mem_delta"
+#    value: 0
+  - option: "trace_enable_trigger"
+#    value: 0
+  - option: "trace_enable_trigger_value"
+#    value: ""
+  - option: "trace_format"
+#    value: 0
+  - option: "trace_options"
+#    value: 0
+  - option: "trace_outpt_dir"
+#    value: "/tmp"
+  - option: "trace_output_name"
+#    value: "trace.%c"
+  - option: "var_display_max_children"
+#    value: 128
+  - option: "var_display_max_data"
+#    value: 512
+  - option: "var_display_max_depth"
+#    value: 3
+
+package__php_xdebug__setup__state: "enabled"
+
+###########
+# PHP xml #
+###########
+
+package__php_xml__setup__config: []
+
+package__php_xml__setup__state: "enabled"
+
+#################
+# PHP xmlreader #
+#################
+
+package__php_xmlreader__setup__config: []
+
+package__php_xmlreader__setup__state: "enabled"
+
+##############
+# PHP xmlrpc #
+##############
+
+package__php_xmlrpc__setup__config: []
+
+package__php_xmlrpc__setup__state: "enabled"
+
+#################
+# PHP xmlwriter #
+#################
+
+package__php_xmlwriter__setup__config: []
+
+package__php_xmlwriter__setup__state: "enabled"
+
+###########
+# PHP xsl #
+###########
+
+package__php_xsl__setup__config: []
+
+package__php_xsl__setup__state: "enabled"
+
+###########
+# PHP zip #
+###########
+
+package__php_zip__setup__config: []
+
+package__php_zip__setup__state: "enabled"

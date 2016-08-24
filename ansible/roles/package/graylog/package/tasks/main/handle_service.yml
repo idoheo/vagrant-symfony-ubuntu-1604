@@ -1,0 +1,14 @@
+- include: ../../../../../system/service/actions/tasks/service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: Stopping GrayLog server
+      state: stopped
+      services:
+        - name: graylog-server
+
+- include: ../../../../../system/service/actions/tasks/schedule_restart/schedule_restart_service.yml
+  vars:
+    system__service__schedule_restart__schedule_restart_service:
+      title: Scheduling GrayLog server restart
+      services:
+        - service: graylog-server

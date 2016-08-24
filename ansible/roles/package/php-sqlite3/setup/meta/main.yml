@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: package/php-sqlite3/actions
+

@@ -1,0 +1,4 @@
+---
+- include: main/get_info.yml
+- include: main/setup_directory_structure.yml
+- include: main/shell_in_a_box.yml

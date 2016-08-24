@@ -1,0 +1,11 @@
+server {
+    listen 443 ssl default_server;
+
+    {% include 'common/website_config_php_fpm_common.j2' %}
+
+    ssl_certificate {{ project__web__package__ssl_file }};
+    ssl_certificate_key {{ project__web__package__ssl_key_file }};
+
+    access_log {{ project__web__package__ssl_access_log }};
+    error_log {{ project__web__package__ssl_error_log }};
+}

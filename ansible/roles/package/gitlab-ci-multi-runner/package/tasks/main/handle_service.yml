@@ -1,0 +1,14 @@
+- include: ../../../../../system/service/actions/tasks/service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: Stopping Gitlab CI multi runner
+      state: stopped
+      services:
+        - name: gitlab-runner
+
+- include: ../../../../../system/service/actions/tasks/schedule_restart/schedule_restart_service.yml
+  vars:
+    system__service__schedule_restart__schedule_restart_service:
+      title: Scheduling Gitlab CI multi runner restart
+      services:
+        - service: gitlab-runner

@@ -1,0 +1,21 @@
+###
+# ../../../../../package_management/apt/actions/tasks/repositories/repositories_add.yml
+###
+#
+# Add APT repositories
+#
+###
+#
+# repositories__apt__repositories__repositories_add:
+#   title <string> ['Adding APT repositories'] - Title of the operation
+#   repositories:
+#    - repo <string|omit> [omit]    - repository
+#      validate_certs <bool> [true] - Validate URL SSL certs
+#
+###
+- include: repositories_manage.yml
+  vars:
+    repositories__apt__repositories__repositories_manage:
+      title: "{{ repositories__apt__repositories__repositories_add.title | default('Adding APT repositories') }}"
+      state: "present"
+      repositories: "{{ repositories__apt__repositories__repositories_add.repositories | default([]) }}"

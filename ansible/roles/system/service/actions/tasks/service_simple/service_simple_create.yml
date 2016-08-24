@@ -1,0 +1,59 @@
+###
+# ../../../../../system/service/actions/tasks/service_simple/service_simple_create.yml
+###
+#
+# Create a simple service
+#
+###
+#
+# system__service__service_simple__service_simple_create:
+#   title <string>                                                         - Title of the operation
+#   register_logs <boolean> [true]                                         - Register logs
+#   service:                                                               - Services to manage
+#     name <string>                  - Name of a service
+#     title <string|omit> {{ omit }} - Readable name of a service
+#     command <string>               - Command to run
+#     arguments <string[]>           - Arguments for the command
+#
+###
+- include: ../service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: "{{ system__service__service_simple__service_simple_create.title }} (Stopping prior service)"
+      state: stopped
+      services:
+        - name: "{{ system__service__service_simple__service_simple_create.service.name | mandatory }}"
+ 
+- name: "{{ system__service__service_simple__service_simple_create.title }} (Creating service info)"
+  template: src="../../templates/service.json.j2"
+            dest="{{ system__service__package__service_dir__config_dir }}/{{ item.name | mandatory }}.json"            
+  become: true
+  with_items:
+    - "{{ system__service__service_simple__service_simple_create.service | mandatory }}"
+
+- include: ../../../../../system/logs/actions/tasks/logs/logs_register_log.yml
+  vars:
+    system__logs__logs__logs_register_logs:
+      title: "{{ system__service__service_simple__service_simple_create.title }} (Creating service config)"
+      logs:
+        - name: "{{ system__service__service_simple__service_simple_create.service.name | mandatory }}_stdout"
+          title: "{{ system__service__service_simple__service_simple_create.service.title | default( system__service__service_simple__service_simple_create.service.name | mandatory) }}"
+          path: "{{ fact_temp_dir.path }}/ansible_service_log_{{ system__service__service_simple__service_simple_create.service.name | mandatory }}_stdout.log"
+        - name: "{{ system__service__service_simple__service_simple_create.service.name | mandatory }}_stderr"
+          title: "{{ system__service__service_simple__service_simple_create.service.title | default( system__service__service_simple__service_simple_create.service.name | mandatory) }} (err)"
+          path: "{{ fact_temp_dir.path }}/ansible_service_log_{{ system__service__service_simple__service_simple_create.service.name | mandatory }}_stderr.log"
+  when: system__service__service_simple__service_simple_create.register_logs | default(false) | bool
+
+- include: service_simple_create/service_simple_create_upstart.yml
+  when: fact_service.use_upstart | bool
+
+- include: service_simple_create/service_simple_create_systemd.yml
+  when: fact_service.use_systemd | bool
+
+- include: ../service_state/service_state_manage.yml
+  vars:
+    system__service__service_state__service_state_manage:
+      title: "{{ system__service__service_simple__service_simple_create.title }} (Starting service)"
+      state: started
+      services:
+        - name: "{{ system__service__service_simple__service_simple_create.service.name | mandatory }}"

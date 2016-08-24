@@ -1,0 +1,17 @@
+---
+package__maildev__package__smtp_port: 25
+package__maildev__package__smtp_ip: 0.0.0.0
+package__maildev__package__smtp_user: "{{ omit }}"
+package__maildev__package__smtp_pass: "{{ omit }}"
+
+package__maildev__package__web_port: 10025
+package__maildev__package__web_ip: 0.0.0.0
+package__maildev__package__web_user: "{{ package__maildev__package__smtp_user }}"
+package__maildev__package__web_pass: "{{ package__maildev__package__smtp_pass }}"
+
+package__maildev__package__outgoing_secure: "{{ true }}"
+package__maildev__package__outgoing_port: "{% if package__maildev__package__outgoing_secure %}587{% else %}25{% endif %}"
+package__maildev__package__outgoing_host: "{{ omit }}"
+package__maildev__package__outgoing_user: "{{ package__maildev__package__smtp_user }}"
+package__maildev__package__outgoing_pass: "{{ package__maildev__package__smtp_pass }}"
+

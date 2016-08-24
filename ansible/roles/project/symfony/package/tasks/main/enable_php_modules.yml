@@ -1,0 +1,69 @@
+- include: ../../../../../package/php-json/actions/tasks/module/module_state.yml
+  package__php_json__module__module_state:
+    title: "Enabling PHP Json for Symfony"
+    state: "enabled"
+
+- include: ../../../../../package/php-ctype/actions/tasks/module/module_state.yml
+  package__php_ctype__module__module_state:
+    title: "Enabling PHP ctype for Symfony"
+    state: "enabled"
+
+- include: ../../../../../package/php-xml/actions/tasks/module/module_state.yml
+  package__php_xml__module__module_state:
+    title: "Enabling PHP Xml for Symfony (php xml 1/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-xmlreader/actions/tasks/module/module_state.yml
+  package__php_xmlreader__module__module_state:
+    title: "Enabling PHP XmlReader for Symfony (php xml 2/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-xmlwriter/actions/tasks/module/module_state.yml
+  package__php_xmlwriter__module__module_state:
+    title: "Enabling PHP XmlWriter for Symfony (php xml 3/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-xsl/actions/tasks/module/module_state.yml
+  package__php_xsl__module__module_state:
+    title: "Enabling PHP Xsl for Symfony (php xml 4/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-wddx/actions/tasks/module/module_state.yml
+  package__php_wddx__module__module_state:
+    title: "Enabling PHP Wddx for Symfony (php xml 5/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-simplexml/actions/tasks/module/module_state.yml
+  package__php_simplexml__module__module_state:
+    title: "Enabling PHP SimpleXml for Symfony (php xml 6/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-dom/actions/tasks/module/module_state.yml
+  package__php_dom__module__module_state:
+    title: "Enabling PHP Dom for Symfony (php xml 7/7)"
+    state: "enabled"
+
+- include: ../../../../../package/php-tokenizer/actions/tasks/module/module_state.yml
+  package__php_tokenizer__module__module_state:
+    title: "Enabling PHP tokenizer for Symfony"
+    state: "enabled"
+
+- include: ../../../../../package/php-mbstring/actions/tasks/module/module_state.yml
+  package__php_mbstring__module__module_state:
+    title: "Enabling PHP mbstring for Symfony"
+    state: "enabled"
+
+- include: ../../../../../package/php-iconv/actions/tasks/module/module_state.yml
+  package__php_iconv__module__module_state:
+    title: "Enabling PHP iconv for Symfony"
+    state: "enabled"
+
+- include: ../../../../../package/php-posix/actions/tasks/module/module_state.yml
+  package__php_posix__module__module_state:
+    title: "Enabling PHP posix for Symfony"
+    state: "enabled"
+
+- include: ../../../../../package/php-intl/actions/tasks/module/module_state.yml
+  package__php_intl__module__module_state:
+    title: "Enabling PHP intl for Symfony"
+    state: "enabled"

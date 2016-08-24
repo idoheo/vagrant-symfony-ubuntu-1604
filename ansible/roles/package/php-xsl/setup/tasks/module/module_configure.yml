@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_configure.yml
+  vars:
+    package__php_xsl__module__module_configure:
+      title: "Configuring PHP xsl module - as specified by playbook"
+      config: "{{ package__php_xsl__setup__config }}"

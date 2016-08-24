@@ -1,0 +1,5 @@
+- include: ../../../actions/tasks/module/module_state.yml
+  vars:
+    package__php_tokenizer__module__module_state:
+      title: "Setting PHP tokenizer state - as specified by playbook"
+      state: "{{ package__php_tokenizer__setup__state }}"

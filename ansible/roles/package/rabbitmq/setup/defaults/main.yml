@@ -1,0 +1,6 @@
+---
+package__rabbitmq__setup__users__remove: []
+package__rabbitmq__setup__users__add: []
+package__rabbitmq__setup__plugins__disable: []
+package__rabbitmq__setup__plugins__enable: []
+

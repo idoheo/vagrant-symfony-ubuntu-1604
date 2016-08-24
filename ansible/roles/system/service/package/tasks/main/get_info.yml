@@ -1,0 +1,6 @@
+---
+- name: Setting services info
+  set_fact:
+    fact_service:
+      use_upstart: "{{ fact_os.release | float < 15 }}"
+      use_systemd: "{{ fact_os.release | float >= 15 }}"

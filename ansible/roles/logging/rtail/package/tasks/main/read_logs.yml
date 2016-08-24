@@ -1,0 +1,39 @@
+---
+- name: Setting up Rtail Logs processing (1/7)
+  debug: msg=Rtail Logs Setup (1/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Reading config)
+
+- name: Setting up Rtail Logs processing (2/7)
+  debug: msg=Rtail Logs Setup (2/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Parse config)
+
+- name: Setting up Rtail Logs processing (3/7) (Upstart case)
+  debug: msg=Rtail Logs Setup (3/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Create Upstart)
+  when: fact_service.use_upstart | bool
+
+- name: Setting up Rtail Logs processing (4/7) (Systemd case)
+  debug: msg=Rtail Logs Setup (4/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Create Systemd)
+  when: fact_service.use_systemd | bool
+
+- name: Setting up Rtail Logs processing (5/7) (Systemd case)
+  debug: msg=Rtail Logs Setup (5/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Enable Systemd)
+  when: fact_service.use_systemd | bool
+
+- name: Setting up Rtail Logs processing (6/7) (Systemd case)
+  debug: msg=Rtail Logs Setup (6/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Reload Systemd)
+  when: fact_service.use_systemd | bool
+
+- name: Setting up Rtail Logs processing (7/7)
+  debug: msg=Rtail Logs Setup (7/7)
+  changed_when: true
+  notify: Rtail Logs Setup (Restart Rtail)

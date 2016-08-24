@@ -1,0 +1,8 @@
+---
+- include: ../../../../../package/php/actions/tasks/module/module_state.yml
+  vars:
+    package__php__module__module_state:
+      title: "Enabling Php sSMTP configuration module"
+      state: "enabled"
+      modules:
+        - module: "ssmtp"

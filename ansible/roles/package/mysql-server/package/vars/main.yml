@@ -1,0 +1,7 @@
+---
+package__mysql_server__package__conf_dir: "/etc/mysql"
+package__mysql_server__package__conf_mysqld: "{{ package__mysql_server__package__conf_dir }}/mysql.conf.d/mysqld.cnf"
+package__mysql_server__package__log__error: "/var/log/mysql/error.log"
+package__mysql_server__package__login_socket: "/var/run/mysqld/mysqld.sock"
+package__mysql_server__package__login_user: "root"
+package__mysql_server__package__login_password: "{{ package__mysql_server__package__login_user }}"
